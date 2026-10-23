@@ -6,7 +6,6 @@ import { contact, services, socials, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 
 type Fields = { name: string; email: string; service: string; message: string };
@@ -26,7 +25,7 @@ function validate(f: Fields): Errors {
 }
 
 const inputClass =
-  "w-full rounded-2xl border bg-bg px-4 py-3.5 text-base text-fg outline-none transition focus:border-accent focus:ring-4 focus:ring-accent/15";
+  "w-full rounded-2xl border bg-surface-2 px-4 py-3.5 text-base text-fg outline-none transition-[border-color,box-shadow,background-color] duration-300 hover:border-line-strong focus:border-accent focus:bg-bg focus:ring-4 focus:ring-accent/15";
 
 function Field({
   id,
@@ -121,9 +120,22 @@ export function Contact() {
   };
 
   return (
-    <Section id="contact" index={8} title="Contact" description={sectionIntros.contact}>
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
-        <Reveal className="flex flex-col gap-6">
+    <Section id="contact" index={8} title="Contact" className="overflow-x-clip">
+      <div className="relative grid gap-10 lg:grid-cols-12 lg:gap-16">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-20 top-10 -z-10 size-80 rounded-full bg-cerulean/15 blur-[120px]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-10 bottom-0 -z-10 size-80 rounded-full bg-pink/10 blur-[120px]"
+        />
+        <div className="flex flex-col gap-8 lg:col-span-5">
+          {sectionIntros.contact ? (
+            <p className="text-balance text-[clamp(1.6rem,3.2vw,2.5rem)] font-medium leading-[1.15] tracking-[-0.03em]">
+              {sectionIntros.contact}
+            </p>
+          ) : null}
           {contact.email ? (
             <a
               href={`mailto:${contact.email}`}
@@ -155,14 +167,14 @@ export function Contact() {
               ))}
             </ul>
           ) : null}
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.1}>
+        <div className="lg:col-span-7">
           <form
             noValidate
             onSubmit={onSubmit}
             aria-label="Contact form"
-            className="flex flex-col gap-5 rounded-3xl border border-line bg-surface/50 p-6 sm:p-8"
+            className="flex flex-col gap-5 rounded-[1.75rem] border border-line bg-surface p-5 shadow-[0_40px_100px_-50px_var(--color-cerulean)] sm:p-8"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <Field id="contact-name" label="Name" error={errors.name}>
@@ -210,7 +222,10 @@ export function Contact() {
                     </option>
                   ))}
                 </select>
-                <Icon name="chevronRight" className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 rotate-90 text-muted" />
+                <Icon
+                  name="chevronRight"
+                  className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 rotate-90 text-muted"
+                />
               </div>
             </Field>
 
@@ -246,7 +261,7 @@ export function Contact() {
               </p>
             </div>
           </form>
-        </Reveal>
+        </div>
       </div>
     </Section>
   );

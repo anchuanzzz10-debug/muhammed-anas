@@ -15,7 +15,7 @@ function Marquee({ reverse = false }: { reverse?: boolean }) {
         {items.map((s, i) => (
           <span
             key={`${s.id}-${i}`}
-            className="flex shrink-0 items-center gap-3 whitespace-nowrap rounded-full border border-line bg-surface/50 px-5 py-3 text-sm font-medium sm:text-base"
+            className="flex shrink-0 items-center gap-3 whitespace-nowrap rounded-full border border-line bg-surface px-5 py-3 text-sm font-medium sm:px-6 sm:py-3.5 sm:text-base"
           >
             <Icon name={s.icon} className="size-4 text-accent" />
             {s.title}
@@ -30,6 +30,7 @@ export function Skills() {
   const [active, setActive] = useState(services[0].id);
   const baseId = useId();
   const current = skills.find((s) => s.serviceId === active);
+  const activeService = services.find((s) => s.id === active);
   const hasTools = skills.some((s) => s.tools.length > 0);
 
   return (
@@ -70,7 +71,7 @@ export function Skills() {
                   {selected ? (
                     <motion.span
                       layoutId="skill-tab"
-                      className="absolute inset-0 -z-10 rounded-2xl border border-line bg-surface"
+                      className="absolute inset-0 -z-10 rounded-2xl border border-line bg-surface shadow-sm"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   ) : null}
@@ -85,26 +86,42 @@ export function Skills() {
             id={`${baseId}-panel`}
             role="tabpanel"
             aria-labelledby={`${baseId}-tab-${active}`}
-            className="rounded-3xl border border-line bg-surface/50 p-6 sm:p-8"
+            className="ring-gradient relative overflow-hidden rounded-[1.75rem] border border-line bg-surface p-6 sm:p-10"
           >
             <AnimatePresence mode="wait">
-              <motion.ul
+              <motion.div
                 key={active}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
-                className="flex flex-wrap gap-2"
+                initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="flex flex-col gap-8"
               >
-                {current?.tools.map((tool) => (
-                  <li
-                    key={tool}
-                    className="rounded-full border border-line bg-bg px-4 py-2 text-sm transition hover:border-accent/50 hover:text-accent"
-                  >
-                    {tool}
-                  </li>
-                ))}
-              </motion.ul>
+                {activeService ? (
+                  <div className="flex flex-col gap-4">
+                    <span className="grid size-14 place-items-center rounded-2xl bg-gradient-to-br from-cerulean to-pink text-white shadow-[0_15px_40px_-15px_var(--color-pink)]">
+                      <Icon name={activeService.icon} className="size-7" />
+                    </span>
+                    <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">{activeService.title}</h3>
+                    {activeService.description ? (
+                      <p className="max-w-xl text-pretty leading-relaxed text-muted">{activeService.description}</p>
+                    ) : null}
+                  </div>
+                ) : null}
+                <ul className="flex flex-wrap gap-2">
+                  {current?.tools.map((tool, i) => (
+                    <motion.li
+                      key={tool}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.1 + i * 0.03 }}
+                      className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-medium transition-colors hover:border-accent/50 hover:text-accent"
+                    >
+                      {tool}
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
             </AnimatePresence>
           </div>
         </div>

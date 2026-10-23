@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { navItems, site } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -39,22 +39,25 @@ function useActiveSection(ids: string[]) {
   return active;
 }
 
-function useScrolled(offset = 12) {
+function useNavVisibility() {
+  const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > offset);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [offset]);
-  return scrolled;
+  const [hidden, setHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setScrolled(y > 12);
+    setHidden(y > 320 && y > prev + 4 ? true : y < prev - 4 ? false : hidden);
+  });
+
+  return { scrolled, hidden, reveal: () => setHidden(false) };
 }
 
 const sectionIds = navItems.map((n) => n.id);
 
 export function Navbar() {
   const active = useActiveSection(sectionIds);
-  const scrolled = useScrolled();
+  const { scrolled, hidden, reveal } = useNavVisibility();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -96,23 +99,31 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled || open
-          ? "border-b border-line bg-bg/70 backdrop-blur-xl backdrop-saturate-150"
-          : "border-b border-transparent",
-      )}
+    <motion.header
+      initial={false}
+      animate={{ y: hidden && !open ? "-130%" : "0%" }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      onFocusCapture={reveal}
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4"
     >
-      <nav aria-label="Primary" className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav
+        aria-label="Primary"
+        className={cn(
+          "relative mx-auto flex h-14 max-w-6xl items-center justify-between rounded-full border pl-2 pr-2 transition-all duration-500 sm:h-16 sm:pl-3",
+          scrolled || open
+            ? "border-line bg-bg/70 shadow-[0_10px_40px_-20px_rgb(0_0_0/0.35)] backdrop-blur-xl backdrop-saturate-150"
+            : "border-transparent bg-transparent",
+        )}
+      >
         <a href="#top" className="group flex items-center gap-2.5 rounded-full" aria-label={`${site.name} — back to top`}>
-          <span className="grid size-9 place-items-center rounded-full bg-fg font-mono text-xs font-semibold text-bg transition-transform duration-300 group-hover:rotate-[-8deg] group-hover:scale-105">
-            {site.initials}
+          <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-fg font-mono text-xs font-semibold text-bg">
+            <span className="absolute inset-0 bg-gradient-to-br from-cerulean to-pink opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span className="relative">{site.initials}</span>
           </span>
           <span className="hidden text-sm font-semibold tracking-tight sm:block">{site.name}</span>
         </a>
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
           {navItems
             .filter((item) => item.id !== "contact")
             .map((item) => (
@@ -121,14 +132,14 @@ export function Navbar() {
                   href={`#${item.id}`}
                   aria-current={active === item.id ? "true" : undefined}
                   className={cn(
-                    "relative rounded-full px-3.5 py-2 text-sm transition-colors",
+                    "relative rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors",
                     active === item.id ? "text-fg" : "text-muted hover:text-fg",
                   )}
                 >
                   {active === item.id ? (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 -z-10 rounded-full bg-surface ring-1 ring-line"
+                      className="absolute inset-0 -z-10 rounded-full bg-surface-2 ring-1 ring-line"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   ) : null}
@@ -142,10 +153,12 @@ export function Navbar() {
           <ThemeToggle />
           <a
             href="#contact"
-            className="hidden items-center gap-1.5 rounded-full bg-fg px-4 py-2 text-sm font-medium text-bg transition hover:-translate-y-0.5 sm:inline-flex"
+            className="group hidden items-center gap-1.5 overflow-hidden rounded-full bg-fg py-2.5 pl-4 pr-3 text-sm font-medium text-bg transition-transform hover:-translate-y-0.5 sm:inline-flex"
           >
             Contact
-            <Icon name="arrowUpRight" className="size-4" />
+            <span className="grid size-5 place-items-center rounded-full bg-bg/15 transition-transform duration-300 group-hover:rotate-45">
+              <Icon name="arrowUpRight" className="size-3.5" />
+            </span>
           </a>
           <button
             ref={toggleRef}
@@ -170,9 +183,9 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[calc(100dvh-4rem)] overflow-y-auto lg:hidden"
+            className="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-line bg-bg/90 shadow-2xl backdrop-blur-xl lg:hidden"
           >
-            <ul className="flex flex-col gap-1 px-4 pb-10 pt-4 sm:px-6">
+            <ul className="flex flex-col px-5 py-3 sm:px-6">
               {navItems.map((item, i) => (
                 <motion.li
                   key={item.id}
@@ -185,7 +198,7 @@ export function Navbar() {
                     onClick={() => setOpen(false)}
                     aria-current={active === item.id ? "true" : undefined}
                     className={cn(
-                      "flex items-center justify-between border-b border-line py-4 text-2xl font-semibold tracking-tight transition-colors",
+                      "flex items-center justify-between border-b border-line py-4 text-[1.75rem] font-semibold tracking-tight transition-colors",
                       active === item.id ? "text-accent" : "hover:text-accent",
                     )}
                   >
@@ -198,6 +211,6 @@ export function Navbar() {
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

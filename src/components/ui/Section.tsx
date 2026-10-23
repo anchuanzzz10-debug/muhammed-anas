@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
+import { SplitText } from "./SplitText";
 
 type SectionProps = {
   id: string;
@@ -15,18 +16,30 @@ type SectionProps = {
 export function Section({ id, index, title, description, children, className }: SectionProps) {
   const headingId = `${id}-heading`;
   return (
-    <section id={id} aria-labelledby={headingId} className={cn("relative scroll-mt-20 py-20 sm:py-28", className)}>
+    <section id={id} aria-labelledby={headingId} className={cn("relative scroll-mt-24 py-20 sm:py-28 lg:py-32", className)}>
       <Container>
-        <Reveal className="mb-12 flex flex-col gap-4 sm:mb-16">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">
-            <span className="text-accent">{String(index).padStart(2, "0")}</span>
-            <span aria-hidden className="h-px w-10 bg-gradient-to-r from-cerulean to-pink" />
+        <header className="mb-12 grid gap-6 border-t border-line pt-6 sm:mb-16 lg:grid-cols-12 lg:items-end lg:gap-10">
+          <div className="flex flex-col gap-5 lg:col-span-7">
+            <Reveal y={12} className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted">
+              <span className="text-accent">({String(index).padStart(2, "0")})</span>
+              <span>{title}</span>
+            </Reveal>
+            <h2
+              id={headingId}
+              className="text-[clamp(2.5rem,7vw,5.25rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
+            >
+              <SplitText text={title} />
+              <span aria-hidden className="font-serif font-normal italic text-gradient">
+                .
+              </span>
+            </h2>
           </div>
-          <h2 id={headingId} className="text-balance text-3xl font-semibold tracking-tight sm:text-5xl">
-            {title}
-          </h2>
-          {description ? <p className="max-w-2xl text-pretty text-lg text-muted">{description}</p> : null}
-        </Reveal>
+          {description ? (
+            <Reveal delay={0.15} className="lg:col-span-5 lg:pb-2">
+              <p className="max-w-xl text-pretty text-lg leading-relaxed text-muted sm:text-xl">{description}</p>
+            </Reveal>
+          ) : null}
+        </header>
         {children}
       </Container>
     </section>
