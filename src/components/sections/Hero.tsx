@@ -39,7 +39,7 @@ function RotatingService() {
             key={service.id}
             initial={{ y: "110%" }}
             animate={{ y: "0%" }}
-            exit={{ y: "-110%" }}
+            exit={{ y: "-60%", opacity: 0, transition: { duration: 0.3, ease } }}
             transition={{ duration: 0.6, ease }}
             className="absolute inset-x-0 top-0 flex items-start gap-3 will-change-transform"
           >
@@ -80,7 +80,7 @@ function FloatCard({
       initial={{ opacity: 0, scale: 0.7 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.9 + delay, ease }}
-      className={`absolute z-20 ${className}`}
+      className={`z-20 ${className}`}
     >
       <motion.span
         animate={{ y: [0, -7, 0] }}
@@ -167,8 +167,18 @@ function Orbit() {
         })}
       </div>
 
-      <FloatCard icon="code" label="Web & Software" className="left-[2%] top-[24%]" delay={0} />
-      <FloatCard icon="chart" label="SEO & Ads" className="bottom-[22%] right-[0%]" delay={1.2} />
+      <FloatCard
+        icon="code"
+        label="Web & Software"
+        className="absolute left-[2%] top-[24%] hidden sm:block"
+        delay={0}
+      />
+      <FloatCard
+        icon="chart"
+        label="SEO & Ads"
+        className="absolute bottom-[22%] right-[0%] hidden sm:block"
+        delay={1.2}
+      />
     </div>
   );
 }
@@ -316,6 +326,11 @@ export function Hero() {
             className="order-first lg:order-none lg:col-span-5"
           >
             <Orbit />
+            {/* On phones the cards sit below the orbit so nothing overlaps */}
+            <div aria-hidden className="mt-6 flex justify-center gap-2.5 sm:hidden">
+              <FloatCard icon="code" label="Web & Software" className="relative" delay={0} />
+              <FloatCard icon="chart" label="SEO & Ads" className="relative" delay={1.2} />
+            </div>
           </motion.div>
         </motion.div>
       </Container>
