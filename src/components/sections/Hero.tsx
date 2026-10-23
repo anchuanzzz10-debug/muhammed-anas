@@ -14,7 +14,7 @@ import Image from "next/image";
 import { about, hero, services, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Icon, type IconName } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/Icon";
 import { Magnetic } from "@/components/ui/Magnetic";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -64,38 +64,6 @@ function RotatingService() {
 }
 
 /** Portrait inside an orbit of service icons (desktop only). */
-function FloatCard({
-  icon,
-  label,
-  className,
-  delay,
-}: {
-  icon: IconName;
-  label: string;
-  className: string;
-  delay: number;
-}) {
-  return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.7 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6, delay: 0.9 + delay, ease }}
-      className={`z-20 ${className}`}
-    >
-      <motion.span
-        animate={{ y: [0, -7, 0] }}
-        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay }}
-        className="flex items-center gap-2 whitespace-nowrap rounded-2xl border border-white/40 bg-surface/80 py-1.5 pl-1.5 pr-3 text-[11px] font-semibold shadow-[0_15px_40px_-15px_rgba(0,0,0,0.35)] backdrop-blur-md dark:border-white/10 sm:text-xs"
-      >
-        <span className="grid size-6 place-items-center rounded-xl bg-gradient-to-br from-cerulean to-pink text-white sm:size-7">
-          <Icon name={icon} className="size-3.5" />
-        </span>
-        {label}
-      </motion.span>
-    </motion.span>
-  );
-}
-
 /** Portrait inside an animated orbit of service icons. */
 function Orbit() {
   return (
@@ -166,19 +134,6 @@ function Orbit() {
           );
         })}
       </div>
-
-      <FloatCard
-        icon="code"
-        label="Web & Software"
-        className="absolute left-[2%] top-[24%] hidden sm:block"
-        delay={0}
-      />
-      <FloatCard
-        icon="chart"
-        label="SEO & Ads"
-        className="absolute bottom-[22%] right-[0%] hidden sm:block"
-        delay={1.2}
-      />
     </div>
   );
 }
@@ -326,11 +281,6 @@ export function Hero() {
             className="order-first lg:order-none lg:col-span-5"
           >
             <Orbit />
-            {/* On phones the cards sit below the orbit so nothing overlaps */}
-            <div aria-hidden className="mt-6 flex justify-center gap-2.5 sm:hidden">
-              <FloatCard icon="code" label="Web & Software" className="relative" delay={0} />
-              <FloatCard icon="chart" label="SEO & Ads" className="relative" delay={1.2} />
-            </div>
           </motion.div>
         </motion.div>
       </Container>
