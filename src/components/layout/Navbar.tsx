@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { navItems, site } from "@/content/site";
+import { navItems, site, socials } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
@@ -66,15 +66,14 @@ export function Navbar() {
     if (!open) return;
     const toggleButton = toggleRef.current;
     document.body.style.overflow = "hidden";
-    menuRef.current?.querySelector<HTMLElement>("a")?.focus();
+    menuRef.current?.querySelector<HTMLElement>("ul")?.focus({ preventScroll: true });
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
       if (e.key === "Tab" && menuRef.current) {
-        const focusable = [
-          toggleButton,
-          ...menuRef.current.querySelectorAll<HTMLElement>("a, button"),
-        ].filter(Boolean) as HTMLElement[];
+        const focusable = [toggleButton, ...menuRef.current.querySelectorAll<HTMLElement>("a, button")].filter(
+          Boolean,
+        ) as HTMLElement[];
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (e.shiftKey && document.activeElement === first) {
@@ -115,7 +114,11 @@ export function Navbar() {
             : "border-transparent bg-transparent",
         )}
       >
-        <a href="#top" className="group flex items-center gap-2.5 rounded-full" aria-label={`${site.name} — back to top`}>
+        <a
+          href="#top"
+          className="group flex items-center gap-2.5 rounded-full"
+          aria-label={`${site.name} — back to top`}
+        >
           <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-fg font-mono text-xs font-semibold text-bg">
             <span className="absolute inset-0 bg-gradient-to-br from-cerulean to-pink opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             <span className="relative">{site.initials}</span>
@@ -179,35 +182,107 @@ export function Navbar() {
           <motion.div
             id="mobile-menu"
             ref={menuRef}
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-2 max-h-[calc(100dvh-6rem)] max-w-6xl overflow-y-auto rounded-3xl border border-line bg-bg/90 shadow-2xl backdrop-blur-xl lg:hidden"
+            initial={{ opacity: 0, y: -16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -16, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto mt-2 flex h-[calc(100dvh-5.5rem)] max-w-6xl origin-top flex-col overflow-hidden rounded-[1.75rem] border border-line bg-bg shadow-2xl sm:h-[calc(100dvh-6rem)] lg:hidden"
           >
-            <ul className="flex flex-col px-5 py-3 sm:px-6">
-              {navItems.map((item, i) => (
-                <motion.li
-                  key={item.id}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * i + 0.1 }}
-                >
-                  <a
-                    href={`#${item.id}`}
-                    onClick={() => setOpen(false)}
-                    aria-current={active === item.id ? "true" : undefined}
-                    className={cn(
-                      "flex items-center justify-between border-b border-line py-4 text-[1.75rem] font-semibold tracking-tight transition-colors",
-                      active === item.id ? "text-accent" : "hover:text-accent",
-                    )}
-                  >
-                    {item.label}
-                    <Icon name="arrowRight" className="size-5 opacity-50" />
-                  </a>
-                </motion.li>
-              ))}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-cerulean/15 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-pink/15 blur-3xl"
+            />
+
+            <p className="relative px-6 pt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">Menu</p>
+
+            <ul
+              tabIndex={-1}
+              className="relative flex flex-1 flex-col overflow-y-auto px-4 py-2 outline-none [&>li:first-child]:mt-auto [&>li:last-child]:mb-auto"
+            >
+              {navItems
+                .filter((item) => item.id !== "contact")
+                .map((item, i) => {
+                  const current = active === item.id;
+                  return (
+                    <motion.li
+                      key={item.id}
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.04 * i + 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <a
+                        href={`#${item.id}`}
+                        onClick={() => setOpen(false)}
+                        aria-current={current ? "true" : undefined}
+                        className={cn(
+                          "group flex items-center gap-4 rounded-2xl px-3 py-2.5 transition-colors active:bg-surface-2 [@media(max-height:700px)]:py-1.5",
+                          current ? "bg-surface-2" : "hover:bg-surface-2",
+                        )}
+                      >
+                        <span className={cn("w-6 font-mono text-xs", current ? "text-accent" : "text-muted")}>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          className={cn(
+                            "flex-1 text-2xl font-semibold tracking-tight transition-transform duration-300 group-hover:translate-x-1 [@media(max-height:700px)]:text-xl",
+                            current && "text-gradient",
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                        {current ? (
+                          <span className="size-2 rounded-full bg-gradient-to-br from-cerulean to-pink" />
+                        ) : (
+                          <Icon
+                            name="arrowUpRight"
+                            className="size-4 text-muted opacity-0 transition-opacity group-hover:opacity-100"
+                          />
+                        )}
+                      </a>
+                    </motion.li>
+                  );
+                })}
             </ul>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+              className="relative flex flex-col gap-3 border-t border-line p-4"
+            >
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-between rounded-full bg-fg py-2 pl-5 pr-2 text-base font-semibold text-bg"
+              >
+                Let&apos;s talk
+                <span className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink text-white">
+                  <Icon name="arrowUpRight" className="size-4" />
+                </span>
+              </a>
+              {socials.length ? (
+                <ul className="flex gap-2">
+                  {socials.map((s) => (
+                    <li key={s.href} className="flex-1">
+                      <a
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={s.label}
+                        className="flex h-11 items-center justify-center gap-2 rounded-full border border-line bg-surface text-sm font-medium transition-colors active:bg-surface-2"
+                      >
+                        <Icon name={s.icon} className="size-[18px] text-accent" />
+                        <span className="hidden min-[370px]:inline">{s.label}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </motion.div>
           </motion.div>
         ) : null}
       </AnimatePresence>

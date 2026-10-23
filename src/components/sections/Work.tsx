@@ -157,6 +157,17 @@ function ProjectArt({ project, index, className }: { project: Project; index: nu
   );
 }
 
+function LocationBadge({ location, className = "" }: { location: string; className?: string }) {
+  return (
+    <span
+      className={`inline-flex w-fit items-center gap-1.5 rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-[11px] font-medium ${className}`}
+    >
+      <span className="size-1.5 rounded-full bg-gradient-to-br from-cerulean to-pink" />
+      {location} client
+    </span>
+  );
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Desktop: editorial index with a cursor-following preview.                 */
 /* -------------------------------------------------------------------------- */
@@ -231,6 +242,7 @@ function ProjectIndex({ items }: { items: Project[] }) {
               <span className="col-span-3 flex flex-col gap-1 text-sm">
                 {category ? <span className="text-accent">{category.title}</span> : null}
                 {domain ? <span className="font-mono text-muted">{domain}</span> : null}
+                {project.location ? <LocationBadge location={project.location} className="mt-1" /> : null}
               </span>
               <span className="col-span-1 flex justify-end">
                 <span className="grid size-12 place-items-center rounded-full border border-line transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-gradient-to-br group-hover:from-cerulean group-hover:to-pink group-hover:text-white">
@@ -318,6 +330,7 @@ function ProjectCards({ items }: { items: Project[] }) {
                 <div className="flex min-w-0 flex-col gap-0.5">
                   <h3 className="truncate text-xl font-semibold tracking-tight">{project.title}</h3>
                   {domain ? <span className="truncate font-mono text-xs text-muted">{domain}</span> : null}
+                  {project.location ? <LocationBadge location={project.location} className="mt-1.5" /> : null}
                 </div>
                 <span className="grid size-11 shrink-0 place-items-center rounded-full bg-fg text-bg transition-transform duration-500 group-hover:rotate-45">
                   <Icon name="arrowUpRight" className="size-4" />

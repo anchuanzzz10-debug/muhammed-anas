@@ -19,31 +19,46 @@ import { Magnetic } from "@/components/ui/Magnetic";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const ROTATE_MS = 3000;
+
 function RotatingService() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % services.length), 2800);
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % services.length), ROTATE_MS);
     return () => window.clearInterval(id);
   }, []);
 
   const service = services[index];
 
   return (
-    <span className="relative block h-[2.6em] overflow-hidden leading-[1.3] sm:h-[1.3em]" aria-hidden>
-      <AnimatePresence mode="wait" initial={false}>
+    <span className="flex flex-col gap-3" aria-hidden>
+      <span className="relative block h-[2.6em] overflow-hidden leading-[1.3] sm:h-[1.3em]">
+        <AnimatePresence initial={false}>
+          <motion.span
+            key={service.id}
+            initial={{ y: "110%" }}
+            animate={{ y: "0%" }}
+            exit={{ y: "-110%" }}
+            transition={{ duration: 0.6, ease }}
+            className="absolute inset-x-0 top-0 flex items-start gap-3 will-change-transform"
+          >
+            <span className="mt-[0.1em] grid size-[1.1em] shrink-0 place-items-center rounded-md bg-gradient-to-br from-cerulean to-pink text-white">
+              <Icon name={service.icon} className="size-[0.65em]" />
+            </span>
+            <span>{service.title}</span>
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      <span className="relative h-[2px] w-24 overflow-hidden rounded-full bg-line">
         <motion.span
-          key={service.id}
-          initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
-          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-          exit={{ y: "-100%", opacity: 0, filter: "blur(6px)" }}
-          transition={{ duration: 0.55, ease }}
-          className="absolute inset-x-0 flex items-start gap-3"
-        >
-          <Icon name={service.icon} className="mt-[0.2em] size-[0.9em] shrink-0 text-accent" />
-          <span>{service.title}</span>
-        </motion.span>
-      </AnimatePresence>
+          key={index}
+          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-cerulean to-pink"
+          initial={{ width: "0%" }}
+          animate={{ width: "100%" }}
+          transition={{ duration: ROTATE_MS / 1000, ease: "linear" }}
+        />
+      </span>
     </span>
   );
 }

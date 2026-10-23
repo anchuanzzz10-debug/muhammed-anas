@@ -33,6 +33,8 @@ export type Project = {
   image?: { src: string; alt: string; width: number; height: number };
   href?: string;
   tags?: string[];
+  /** Where the client is based, e.g. "UAE". Shown as a small badge. */
+  location?: string;
 };
 
 export type Stat = { label: string; value: string };
@@ -232,8 +234,13 @@ export const skills: Skill[] = [
 export const projects: Project[] = [
   { id: "greendrops-uae", title: "Green Drops UAE", href: "https://greendropsuae.com" },
   { id: "connect-docs-media", title: "Connect Docs Media", href: "https://connectdocsmedia.com" },
-  { id: "south-ruwi", title: "South Ruwi", href: "https://southruwi.com" },
-  { id: "docs-world-attestation", title: "Docs World Attestation", href: "https://docsworldattestation.com" },
+  { id: "south-ruwi", title: "South Ruwi", href: "https://southruwi.com", location: "UAE" },
+  {
+    id: "docs-world-attestation",
+    title: "Docs World Attestation",
+    href: "https://docsworldattestation.com",
+    location: "UAE",
+  },
   { id: "amairah-jewels", title: "Amairah Jewels", href: "https://amairahjewels.com" },
 ];
 
