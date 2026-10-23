@@ -14,7 +14,7 @@ import Image from "next/image";
 import { about, hero, services, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Icon } from "@/components/ui/Icon";
+import { Icon, type IconName } from "@/components/ui/Icon";
 import { Magnetic } from "@/components/ui/Magnetic";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -64,6 +64,39 @@ function RotatingService() {
 }
 
 /** Portrait inside an orbit of service icons (desktop only). */
+function FloatCard({
+  icon,
+  label,
+  className,
+  delay,
+}: {
+  icon: IconName;
+  label: string;
+  className: string;
+  delay: number;
+}) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, scale: 0.7 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, delay: 0.9 + delay, ease }}
+      className={`absolute z-20 ${className}`}
+    >
+      <motion.span
+        animate={{ y: [0, -7, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay }}
+        className="flex items-center gap-2 whitespace-nowrap rounded-2xl border border-white/40 bg-surface/80 py-1.5 pl-1.5 pr-3 text-[11px] font-semibold shadow-[0_15px_40px_-15px_rgba(0,0,0,0.35)] backdrop-blur-md dark:border-white/10 sm:text-xs"
+      >
+        <span className="grid size-6 place-items-center rounded-xl bg-gradient-to-br from-cerulean to-pink text-white sm:size-7">
+          <Icon name={icon} className="size-3.5" />
+        </span>
+        {label}
+      </motion.span>
+    </motion.span>
+  );
+}
+
+/** Portrait inside an animated orbit of service icons. */
 function Orbit() {
   return (
     <div
@@ -71,14 +104,30 @@ function Orbit() {
       className="relative mx-auto aspect-square w-[min(80vw,20rem)] sm:w-[22rem] lg:w-full lg:max-w-[28rem]"
     >
       <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-cerulean/40 to-pink/40 blur-3xl" />
-      <div className="absolute inset-0 rounded-full border border-dashed border-line-strong" />
-      <div className="absolute inset-[16%] rounded-full border border-line" />
 
+      {/* Outer ring with a travelling light trail */}
+      <div className="absolute inset-0 rounded-full border border-dashed border-line-strong" />
+      <div className="orbit-fast absolute -inset-px rounded-full bg-[conic-gradient(from_0deg,transparent_0deg,transparent_270deg,var(--color-cerulean)_330deg,var(--color-pink)_360deg)] [mask:radial-gradient(farthest-side,transparent_calc(100%_-_2px),black_calc(100%_-_2px))]" />
+
+      {/* Ripples */}
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          key={i}
+          className="absolute inset-[22%] rounded-full border border-accent/40"
+          animate={{ scale: [1, 1.55], opacity: [0.6, 0] }}
+          transition={{ duration: 3.6, repeat: Infinity, delay: i * 1.2, ease: "easeOut" }}
+        />
+      ))}
+
+      {/* Portrait with spinning gradient border */}
       <motion.div
-        className="absolute inset-[22%] rounded-full bg-gradient-to-br from-cerulean to-pink p-[3px] shadow-[0_40px_90px_-30px_var(--color-cerulean)]"
+        className="absolute inset-[22%]"
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
+        <div className="absolute -inset-[3px] overflow-hidden rounded-full shadow-[0_40px_90px_-30px_var(--color-cerulean)]">
+          <div className="orbit-fast absolute inset-[-50%] bg-[conic-gradient(from_0deg,var(--color-cerulean),var(--color-pink),#ffffff,var(--color-cerulean))]" />
+        </div>
         <div className="relative size-full overflow-hidden rounded-full bg-ink">
           {about.image ? (
             <Image
@@ -98,6 +147,7 @@ function Orbit() {
         </div>
       </motion.div>
 
+      {/* Orbiting service icons */}
       <div className="orbit absolute inset-0">
         {services.map((s, i) => {
           const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2;
@@ -117,11 +167,8 @@ function Orbit() {
         })}
       </div>
 
-      <span className="absolute bottom-[8%] left-1/2 z-10 hidden -translate-x-1/2 lg:flex items-center gap-2 whitespace-nowrap rounded-full border border-line bg-surface/90 px-4 py-2 text-sm font-medium shadow-xl backdrop-blur">
-        <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_10px] shadow-emerald-500" />
-        {site.name.split(" ")[0]}{" "}
-        <span className="font-serif text-base italic text-gradient">{site.name.split(" ").slice(1).join(" ")}</span>
-      </span>
+      <FloatCard icon="code" label="Web & Software" className="left-[2%] top-[24%]" delay={0} />
+      <FloatCard icon="chart" label="SEO & Ads" className="bottom-[22%] right-[0%]" delay={1.2} />
     </div>
   );
 }

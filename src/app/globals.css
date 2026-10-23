@@ -204,6 +204,9 @@
 .orbit-reverse {
   animation: orbit 40s linear infinite reverse;
 }
+.orbit-fast {
+  animation: orbit 6s linear infinite;
+}
 
 /* Sheen sweep across cards on hover. */
 .sheen::before {
