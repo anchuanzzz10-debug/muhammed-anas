@@ -250,7 +250,7 @@ export const projects: Project[] = [
 
 export const about = {
   paragraphs: [
-    "I'm Muhammed Anas, a Digital Marketer with expertise in performance marketing and SEO, along with skills in web development and custom software development to help businesses grow online.",
+    "I'm Muhammed Anas, a Digital Marketer specializing in performance marketing and SEO, along with skills in web development, custom software development, branding, and video editing to help businesses grow online.",
     "Instead of juggling separate developers, marketers and designers, you get one partner who understands the whole picture — building your online store, creating the content that sells it and running the campaigns that bring customers in.",
     "Every project starts with your goals. Whether you are launching a new brand, redesigning a Shopify store or scaling paid ads, I focus on clean execution, clear communication and results you can measure.",
   ] as string[],
