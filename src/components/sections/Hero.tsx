@@ -10,7 +10,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
-import { hero, services, site } from "@/content/site";
+import Image from "next/image";
+import { about, hero, services, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
@@ -74,8 +75,23 @@ function Orbit() {
         })}
       </div>
 
-      <div className="absolute inset-[34%] grid place-items-center rounded-full border border-line bg-surface shadow-[0_30px_80px_-30px_var(--color-cerulean)]">
-        <span className="font-serif text-6xl italic text-gradient">{site.initials}</span>
+      <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-cerulean to-pink p-[3px] shadow-[0_30px_80px_-30px_var(--color-cerulean)]">
+        <div className="relative size-full overflow-hidden rounded-full bg-ink">
+          {about.image ? (
+            <Image
+              src={about.image.src}
+              alt=""
+              width={about.image.width}
+              height={about.image.height}
+              sizes="180px"
+              className="size-full scale-[1.35] object-cover object-[50%_22%]"
+            />
+          ) : (
+            <span className="grid size-full place-items-center font-serif text-6xl italic text-gradient">
+              {site.initials}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -130,6 +146,25 @@ export function Hero() {
       <Container>
         <motion.div style={{ y, opacity, scale }} className="grid items-center gap-16 lg:grid-cols-12">
           <div className="flex flex-col items-start gap-7 sm:gap-8 lg:col-span-7">
+            {about.image ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, ease }}
+                className="relative size-20 rounded-full bg-gradient-to-br from-cerulean to-pink p-[2px] shadow-[0_20px_50px_-20px_var(--color-pink)] sm:size-24 lg:hidden"
+              >
+                <Image
+                  src={about.image.src}
+                  alt={about.image.alt}
+                  width={about.image.width}
+                  height={about.image.height}
+                  sizes="96px"
+                  priority
+                  className="size-full rounded-full bg-ink object-cover object-[50%_20%]"
+                />
+              </motion.div>
+            ) : null}
+
             {hero.eyebrow ? (
               <motion.p
                 initial={{ opacity: 0, y: 12 }}

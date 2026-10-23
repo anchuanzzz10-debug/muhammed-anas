@@ -1,4 +1,4 @@
-import { contact, faqs, services, site, skills, socials } from "@/content/site";
+import { about, contact, faqs, services, site, skills, socials } from "@/content/site";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
@@ -13,6 +13,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Work } from "@/components/sections/Work";
 
 const personId = `${site.url}/#person`;
+const profiles = socials.filter((s) => s.icon !== "whatsapp").map((s) => s.href);
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -35,7 +36,9 @@ const jsonLd = {
       description: site.description,
       knowsAbout: skills.flatMap((s) => s.tools),
       ...(contact.email ? { email: `mailto:${contact.email}` } : {}),
-      ...(socials.length ? { sameAs: socials.map((s) => s.href) } : {}),
+      ...(about.image ? { image: `${site.url}${about.image.src}` } : {}),
+      ...(contact.whatsapp ? { telephone: contact.whatsapp } : {}),
+      ...(profiles.length ? { sameAs: profiles } : {}),
       makesOffer: services.map((s) => ({
         "@type": "Offer",
         itemOffered: { "@type": "Service", name: s.title, description: s.description, provider: { "@id": personId } },

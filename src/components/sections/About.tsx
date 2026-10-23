@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { about, services, sectionIntros } from "@/content/site";
+import { about, services, sectionIntros, site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
@@ -21,21 +21,39 @@ export function About() {
 
         <div className={cn("grid gap-10 lg:grid-cols-12 lg:gap-16", about.image ? "" : "lg:items-start")}>
           {about.image ? (
-            <Reveal className="lg:col-span-5">
-              <div className="group relative overflow-hidden rounded-[1.75rem] border border-line">
-                <Image
-                  src={about.image.src}
-                  alt={about.image.alt}
-                  width={about.image.width}
-                  height={about.image.height}
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                />
+            <Reveal className="lg:col-span-5 lg:row-span-2">
+              <figure className="group relative mx-auto w-full max-w-sm lg:sticky lg:top-28 lg:max-w-none">
                 <div
                   aria-hidden
-                  className="absolute inset-0 bg-gradient-to-tr from-cerulean/20 via-transparent to-pink/20 mix-blend-overlay"
+                  className="absolute -inset-2 -z-10 rounded-[2.25rem] sm:-inset-4 bg-gradient-to-br from-cerulean/30 via-transparent to-pink/30 opacity-70 blur-2xl transition-opacity duration-700 group-hover:opacity-100"
                 />
-              </div>
+                <div className="relative overflow-hidden rounded-[1.75rem] border border-line bg-ink p-1.5">
+                  <div className="relative overflow-hidden rounded-[1.4rem]">
+                    <Image
+                      src={about.image.src}
+                      alt={about.image.alt}
+                      width={about.image.width}
+                      height={about.image.height}
+                      sizes="(min-width: 1024px) 40vw, (min-width: 640px) 384px, 100vw"
+                      className="aspect-[3/4] h-auto w-full object-cover object-top transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                    />
+                    <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-tr from-cerulean/15 via-transparent to-pink/15 mix-blend-overlay"
+                    />
+                    <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3 pl-4 text-white backdrop-blur-md sm:inset-x-4 sm:bottom-4">
+                      <span className="flex min-w-0 flex-col">
+                        <span className="font-semibold tracking-tight">{site.name}</span>
+                        <span className="truncate text-xs text-white/70">{site.jobTitle}</span>
+                      </span>
+                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
+                        {site.initials}
+                      </span>
+                    </figcaption>
+                  </div>
+                </div>
+              </figure>
             </Reveal>
           ) : null}
 
@@ -53,7 +71,7 @@ export function About() {
             </Reveal>
           ) : null}
 
-          <Reveal delay={0.2} className={cn(about.image ? "lg:col-span-12" : "lg:col-span-6")}>
+          <Reveal delay={0.2} className={cn(about.image ? "lg:col-span-7" : "lg:col-span-6")}>
             <ul className="flex flex-wrap gap-2">
               {services.map((s) => (
                 <li

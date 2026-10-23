@@ -10,9 +10,11 @@ import { Section } from "@/components/ui/Section";
 
 type Fields = { name: string; email: string; service: string; message: string };
 type Errors = Partial<Record<keyof Fields, string>>;
-type Status = "idle" | "sending" | "success" | "mailto" | "error";
+type Status = "idle" | "sending" | "success" | "mailto" | "whatsapp" | "error";
 
 const EMPTY: Fields = { name: "", email: "", service: "", message: "" };
+/** With no email or form endpoint configured, the form hands off to WhatsApp. */
+const viaWhatsApp = !contact.formEndpoint && !contact.email && Boolean(contact.whatsapp);
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validate(f: Fields): Errors {
@@ -116,6 +118,21 @@ export function Contact() {
       return;
     }
 
+    if (contact.whatsapp) {
+      const text = [
+        `Hi, I'm ${fields.name} (${fields.email}).`,
+        serviceTitle ? `Service: ${serviceTitle}` : "",
+        "",
+        fields.message,
+      ]
+        .filter((line, i) => line || i === 2)
+        .join("\n");
+      const url = `https://wa.me/${contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+      setStatus("whatsapp");
+      return;
+    }
+
     setStatus("error");
   };
 
@@ -151,17 +168,26 @@ export function Contact() {
           ) : null}
 
           {socials.length ? (
-            <ul className="flex flex-wrap gap-2">
+            <ul className="flex flex-col gap-3" aria-label="Contact links">
               {socials.map((s) => (
                 <li key={s.href}>
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm transition hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
+                    className="ring-gradient group relative flex items-center gap-4 rounded-2xl border border-line bg-surface p-3 pr-4 transition-transform duration-300 hover:-translate-y-0.5 sm:p-4"
                   >
-                    <Icon name={s.icon} className="size-4" />
-                    {s.label}
+                    <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-2 text-accent transition-all duration-500 group-hover:bg-gradient-to-br group-hover:from-cerulean group-hover:to-pink group-hover:text-white">
+                      <Icon name={s.icon} className="size-[22px]" />
+                    </span>
+                    <span className="flex min-w-0 flex-1 flex-col">
+                      <span className="font-semibold tracking-tight">{s.label}</span>
+                      {s.handle ? <span className="truncate text-sm text-muted">{s.handle}</span> : null}
+                    </span>
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-fg group-hover:text-bg">
+                      <Icon name="arrowUpRight" className="size-4" />
+                    </span>
+                    <span className="sr-only">(opens in a new tab)</span>
                   </a>
                 </li>
               ))}
@@ -244,8 +270,11 @@ export function Contact() {
 
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
               <Button type="submit" disabled={status === "sending"} className="w-full sm:w-auto">
-                {status === "sending" ? "Sending…" : "Send"}
-                <Icon name="arrowRight" className="size-4 transition-transform group-hover:translate-x-1" />
+                {status === "sending" ? "Sending…" : viaWhatsApp ? "Send via WhatsApp" : "Send"}
+                <Icon
+                  name={viaWhatsApp ? "whatsapp" : "arrowRight"}
+                  className="size-4 transition-transform group-hover:translate-x-1"
+                />
               </Button>
               <p role="status" aria-live="polite" className="text-sm">
                 {status === "success" ? (
@@ -253,6 +282,8 @@ export function Contact() {
                     <Icon name="check" className="size-4" />
                     Message sent.
                   </span>
+                ) : status === "whatsapp" ? (
+                  <span className="text-muted">Opening WhatsApp…</span>
                 ) : status === "mailto" ? (
                   <span className="text-muted">Opening your email app…</span>
                 ) : status === "error" ? (

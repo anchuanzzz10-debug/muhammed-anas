@@ -49,6 +49,8 @@ export type SocialLink = {
   label: string;
   href: string;
   icon: IconName;
+  /** Shown under the label in the Contact section, e.g. a username or number. */
+  handle?: string;
 };
 
 export const site = {
@@ -158,7 +160,16 @@ export const skills: Skill[] = [
   },
   {
     serviceId: "video",
-    tools: ["Adobe Premiere Pro", "After Effects", "Photoshop", "Canva", "Short-Form Video", "Motion Graphics"],
+    tools: [
+      "CapCut",
+      "CapCut Pro",
+      "Reels & Shorts Editing",
+      "Short-Form Video",
+      "Captions & Subtitles",
+      "Transitions & Effects",
+      "Color Grading",
+      "Canva",
+    ],
   },
   {
     serviceId: "branding",
@@ -180,7 +191,12 @@ export const about = {
     "Instead of juggling separate developers, marketers and designers, you get one partner who understands the whole picture — building your online store, creating the content that sells it and running the campaigns that bring customers in.",
     "Every project starts with your goals. Whether you are launching a new brand, redesigning a Shopify store or scaling paid ads, I focus on clean execution, clear communication and results you can measure.",
   ] as string[],
-  image: undefined as Project["image"],
+  image: {
+    src: "/images/muhammed-anas.jpg",
+    alt: "Portrait of Muhammed Anas",
+    width: 1086,
+    height: 1448,
+  } as Project["image"],
   stats: [] as Stat[],
 };
 
@@ -254,8 +270,30 @@ export const faqs: FaqItem[] = [
 
 export const contact = {
   email: "",
+  /** International format, digits only after the plus — used for wa.me links. */
+  whatsapp: "+917025219962",
+  whatsappDisplay: "+91 70252 19962",
   /** Optional POST endpoint (e.g. Formspree). When empty, the form opens the visitor's mail client. */
   formEndpoint: "",
 };
 
-export const socials: SocialLink[] = [];
+export const socials: SocialLink[] = [
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/917025219962",
+    icon: "whatsapp",
+    handle: "+91 70252 19962",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/_anchu_anzzz_/",
+    icon: "instagram",
+    handle: "@_anchu_anzzz_",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/muhammed-anas-708a24404",
+    icon: "linkedin",
+    handle: "Muhammed Anas",
+  },
+];
