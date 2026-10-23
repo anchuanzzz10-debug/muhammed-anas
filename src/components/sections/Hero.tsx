@@ -48,87 +48,62 @@ function RotatingService() {
   );
 }
 
-const illustration = {
-  src: "/images/muhammed-anas-illustration.webp",
-  width: 1086,
-  height: 1448,
-};
-
-/** Illustrated portrait inside an orbit of service icons (desktop only). */
+/** Portrait inside an orbit of service icons (desktop only). */
 function Orbit() {
   return (
-    <div aria-hidden className="relative mx-auto aspect-[4/5] w-full max-w-[30rem]">
-      {/* Glow + rings */}
-      <div className="absolute left-1/2 top-[42%] aspect-square w-[92%] -translate-x-1/2 -translate-y-1/2">
-        <div className="absolute inset-[14%] rounded-full bg-gradient-to-br from-cerulean to-pink opacity-90" />
-        <div className="absolute inset-[6%] rounded-full bg-gradient-to-br from-cerulean/40 to-pink/40 blur-3xl" />
-        <div className="absolute inset-0 rounded-full border border-dashed border-line-strong" />
-      </div>
+    <div aria-hidden className="relative mx-auto aspect-square w-full max-w-[28rem]">
+      <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-cerulean/40 to-pink/40 blur-3xl" />
+      <div className="absolute inset-0 rounded-full border border-dashed border-line-strong" />
+      <div className="absolute inset-[16%] rounded-full border border-line" />
 
-      {/* Portrait */}
       <motion.div
-        className="absolute inset-x-[6%] bottom-0 top-[4%]"
+        className="absolute inset-[22%] rounded-full bg-gradient-to-br from-cerulean to-pink p-[3px] shadow-[0_40px_90px_-30px_var(--color-cerulean)]"
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
-        <Image
-          src={illustration.src}
-          alt=""
-          width={illustration.width}
-          height={illustration.height}
-          sizes="(min-width: 1280px) 420px, 34vw"
-          priority
-          className="size-full object-contain object-bottom drop-shadow-[0_30px_40px_rgba(0,0,0,0.35)] [mask-image:radial-gradient(ellipse_50%_72%_at_50%_36%,black_58%,transparent_100%)]"
-        />
+        <div className="relative size-full overflow-hidden rounded-full bg-ink">
+          {about.image ? (
+            <Image
+              src={about.image.src}
+              alt=""
+              width={about.image.width}
+              height={about.image.height}
+              sizes="260px"
+              priority
+              className="size-full scale-[1.25] object-cover object-[50%_24%]"
+            />
+          ) : (
+            <span className="grid size-full place-items-center font-serif text-6xl italic text-gradient">
+              {site.initials}
+            </span>
+          )}
+        </div>
       </motion.div>
 
-      {/* Orbiting icons sit in front of the portrait */}
-      <div className="absolute left-1/2 top-[42%] aspect-square w-[92%] -translate-x-1/2 -translate-y-1/2">
-        <div className="orbit absolute inset-0">
-          {services.map((s, i) => {
-            const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2;
-            const x = 50 + Math.cos(angle) * 50;
-            const y = 50 + Math.sin(angle) * 50;
-            return (
-              <span
-                key={s.id}
-                className="absolute -translate-x-1/2 -translate-y-1/2"
-                style={{ left: `${x.toFixed(3)}%`, top: `${y.toFixed(3)}%` }}
-              >
-                <span className="orbit-reverse grid size-12 place-items-center rounded-2xl border border-line bg-surface/80 text-accent shadow-lg backdrop-blur xl:size-14">
-                  <Icon name={s.icon} className="size-5 xl:size-6" />
-                </span>
+      <div className="orbit absolute inset-0">
+        {services.map((s, i) => {
+          const angle = (i / services.length) * Math.PI * 2 - Math.PI / 2;
+          const x = 50 + Math.cos(angle) * 50;
+          const y = 50 + Math.sin(angle) * 50;
+          return (
+            <span
+              key={s.id}
+              className="absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ left: `${x.toFixed(3)}%`, top: `${y.toFixed(3)}%` }}
+            >
+              <span className="orbit-reverse grid size-12 place-items-center rounded-2xl border border-line bg-surface/80 text-accent shadow-lg backdrop-blur xl:size-14">
+                <Icon name={s.icon} className="size-5 xl:size-6" />
               </span>
-            );
-          })}
-        </div>
+            </span>
+          );
+        })}
       </div>
 
-      {about.image ? (
-        <motion.figure
-          initial={{ opacity: 0, y: 30, rotate: 6 }}
-          animate={{ opacity: 1, y: 0, rotate: 3 }}
-          transition={{ duration: 0.9, delay: 0.9, ease }}
-          className="absolute -right-2 bottom-[2%] z-20 flex w-[34%] flex-col items-center gap-2 xl:-right-6"
-        >
-          <span className="w-full rounded-[1.4rem] border border-white/30 bg-white/10 p-1.5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] ring-1 ring-black/5 backdrop-blur-md dark:border-white/15">
-            <span className="block overflow-hidden rounded-[1.05rem] bg-gradient-to-b from-[#0b2a4a] to-ink">
-              <Image
-                src={about.image.src}
-                alt=""
-                width={about.image.width}
-                height={about.image.height}
-                sizes="160px"
-                className="aspect-[4/5] w-full object-cover object-[50%_25%]"
-              />
-            </span>
-          </span>
-          <figcaption className="whitespace-nowrap text-sm font-medium tracking-tight">
-            {site.name.split(" ")[0]}{" "}
-            <span className="font-serif text-base italic text-gradient">{site.name.split(" ").slice(1).join(" ")}</span>
-          </figcaption>
-        </motion.figure>
-      ) : null}
+      <span className="absolute bottom-[8%] left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-line bg-surface/90 px-4 py-2 text-sm font-medium shadow-xl backdrop-blur">
+        <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_10px] shadow-emerald-500" />
+        {site.name.split(" ")[0]}{" "}
+        <span className="font-serif text-base italic text-gradient">{site.name.split(" ").slice(1).join(" ")}</span>
+      </span>
     </div>
   );
 }
@@ -166,14 +141,6 @@ export function Hero() {
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
-        <Image
-          src={illustration.src}
-          alt=""
-          width={illustration.width}
-          height={illustration.height}
-          sizes="70vw"
-          className="absolute -right-10 bottom-0 h-[62%] w-auto object-contain object-bottom opacity-[0.16] [mask-image:linear-gradient(to_bottom,black_55%,transparent)] dark:opacity-[0.22] sm:right-0 sm:h-[70%] lg:hidden"
-        />
         <motion.div className="absolute inset-0" style={{ background: glow }} />
         <motion.div
           className="absolute -left-40 top-0 size-[32rem] rounded-full bg-cerulean/20 blur-[140px] dark:bg-cerulean/25"
