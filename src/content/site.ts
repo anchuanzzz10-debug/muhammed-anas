@@ -188,7 +188,17 @@ export const skills: Skill[] = [
   },
   {
     serviceId: "branding",
-    tools: ["Logo Design", "Brand Guidelines", "Typography", "Color Systems", "Illustrator", "Figma"],
+    tools: [
+      "Brand Strategy",
+      "Logo Design",
+      "Visual Identity",
+      "Brand Guidelines",
+      "Typography",
+      "Color Systems",
+      "Brand Voice & Messaging",
+      "Social Media Branding",
+      "Packaging & Print",
+    ],
   },
 ];
 
