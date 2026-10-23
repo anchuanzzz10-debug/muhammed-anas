@@ -152,7 +152,7 @@ export const services: Service[] = [
 export const hero = {
   eyebrow: "Your Digital Growth Partner",
   tagline:
-    "I help brands grow online — from modern web development and custom software to SEO, data-driven ad campaigns, video content and brand identities that stand out.",
+    "As a Digital Marketer, I help brands grow online through data-driven ad campaigns, SEO, modern web development, custom software solutions, video content, and distinctive brand identities.",
 };
 
 /** Short SEO-friendly intro shown under each section heading. Leave empty to hide. */
