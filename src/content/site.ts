@@ -93,7 +93,7 @@ export const services: Service[] = [
     title: "Performance Marketing",
     icon: "chart",
     description:
-      "Data-driven ad campaigns on Meta, Google and TikTok, focused on return on ad spend, lower acquisition costs and growth you can measure.",
+      "Data-driven ad campaigns on Meta and Google, focused on return on ad spend, lower acquisition costs and growth you can measure.",
   },
   {
     id: "software",
@@ -161,7 +161,7 @@ export const skills: Skill[] = [
   },
   {
     serviceId: "performance",
-    tools: ["Meta Ads", "Google Ads", "TikTok Ads", "Conversion Tracking", "A/B Testing", "Retargeting", "Google Analytics 4"],
+    tools: ["Meta Ads", "Google Ads", "Conversion Tracking", "A/B Testing", "Retargeting", "Google Analytics 4"],
   },
   {
     serviceId: "software",
@@ -271,7 +271,7 @@ export const faqs: FaqItem[] = [
   {
     question: "Which advertising platforms do you work with?",
     answer:
-      "I run and optimize campaigns on Meta (Facebook and Instagram), Google and TikTok, with proper conversion tracking so every decision is based on real data.",
+      "I run and optimize campaigns on Meta (Facebook and Instagram) and Google, with proper conversion tracking so every decision is based on real data.",
   },
   {
     question: "How long does a project take?",
