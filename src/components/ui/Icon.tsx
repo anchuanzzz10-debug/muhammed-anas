@@ -105,6 +105,12 @@ const paths = {
     </>
   ),
   cursor: <path d="m5 3 14 7-6 2-2 6-6-15Z" />,
+  search: (
+    <>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </>
+  ),
   whatsapp: (
     <>
       <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />

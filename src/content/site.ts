@@ -15,6 +15,8 @@ export type Service = {
   description?: string;
   /** Featured services get a large highlighted card at the top of Services. */
   featured?: boolean;
+  /** Key areas shown as a checklist on featured cards. */
+  highlights?: string[];
 };
 
 export type Skill = {
@@ -112,6 +114,15 @@ export const services: Service[] = [
       "Fast, responsive and SEO-ready websites — from landing pages to complete business sites — built with modern frameworks and designed to turn visitors into customers.",
   },
   {
+    id: "seo",
+    title: "SEO Services",
+    icon: "search",
+    featured: true,
+    description:
+      "Get found on Google by the customers already searching for you. I fix what holds your site back, optimize every page around the right keywords and make it fast — so you earn more organic traffic without paying for every click.",
+    highlights: ["Technical SEO", "On-Page SEO", "Keyword Research", "Website Optimization"],
+  },
+  {
     id: "strategy",
     title: "Digital Marketing Strategy",
     icon: "target",
@@ -166,6 +177,19 @@ export const skills: Skill[] = [
   {
     serviceId: "software",
     tools: ["TypeScript", "Node.js", "REST APIs", "Databases", "Dashboards", "Automation", "Integrations"],
+  },
+  {
+    serviceId: "seo",
+    tools: [
+      "Technical SEO",
+      "On-Page SEO",
+      "Keyword Research",
+      "Website Optimization",
+      "Core Web Vitals",
+      "Schema Markup",
+      "Google Search Console",
+      "Local SEO",
+    ],
   },
   {
     serviceId: "web",
@@ -261,7 +285,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What services do you offer?",
     answer:
-      "I offer Shopify store development and customization, performance marketing, custom software development, web development, digital marketing strategy, video editing and creative design, and branding and brand identity. You can hire me for a single service or combine them into one complete project.",
+      "I offer Shopify store development and customization, performance marketing, custom software development, web development, SEO, digital marketing strategy, video editing and creative design, and branding and brand identity. You can hire me for a single service or combine them into one complete project.",
   },
   {
     question: "Can you redesign or improve my existing Shopify store?",
@@ -272,6 +296,11 @@ export const faqs: FaqItem[] = [
     question: "Which advertising platforms do you work with?",
     answer:
       "I run and optimize campaigns on Meta (Facebook and Instagram) and Google, with proper conversion tracking so every decision is based on real data.",
+  },
+  {
+    question: "Do you offer SEO for existing websites?",
+    answer:
+      "Yes. I start with a technical SEO audit of your current site, then improve on-page content, keywords, structure and page speed — whether your site runs on Shopify, a custom build or another platform.",
   },
   {
     question: "How long does a project take?",

@@ -6,7 +6,7 @@ import { services, skills, sectionIntros, type Service } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
-import { CodeVisual, WebVisual } from "./ServiceVisuals";
+import { CodeVisual, SeoVisual, WebVisual } from "./ServiceVisuals";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -18,25 +18,35 @@ function handleSpotlight(e: MouseEvent<HTMLElement>) {
 
 const numberOf = (service: Service) => String(services.indexOf(service) + 1).padStart(2, "0");
 
-const VISUALS: Record<string, () => React.JSX.Element> = { software: CodeVisual, web: WebVisual };
+const VISUALS: Record<string, () => React.JSX.Element> = { software: CodeVisual, web: WebVisual, seo: SeoVisual };
 
 /* --------------------------------- Cards ---------------------------------- */
 
-function FeaturedCard({ service }: { service: Service }) {
-  const tools = skills.find((s) => s.serviceId === service.id)?.tools ?? [];
+function FeaturedCard({ service, wide = false }: { service: Service; wide?: boolean }) {
+  const tools = (skills.find((s) => s.serviceId === service.id)?.tools ?? []).filter(
+    (t) => !service.highlights?.includes(t),
+  );
   const Visual = VISUALS[service.id];
 
   return (
     <article
       onMouseMove={handleSpotlight}
-      className="border-spin spotlight group relative flex h-full flex-col gap-8 overflow-hidden rounded-[2rem] p-5 transition-transform duration-500 hover:-translate-y-1.5 sm:p-7"
+      className={cn(
+        "border-spin spotlight group relative flex h-full flex-col gap-8 overflow-hidden rounded-[2rem] p-5 transition-transform duration-500 hover:-translate-y-1.5 sm:p-7",
+        wide && "lg:flex-row lg:items-stretch lg:gap-10 lg:p-8",
+      )}
     >
       <div
         aria-hidden
         className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-gradient-to-br from-cerulean/25 to-pink/25 blur-3xl transition-opacity duration-700 group-hover:opacity-80"
       />
       {Visual ? (
-        <div className="relative h-64 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.02] sm:h-72">
+        <div
+          className={cn(
+            "relative h-64 transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.02] sm:h-72",
+            wide && "lg:h-auto lg:min-h-[22rem] lg:w-[52%] lg:shrink-0",
+          )}
+        >
           <Visual />
         </div>
       ) : null}
@@ -60,6 +70,25 @@ function FeaturedCard({ service }: { service: Service }) {
         </h3>
         {service.description ? (
           <p className="text-pretty text-base leading-relaxed text-muted sm:text-[17px]">{service.description}</p>
+        ) : null}
+        {service.highlights?.length ? (
+          <ul className="grid gap-2.5 sm:grid-cols-2">
+            {service.highlights.map((h, i) => (
+              <motion.li
+                key={h}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 + i * 0.08, duration: 0.5, ease }}
+                className="flex items-center gap-3 rounded-2xl border border-line bg-surface-2/70 p-3 text-sm font-semibold"
+              >
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink text-white">
+                  <Icon name="check" className="size-3.5" />
+                </span>
+                {h}
+              </motion.li>
+            ))}
+          </ul>
         ) : null}
         {tools.length ? (
           <ul className="mt-auto flex flex-wrap gap-2 pt-2">
@@ -122,6 +151,8 @@ function spanFor(i: number, total: number) {
 export function Services() {
   const featured = services.filter((s) => s.featured);
   const regular = services.filter((s) => !s.featured);
+  // An odd featured card out (or a single one) spans the full width with a side-by-side layout.
+  const isWide = (i: number) => featured.length % 2 === 1 && i === featured.length - 1;
 
   return (
     <Section id="services" index={1} title="Services" description={sectionIntros.services}>
@@ -133,9 +164,9 @@ export function Services() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8, delay: i * 0.1, ease }}
-            className={cn("sm:col-span-2", featured.length > 1 ? "lg:col-span-3" : "lg:col-span-6")}
+            className={cn("sm:col-span-2", isWide(i) ? "lg:col-span-6" : "lg:col-span-3")}
           >
-            <FeaturedCard service={service} />
+            <FeaturedCard service={service} wide={isWide(i)} />
           </motion.li>
         ))}
         {regular.map((service, i) => (

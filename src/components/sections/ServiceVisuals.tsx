@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -269,5 +270,170 @@ export function WebVisual() {
         Responsive
       </Chip>
     </motion.div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  SEO — a search result climbing to the top, with rising organic traffic.   */
+/* -------------------------------------------------------------------------- */
+
+const OTHERS = ["marketplace.com", "directory.net", "reviews.example"];
+const OURS = "yourbrand.com";
+const QUERY = "shopify store design";
+
+function ResultRow({ domain, ours, top }: { domain: string; ours: boolean; top: boolean }) {
+  return (
+    <motion.li
+      layout
+      transition={{ type: "spring", stiffness: 260, damping: 28 }}
+      className={
+        ours
+          ? "relative z-10 flex items-center gap-3 rounded-xl bg-gradient-to-r from-cerulean to-pink p-[1.5px] shadow-[0_15px_40px_-15px_var(--color-pink)]"
+          : "flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.04] p-2.5"
+      }
+    >
+      <div className={ours ? "flex w-full items-center gap-3 rounded-[0.65rem] bg-[#12141a] p-2.5" : "contents"}>
+        <span
+          className={`grid size-7 shrink-0 place-items-center rounded-lg text-[10px] font-bold ${
+            ours ? "bg-gradient-to-br from-cerulean to-pink text-white" : "bg-white/10 text-white/50"
+          }`}
+        >
+          {domain.charAt(0).toUpperCase()}
+        </span>
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
+          <span className={`truncate font-mono text-[10px] ${ours ? "text-[#5cc8f0]" : "text-white/40"}`}>
+            {domain}
+          </span>
+          <span className={`h-1.5 rounded-full ${ours ? "w-4/5 bg-white/80" : "w-3/5 bg-white/20"}`} />
+        </span>
+        {ours ? (
+          <motion.span
+            key={top ? "top" : "climb"}
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+              top ? "bg-emerald-400 text-black" : "bg-white/10 text-white"
+            }`}
+          >
+            {top ? "#1" : <Icon name="arrowUp" className="size-3" />}
+          </motion.span>
+        ) : null}
+      </div>
+    </motion.li>
+  );
+}
+
+export function SeoVisual() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduce = useReducedMotion();
+  const [rank, setRank] = useState(3);
+
+  useEffect(() => {
+    if (!inView || reduce) return;
+    let r = 3;
+    const id = window.setInterval(() => {
+      r = r === 0 ? 3 : r - 1;
+      setRank(r);
+    }, 1300);
+    return () => window.clearInterval(id);
+  }, [inView, reduce]);
+
+  const current = reduce ? 0 : rank;
+  const rows = [...OTHERS];
+  rows.splice(current, 0, OURS);
+
+  return (
+    <div ref={ref} aria-hidden className="relative h-full overflow-hidden rounded-2xl bg-ink text-white">
+      <div className="absolute -left-16 -top-16 size-56 rounded-full bg-cerulean/40 blur-3xl" />
+      <div className="absolute -bottom-20 -right-10 size-56 rounded-full bg-pink/35 blur-3xl" />
+      <div className="bg-grid absolute inset-0 opacity-20" />
+
+      <div className="relative flex h-full flex-col gap-3 p-4 sm:p-5">
+        {/* Search bar */}
+        <div className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.07] px-4 py-2.5 backdrop-blur">
+          <Icon name="search" className="size-4 shrink-0 text-white/60" />
+          <motion.span
+            initial={{ clipPath: "inset(0 100% 0 0)" }}
+            animate={inView ? { clipPath: "inset(0 0% 0 0)" } : undefined}
+            transition={{ duration: 1, ease: "linear", delay: 0.2 }}
+            className="whitespace-nowrap text-[13px] text-white/90"
+          >
+            {QUERY}
+          </motion.span>
+          <motion.span
+            className="-ml-1.5 h-4 w-[1.5px] bg-[#5cc8f0]"
+            animate={{ opacity: [1, 0, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          />
+        </div>
+
+        {/* Results */}
+        <ul className="flex w-full flex-col gap-2 sm:w-[62%] lg:w-[64%]">
+          {rows.map((d) => (
+            <ResultRow key={d} domain={d} ours={d === OURS} top={d === OURS && current === 0} />
+          ))}
+        </ul>
+      </div>
+
+      {/* Traffic chart */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={inView ? { opacity: 1, y: 0 } : undefined}
+        transition={{ duration: 0.7, delay: 0.6, ease }}
+        className="absolute bottom-4 right-4 hidden w-[34%] flex-col gap-2 rounded-xl border border-white/10 bg-black/50 p-3 backdrop-blur-md sm:flex sm:bottom-5 sm:right-5"
+      >
+        <span className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-white/50">
+          Organic traffic
+          <Icon name="chart" className="size-3.5 text-emerald-400" />
+        </span>
+        <svg viewBox="0 0 120 60" className="h-16 w-full overflow-visible">
+          <defs>
+            <linearGradient id="seo-line" x1="0" x2="1">
+              <stop offset="0" stopColor="#007BA7" />
+              <stop offset="1" stopColor="#FF2D95" />
+            </linearGradient>
+            <linearGradient id="seo-area" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stopColor="#FF2D95" stopOpacity="0.35" />
+              <stop offset="1" stopColor="#FF2D95" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <motion.path
+            d="M0 52 L20 48 L38 50 L56 38 L74 34 L92 20 L120 6 L120 60 L0 60 Z"
+            fill="url(#seo-area)"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : undefined}
+            transition={{ delay: 1.6, duration: 0.8 }}
+          />
+          <motion.path
+            d="M0 52 L20 48 L38 50 L56 38 L74 34 L92 20 L120 6"
+            fill="none"
+            stroke="url(#seo-line)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0 }}
+            animate={inView ? { pathLength: 1 } : undefined}
+            transition={{ duration: 1.4, delay: 0.8, ease }}
+          />
+          <motion.circle
+            cx="120"
+            cy="6"
+            r="3.5"
+            fill="#FF2D95"
+            initial={{ scale: 0 }}
+            animate={inView ? { scale: [0, 1.4, 1] } : undefined}
+            transition={{ delay: 2.1, duration: 0.5 }}
+          />
+        </svg>
+      </motion.div>
+
+      <Chip className="right-5 top-16 hidden sm:block" delay={1.2}>
+        <span className="grid size-4 place-items-center rounded-full bg-emerald-400 text-black">
+          <Icon name="check" className="size-3" />
+        </span>
+        Core Web Vitals
+      </Chip>
+    </div>
   );
 }
