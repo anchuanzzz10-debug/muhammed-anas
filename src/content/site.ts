@@ -23,8 +23,8 @@ export type Skill = {
 export type Project = {
   id: string;
   title: string;
-  /** Must match a Service id so the Work filter can group it. */
-  category: Service["id"];
+  /** A Service id — adds the project to the Work filter. Optional. */
+  category?: Service["id"];
   summary?: string;
   image?: { src: string; alt: string; width: number; height: number };
   href?: string;
@@ -131,7 +131,7 @@ export const sectionIntros: Record<string, string> = {
   services:
     "End-to-end digital services to build, market and grow your brand online — from e-commerce development to paid advertising and creative.",
   skills: "The platforms and tools I use to design, build, launch and scale.",
-  work: "Selected Shopify builds, marketing campaigns, software and creative projects.",
+  work: "A selection of live websites and online stores from my portfolio.",
   about: "",
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
@@ -166,7 +166,13 @@ export const skills: Skill[] = [
   },
 ];
 
-export const projects: Project[] = [];
+export const projects: Project[] = [
+  { id: "greendrops-uae", title: "Green Drops UAE", href: "https://greendropsuae.com" },
+  { id: "connect-docs-media", title: "Connect Docs Media", href: "https://connectdocsmedia.com" },
+  { id: "south-ruwi", title: "South Ruwi", href: "https://southruwi.com" },
+  { id: "docs-world-attestation", title: "Docs World Attestation", href: "https://docsworldattestation.com" },
+  { id: "amairah-jewels", title: "Amairah Jewels", href: "https://amairahjewels.com" },
+];
 
 export const about = {
   paragraphs: [
