@@ -135,7 +135,7 @@ export const services: Service[] = [
 ];
 
 export const hero = {
-  eyebrow: "Shopify Developer · Performance Marketer",
+  eyebrow: "Your Digital Growth Partner",
   tagline:
     "I help brands grow online — from high-converting Shopify stores and data-driven ad campaigns to custom software, video content and brand identities that stand out.",
 };
