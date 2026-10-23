@@ -1,4 +1,4 @@
-import { services, site, socials } from "@/content/site";
+import { contact, faqs, services, site, skills, socials } from "@/content/site";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
@@ -12,13 +12,49 @@ import { Skills } from "@/components/sections/Skills";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Work } from "@/components/sections/Work";
 
+const personId = `${site.url}/#person`;
+
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: site.name,
-  url: site.url,
-  knowsAbout: services.map((s) => s.title),
-  ...(socials.length ? { sameAs: socials.map((s) => s.href) } : {}),
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: site.url,
+      name: site.title,
+      description: site.description,
+      inLanguage: "en",
+      publisher: { "@id": personId },
+    },
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: site.name,
+      url: site.url,
+      jobTitle: site.jobTitle,
+      description: site.description,
+      knowsAbout: skills.flatMap((s) => s.tools),
+      ...(contact.email ? { email: `mailto:${contact.email}` } : {}),
+      ...(socials.length ? { sameAs: socials.map((s) => s.href) } : {}),
+      makesOffer: services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.title, description: s.description, provider: { "@id": personId } },
+      })),
+    },
+    ...(faqs.length
+      ? [
+          {
+            "@type": "FAQPage",
+            "@id": `${site.url}/#faq`,
+            mainEntity: faqs.map((f) => ({
+              "@type": "Question",
+              name: f.question,
+              acceptedAnswer: { "@type": "Answer", text: f.answer },
+            })),
+          },
+        ]
+      : []),
+  ],
 };
 
 export default function Home() {

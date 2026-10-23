@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { MouseEvent } from "react";
-import { services } from "@/content/site";
+import { services, sectionIntros } from "@/content/site";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 
@@ -14,7 +14,7 @@ function handleSpotlight(e: MouseEvent<HTMLElement>) {
 
 export function Services() {
   return (
-    <Section id="services" index={1} title="Services">
+    <Section id="services" index={1} title="Services" description={sectionIntros.services}>
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service, i) => (
           <motion.li

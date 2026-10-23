@@ -55,8 +55,12 @@ export const site = {
   name: "Muhammed Anas",
   initials: "MA",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  /** Used for SEO. Falls back to a list of services when empty. */
-  description: "",
+  /** Primary SEO title (browser tab, search results, social shares). */
+  title: "Muhammed Anas — Shopify Developer & Performance Marketer",
+  jobTitle: "Shopify Developer & Performance Marketer",
+  /** Meta description — keep it under ~160 characters. */
+  description:
+    "Shopify developer and performance marketer building high-converting online stores, profitable ad campaigns, custom software, video content and brand identities.",
   locale: "en_US",
 };
 
@@ -72,34 +76,175 @@ export const navItems: NavItem[] = [
 ];
 
 export const services: Service[] = [
-  { id: "shopify", title: "Shopify Store Development & Customization", icon: "shopify" },
-  { id: "performance", title: "Performance Marketing", icon: "chart" },
-  { id: "software", title: "Custom Software Development", icon: "code" },
-  { id: "strategy", title: "Digital Marketing Strategy", icon: "target" },
-  { id: "video", title: "Video Editing & Creative Design", icon: "film" },
-  { id: "branding", title: "Branding & Brand Identity", icon: "spark" },
+  {
+    id: "shopify",
+    title: "Shopify Store Development & Customization",
+    icon: "shopify",
+    description:
+      "Fast, mobile-first Shopify stores built to convert — custom themes, Liquid development, app integrations and checkout optimization tailored to your products.",
+  },
+  {
+    id: "performance",
+    title: "Performance Marketing",
+    icon: "chart",
+    description:
+      "Data-driven ad campaigns on Meta, Google and TikTok, focused on return on ad spend, lower acquisition costs and growth you can measure.",
+  },
+  {
+    id: "software",
+    title: "Custom Software Development",
+    icon: "code",
+    description:
+      "Web apps, dashboards, automations and integrations designed around your workflow, so your business runs faster with less manual work.",
+  },
+  {
+    id: "strategy",
+    title: "Digital Marketing Strategy",
+    icon: "target",
+    description:
+      "Clear, practical growth plans covering audience research, funnels, SEO, content and analytics — so every channel works toward the same goal.",
+  },
+  {
+    id: "video",
+    title: "Video Editing & Creative Design",
+    icon: "film",
+    description:
+      "Scroll-stopping video edits, short-form reels, ad creatives and social graphics that capture attention and tell your story.",
+  },
+  {
+    id: "branding",
+    title: "Branding & Brand Identity",
+    icon: "spark",
+    description:
+      "Memorable brand identities — logo, color palette, typography and guidelines — that make your business look consistent and credible everywhere.",
+  },
 ];
 
 export const hero = {
-  eyebrow: "",
-  tagline: "",
+  eyebrow: "Shopify Developer · Performance Marketer",
+  tagline:
+    "I help brands grow online — from high-converting Shopify stores and data-driven ad campaigns to custom software, video content and brand identities that stand out.",
 };
 
-export const skills: Skill[] = services.map((s) => ({ serviceId: s.id, tools: [] }));
+/** Short SEO-friendly intro shown under each section heading. Leave empty to hide. */
+export const sectionIntros: Record<string, string> = {
+  services:
+    "End-to-end digital services to build, market and grow your brand online — from e-commerce development to paid advertising and creative.",
+  skills: "The platforms and tools I use to design, build, launch and scale.",
+  work: "Selected Shopify builds, marketing campaigns, software and creative projects.",
+  about: "",
+  process: "A simple, transparent process that keeps every project focused on results.",
+  testimonials: "",
+  faq: "Answers to common questions about Shopify development, marketing and working together.",
+  contact: "Have a project in mind? Tell me about your goals and I'll get back to you with the next steps.",
+};
+
+export const skills: Skill[] = [
+  {
+    serviceId: "shopify",
+    tools: ["Shopify", "Shopify Plus", "Liquid", "Online Store 2.0", "Theme Customization", "Shopify Apps", "Checkout Optimization"],
+  },
+  {
+    serviceId: "performance",
+    tools: ["Meta Ads", "Google Ads", "TikTok Ads", "Conversion Tracking", "A/B Testing", "Retargeting", "Google Analytics 4"],
+  },
+  {
+    serviceId: "software",
+    tools: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "REST APIs", "Automation"],
+  },
+  {
+    serviceId: "strategy",
+    tools: ["SEO", "Content Strategy", "Email Marketing", "Funnel Building", "Market Research", "Analytics & Reporting"],
+  },
+  {
+    serviceId: "video",
+    tools: ["Adobe Premiere Pro", "After Effects", "Photoshop", "Canva", "Short-Form Video", "Motion Graphics"],
+  },
+  {
+    serviceId: "branding",
+    tools: ["Logo Design", "Brand Guidelines", "Typography", "Color Systems", "Illustrator", "Figma"],
+  },
+];
 
 export const projects: Project[] = [];
 
 export const about = {
-  paragraphs: [] as string[],
+  paragraphs: [
+    "I'm Muhammed Anas, a Shopify developer and performance marketer who works where technology, creativity and growth meet.",
+    "Instead of juggling separate developers, marketers and designers, you get one partner who understands the whole picture — building your online store, creating the content that sells it and running the campaigns that bring customers in.",
+    "Every project starts with your goals. Whether you are launching a new brand, redesigning a Shopify store or scaling paid ads, I focus on clean execution, clear communication and results you can measure.",
+  ] as string[],
   image: undefined as Project["image"],
   stats: [] as Stat[],
 };
 
-export const processSteps: ProcessStep[] = [];
+export const processSteps: ProcessStep[] = [
+  {
+    title: "Discover",
+    description:
+      "We talk through your business, audience, competitors and goals, so the project is built on a clear understanding of what success looks like.",
+  },
+  {
+    title: "Plan & Strategy",
+    description:
+      "I map out the scope, timeline and approach — from site structure and features to campaign strategy and creative direction.",
+  },
+  {
+    title: "Design & Build",
+    description:
+      "Your store, software, brand or campaign assets are designed and developed with regular check-ins, so you can review progress along the way.",
+  },
+  {
+    title: "Launch",
+    description:
+      "Everything is tested across devices, tracking is set up and the project goes live smoothly — with nothing left to chance.",
+  },
+  {
+    title: "Optimize & Scale",
+    description:
+      "After launch, I monitor performance, test improvements and refine campaigns to keep your results growing over time.",
+  },
+];
 
 export const testimonials: Testimonial[] = [];
 
-export const faqs: FaqItem[] = [];
+export const faqs: FaqItem[] = [
+  {
+    question: "What services do you offer?",
+    answer:
+      "I offer Shopify store development and customization, performance marketing, custom software development, digital marketing strategy, video editing and creative design, and branding and brand identity. You can hire me for a single service or combine them into one complete project.",
+  },
+  {
+    question: "Can you redesign or improve my existing Shopify store?",
+    answer:
+      "Yes. I can redesign your theme, improve page speed and mobile experience, add custom features and optimize product pages and checkout to help increase conversions — without starting from scratch.",
+  },
+  {
+    question: "Which advertising platforms do you work with?",
+    answer:
+      "I run and optimize campaigns on Meta (Facebook and Instagram), Google and TikTok, with proper conversion tracking so every decision is based on real data.",
+  },
+  {
+    question: "How long does a project take?",
+    answer:
+      "It depends on the scope. After an initial discussion about your goals and requirements, I share a clear timeline and keep you updated at every stage.",
+  },
+  {
+    question: "How much does a project cost?",
+    answer:
+      "Every project is quoted individually based on its scope and goals. Get in touch with a few details about what you need and I'll send you a tailored proposal.",
+  },
+  {
+    question: "Do you provide support after launch?",
+    answer:
+      "Yes. I offer ongoing support for updates, improvements and campaign management, so your store and marketing keep performing after launch.",
+  },
+  {
+    question: "How do we get started?",
+    answer:
+      "Send a message through the contact form with a short description of your project. I'll review it and get back to you to discuss the next steps.",
+  },
+];
 
 export const contact = {
   email: "",

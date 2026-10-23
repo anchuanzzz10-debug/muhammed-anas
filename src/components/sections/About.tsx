@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { about, services } from "@/content/site";
+import { about, services, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
@@ -9,7 +9,7 @@ export function About() {
   const hasText = about.paragraphs.length > 0;
 
   return (
-    <Section id="about" index={4} title="About">
+    <Section id="about" index={4} title="About" description={sectionIntros.about}>
       <div className={cn("grid gap-10", about.image && "lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16")}>
         {about.image ? (
           <Reveal>

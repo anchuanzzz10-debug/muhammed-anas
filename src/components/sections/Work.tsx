@@ -3,7 +3,7 @@
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { projects, services, type Project } from "@/content/site";
+import { projects, services, type Project, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -72,7 +72,7 @@ export function Work() {
   const visible = filter === ALL ? projects : projects.filter((p) => p.category === filter);
 
   return (
-    <Section id="work" index={3} title="Work">
+    <Section id="work" index={3} title="Work" description={projects.length ? sectionIntros.work : undefined}>
       {projects.length ? (
         <LayoutGroup>
           <div role="group" aria-label="Filter projects" className="-mx-4 mb-10 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0">

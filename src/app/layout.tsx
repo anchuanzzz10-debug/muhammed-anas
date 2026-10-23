@@ -16,28 +16,45 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const serviceList = services.map((s) => s.title).join(", ");
-const description = site.description || `${site.name} — ${serviceList}.`;
+const description = site.description;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: site.name, template: `%s · ${site.name}` },
+  title: { default: site.title, template: `%s · ${site.name}` },
   description,
   applicationName: site.name,
   authors: [{ name: site.name }],
   creator: site.name,
-  keywords: services.map((s) => s.title),
+  keywords: [
+    site.name,
+    "Shopify developer",
+    "Shopify expert",
+    "Shopify store design",
+    "performance marketer",
+    "Meta ads",
+    "Google ads",
+    "digital marketing",
+    "custom software development",
+    "video editing",
+    "brand identity",
+    ...services.map((s) => s.title),
+  ],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     siteName: site.name,
-    title: site.name,
+    title: site.title,
     description,
     locale: site.locale,
   },
-  twitter: { card: "summary_large_image", title: site.name, description },
-  robots: { index: true, follow: true },
+  twitter: { card: "summary_large_image", title: site.title, description },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  category: "business",
   formatDetection: { telephone: false },
 };
 

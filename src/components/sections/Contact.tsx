@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, type FormEvent, type ReactNode } from "react";
-import { contact, services, socials } from "@/content/site";
+import { contact, services, socials, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -121,7 +121,7 @@ export function Contact() {
   };
 
   return (
-    <Section id="contact" index={8} title="Contact">
+    <Section id="contact" index={8} title="Contact" description={sectionIntros.contact}>
       <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
         <Reveal className="flex flex-col gap-6">
           {contact.email ? (

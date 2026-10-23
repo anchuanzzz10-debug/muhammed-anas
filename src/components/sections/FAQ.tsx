@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useId, useState } from "react";
-import { faqs } from "@/content/site";
+import { faqs, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -12,7 +12,7 @@ export function FAQ() {
   const baseId = useId();
 
   return (
-    <Section id="faq" index={7} title="FAQ">
+    <Section id="faq" index={7} title="FAQ" description={sectionIntros.faq}>
       {faqs.length ? (
         <ul className="mx-auto flex max-w-3xl flex-col gap-3">
           {faqs.map((item, i) => {

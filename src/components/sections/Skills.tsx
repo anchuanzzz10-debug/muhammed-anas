@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useId, useState } from "react";
-import { services, skills } from "@/content/site";
+import { services, skills, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -33,7 +33,7 @@ export function Skills() {
   const hasTools = skills.some((s) => s.tools.length > 0);
 
   return (
-    <Section id="skills" index={2} title="Skills">
+    <Section id="skills" index={2} title="Skills" description={sectionIntros.skills}>
       <div aria-hidden className="-mx-4 flex flex-col gap-4 sm:-mx-6 lg:-mx-8">
         <Marquee />
         <Marquee reverse />

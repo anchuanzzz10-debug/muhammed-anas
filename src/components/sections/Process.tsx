@@ -2,7 +2,7 @@
 
 import { motion, useScroll } from "framer-motion";
 import { useRef } from "react";
-import { processSteps } from "@/content/site";
+import { processSteps, sectionIntros } from "@/content/site";
 import { Section } from "@/components/ui/Section";
 
 function Timeline() {
@@ -47,7 +47,7 @@ function Timeline() {
 
 export function Process() {
   return (
-    <Section id="process" index={5} title="Process">
+    <Section id="process" index={5} title="Process" description={sectionIntros.process}>
       {processSteps.length ? <Timeline /> : null}
     </Section>
   );

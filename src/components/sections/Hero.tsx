@@ -18,7 +18,7 @@ function RotatingService() {
   }, []);
 
   return (
-    <span className="relative block h-[1.3em] overflow-hidden" aria-hidden>
+    <span className="relative block h-[2.6em] overflow-hidden leading-[1.3] sm:h-[1.3em]" aria-hidden>
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={services[index].id}
@@ -26,7 +26,7 @@ function RotatingService() {
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
           transition={{ duration: 0.5, ease }}
-          className="absolute inset-x-0 truncate bg-gradient-to-r from-cerulean to-pink bg-clip-text text-transparent"
+          className="absolute inset-x-0 bg-gradient-to-r from-cerulean to-pink bg-clip-text text-transparent"
         >
           {services[index].title}
         </motion.span>

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, type PanInfo } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { testimonials } from "@/content/site";
+import { testimonials, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -136,7 +136,7 @@ function Carousel() {
 
 export function Testimonials() {
   return (
-    <Section id="testimonials" index={6} title="Testimonials">
+    <Section id="testimonials" index={6} title="Testimonials" description={sectionIntros.testimonials}>
       {testimonials.length ? <Carousel /> : null}
     </Section>
   );
