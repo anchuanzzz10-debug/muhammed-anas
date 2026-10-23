@@ -98,6 +98,13 @@ const paths = {
     </>
   ),
   check: <path d="m5 12 5 5 9-10" />,
+  globe: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+    </>
+  ),
+  cursor: <path d="m5 3 14 7-6 2-2 6-6-15Z" />,
   whatsapp: (
     <>
       <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />

@@ -13,6 +13,8 @@ export type Service = {
   title: string;
   icon: IconName;
   description?: string;
+  /** Featured services get a large highlighted card at the top of Services. */
+  featured?: boolean;
 };
 
 export type Skill = {
@@ -96,8 +98,17 @@ export const services: Service[] = [
     id: "software",
     title: "Custom Software Development",
     icon: "code",
+    featured: true,
     description:
       "Web apps, dashboards, automations and integrations designed around your workflow, so your business runs faster with less manual work.",
+  },
+  {
+    id: "web",
+    title: "Web Development",
+    icon: "globe",
+    featured: true,
+    description:
+      "Fast, responsive and SEO-ready websites — from landing pages to complete business sites — built with modern frameworks and designed to turn visitors into customers.",
   },
   {
     id: "strategy",
@@ -152,7 +163,11 @@ export const skills: Skill[] = [
   },
   {
     serviceId: "software",
-    tools: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "REST APIs", "Automation"],
+    tools: ["TypeScript", "Node.js", "REST APIs", "Databases", "Dashboards", "Automation", "Integrations"],
+  },
+  {
+    serviceId: "web",
+    tools: ["HTML & CSS", "JavaScript", "React", "Next.js", "Tailwind CSS", "Responsive Design", "SEO-Friendly Builds"],
   },
   {
     serviceId: "strategy",
@@ -234,7 +249,7 @@ export const faqs: FaqItem[] = [
   {
     question: "What services do you offer?",
     answer:
-      "I offer Shopify store development and customization, performance marketing, custom software development, digital marketing strategy, video editing and creative design, and branding and brand identity. You can hire me for a single service or combine them into one complete project.",
+      "I offer Shopify store development and customization, performance marketing, custom software development, web development, digital marketing strategy, video editing and creative design, and branding and brand identity. You can hire me for a single service or combine them into one complete project.",
   },
   {
     question: "Can you redesign or improve my existing Shopify store?",
