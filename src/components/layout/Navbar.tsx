@@ -186,15 +186,19 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -16, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto mt-2 flex max-h-[calc(100dvh-5.5rem)] max-w-6xl origin-top flex-col overflow-hidden rounded-[1.75rem] border border-line bg-bg shadow-2xl sm:max-h-[calc(100dvh-6rem)] lg:hidden"
+            className="relative mx-auto mt-2 flex max-h-[calc(100dvh-5.5rem)] max-w-6xl origin-top flex-col overflow-hidden rounded-[1.75rem] border border-white/40 bg-bg/65 shadow-[0_30px_80px_-20px_rgb(0_0_0/0.45)] ring-1 ring-black/5 backdrop-blur-2xl backdrop-saturate-150 dark:border-white/10 dark:bg-bg/60 sm:max-h-[calc(100dvh-6rem)] lg:hidden"
           >
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-cerulean/15 blur-3xl"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
             />
             <div
               aria-hidden
-              className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-pink/15 blur-3xl"
+              className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-cerulean/20 blur-3xl"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-pink/20 blur-3xl"
             />
 
             <ul tabIndex={-1} className="relative flex flex-col overflow-y-auto px-6 pb-2 pt-3 outline-none">
@@ -267,7 +271,7 @@ export function Navbar() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={s.label}
-                        className="flex h-11 items-center justify-center gap-2 rounded-full border border-line bg-surface text-sm font-medium transition-colors active:bg-surface-2"
+                        className="flex h-11 items-center justify-center gap-2 rounded-full border border-white/40 bg-surface/50 text-sm font-medium backdrop-blur transition-colors active:bg-surface-2 dark:border-white/10"
                       >
                         <Icon name={s.icon} className="size-[18px] text-accent" />
                         <span className="hidden min-[370px]:inline">{s.label}</span>
