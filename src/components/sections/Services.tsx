@@ -6,7 +6,7 @@ import { services, skills, sectionIntros, type Service } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
-import { CodeVisual, SeoVisual, WebVisual } from "./ServiceVisuals";
+import { CodeVisual, MarketingVisual, SeoVisual, WebVisual } from "./ServiceVisuals";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -18,7 +18,12 @@ function handleSpotlight(e: MouseEvent<HTMLElement>) {
 
 const numberOf = (service: Service) => String(services.indexOf(service) + 1).padStart(2, "0");
 
-const VISUALS: Record<string, () => React.JSX.Element> = { software: CodeVisual, web: WebVisual, seo: SeoVisual };
+const VISUALS: Record<string, () => React.JSX.Element> = {
+  strategy: MarketingVisual,
+  software: CodeVisual,
+  web: WebVisual,
+  seo: SeoVisual,
+};
 
 /* --------------------------------- Cards ---------------------------------- */
 

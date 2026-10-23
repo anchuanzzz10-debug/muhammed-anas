@@ -426,3 +426,119 @@ export function SeoVisual() {
     </div>
   );
 }
+
+/* -------------------------------------------------------------------------- */
+/*  Digital Marketing — a live campaign dashboard with channels ramping up.   */
+/* -------------------------------------------------------------------------- */
+
+const KPIS: Array<{ label: string; icon: "spark" | "cursor" | "shopify"; path: string }> = [
+  { label: "Reach", icon: "spark", path: "M0 22 L10 18 L20 20 L30 12 L40 14 L50 6 L60 4" },
+  { label: "Clicks", icon: "cursor", path: "M0 24 L10 20 L20 22 L30 16 L40 10 L50 11 L60 3" },
+  { label: "Sales", icon: "shopify", path: "M0 25 L10 23 L20 18 L30 19 L40 12 L50 8 L60 2" },
+];
+
+const CHANNELS = [
+  { label: "Meta Ads", width: "88%", color: "from-cerulean to-[#5cc8f0]" },
+  { label: "Google Ads", width: "74%", color: "from-pink to-[#ff6bb5]" },
+  { label: "Instagram", width: "62%", color: "from-cerulean to-pink" },
+  { label: "Email", width: "46%", color: "from-[#5cc8f0] to-cerulean" },
+];
+
+export function MarketingVisual() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
+  return (
+    <div ref={ref} aria-hidden className="relative h-full overflow-hidden rounded-2xl bg-ink text-white">
+      <div className="absolute -left-16 -top-16 size-56 rounded-full bg-pink/35 blur-3xl" />
+      <div className="absolute -bottom-20 -right-10 size-56 rounded-full bg-cerulean/40 blur-3xl" />
+      <div className="bg-grid absolute inset-0 opacity-20" />
+
+      <div className="relative flex h-full flex-col gap-3 p-4 sm:p-5">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-70" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+            </span>
+            Campaign live
+          </span>
+          <span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[10px] text-white/70">
+            Last 30 days
+          </span>
+        </div>
+
+        {/* KPI tiles */}
+        <div className="grid grid-cols-3 gap-2">
+          {KPIS.map((k, i) => (
+            <m.div
+              key={k.label}
+              initial={{ opacity: 0, y: 14 }}
+              animate={inView ? { opacity: 1, y: 0 } : undefined}
+              transition={{ duration: 0.6, delay: 0.15 + i * 0.1, ease }}
+              className="flex flex-col gap-1.5 rounded-xl border border-white/10 bg-white/[0.05] p-2.5 backdrop-blur"
+            >
+              <span className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[10px] font-medium text-white/70">
+                  <Icon name={k.icon} className="size-3 text-[#5cc8f0]" />
+                  {k.label}
+                </span>
+                <span className="grid size-4 place-items-center rounded-full bg-emerald-400/20 text-emerald-300">
+                  <Icon name="arrowUp" className="size-2.5" />
+                </span>
+              </span>
+              <svg viewBox="0 0 60 28" className="h-6 w-full overflow-visible">
+                <m.path
+                  d={k.path}
+                  fill="none"
+                  stroke="url(#mk-line)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ pathLength: 0 }}
+                  animate={inView ? { pathLength: 1 } : undefined}
+                  transition={{ duration: 1.1, delay: 0.4 + i * 0.15, ease }}
+                />
+              </svg>
+            </m.div>
+          ))}
+        </div>
+        <svg width="0" height="0" className="absolute">
+          <defs>
+            <linearGradient id="mk-line" x1="0" x2="1">
+              <stop offset="0" stopColor="#007BA7" />
+              <stop offset="1" stopColor="#FF2D95" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Channel bars */}
+        <div className="flex flex-1 flex-col justify-center gap-2.5 rounded-xl border border-white/10 bg-white/[0.04] p-3">
+          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-white/45">Channel performance</span>
+          {CHANNELS.map((c, i) => (
+            <div key={c.label} className="flex items-center gap-3">
+              <span className="w-16 shrink-0 text-[10px] text-white/70 sm:w-20 sm:text-[11px]">{c.label}</span>
+              <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-white/10">
+                <m.span
+                  className={`absolute inset-y-0 left-0 origin-left rounded-full bg-gradient-to-r ${c.color}`}
+                  style={{ width: c.width }}
+                  initial={{ scaleX: 0 }}
+                  animate={inView ? { scaleX: 1 } : undefined}
+                  transition={{ duration: 1, delay: 0.6 + i * 0.12, ease }}
+                />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Chip className="bottom-4 right-6 hidden sm:block sm:bottom-5 sm:right-8" delay={1.6}>
+        <span className="grid size-4 place-items-center rounded-full bg-emerald-400 text-black">
+          <Icon name="arrowUp" className="size-3" />
+        </span>
+        Conversions up
+      </Chip>
+    </div>
+  );
+}

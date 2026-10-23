@@ -88,18 +88,13 @@ const allNavItems: NavItem[] = [
 
 export const services: Service[] = [
   {
-    id: "shopify",
-    title: "Shopify Store Development & Customization",
-    icon: "shopify",
+    id: "strategy",
+    title: "Digital Marketing",
+    featured: true,
+    icon: "target",
     description:
-      "Fast, mobile-first Shopify stores built to convert — custom themes, Liquid development, app integrations and checkout optimization tailored to your products.",
-  },
-  {
-    id: "performance",
-    title: "Performance Marketing",
-    icon: "chart",
-    description:
-      "Data-driven ad campaigns on Meta and Google, focused on return on ad spend, lower acquisition costs and growth you can measure.",
+      "Data-driven campaigns that bring the right customers to your business — from Meta and Google Ads to social media, content and email, all tracked and optimized for real results.",
+    highlights: ["Meta & Google Ads", "Social Media Marketing", "Content & Email Marketing", "Analytics & Reporting"],
   },
   {
     id: "software",
@@ -108,14 +103,6 @@ export const services: Service[] = [
     featured: true,
     description:
       "Web apps, dashboards, automations and integrations designed around your workflow, so your business runs faster with less manual work.",
-  },
-  {
-    id: "web",
-    title: "Web Development",
-    icon: "globe",
-    featured: true,
-    description:
-      "Fast, responsive and SEO-ready websites — from landing pages to complete business sites — built with modern frameworks and designed to turn visitors into customers.",
   },
   {
     id: "seo",
@@ -127,11 +114,26 @@ export const services: Service[] = [
     highlights: ["Technical SEO", "On-Page SEO", "Keyword Research", "Website Optimization"],
   },
   {
-    id: "strategy",
-    title: "Digital Marketing Strategy",
-    icon: "target",
+    id: "web",
+    title: "Web Development",
+    icon: "globe",
+    featured: true,
     description:
-      "Clear, practical growth plans covering audience research, funnels, SEO, content and analytics — so every channel works toward the same goal.",
+      "Fast, responsive and SEO-ready websites — from landing pages to complete business sites — built with modern frameworks and designed to turn visitors into customers.",
+  },
+  {
+    id: "performance",
+    title: "Performance Marketing",
+    icon: "chart",
+    description:
+      "Data-driven ad campaigns on Meta and Google, focused on return on ad spend, lower acquisition costs and growth you can measure.",
+  },
+  {
+    id: "shopify",
+    title: "Shopify Store Development & Customization",
+    icon: "shopify",
+    description:
+      "Fast, mobile-first Shopify stores built to convert — custom themes, Liquid development, app integrations and checkout optimization tailored to your products.",
   },
   {
     id: "video",
@@ -202,7 +204,7 @@ export const skills: Skill[] = [
   },
   {
     serviceId: "strategy",
-    tools: ["SEO", "Content Strategy", "Email Marketing", "Funnel Building", "Market Research", "Analytics & Reporting"],
+    tools: ["Meta Ads", "Google Ads", "Social Media", "Content Strategy", "Email Marketing", "Funnel Building", "Analytics & Reporting"],
   },
   {
     serviceId: "video",
