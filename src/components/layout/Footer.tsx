@@ -22,7 +22,7 @@ export function Footer() {
               </span>
               <span className="text-lg font-semibold tracking-tight">{site.name}</span>
             </a>
-            <p className="max-w-sm text-pretty text-sm leading-relaxed text-muted">{site.jobTitle}</p>
+            <p className="max-w-sm text-pretty text-sm leading-relaxed text-muted">{site.footerTagline}</p>
           </div>
 
           <nav aria-label="Footer" className="lg:col-span-3">

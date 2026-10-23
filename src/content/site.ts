@@ -66,6 +66,8 @@ export const site = {
   /** Primary SEO title (browser tab, search results, social shares). */
   title: "Muhammed Anas — Shopify Developer & Performance Marketer",
   jobTitle: "Shopify Developer & Performance Marketer",
+  /** Short line shown under the name in the footer. */
+  footerTagline: "Building fast websites, smart software and growth-driven marketing for brands that want to stand out online.",
   /** Meta description — keep it under ~160 characters. */
   description:
     "Shopify developer and performance marketer building high-converting online stores, profitable ad campaigns, custom software, video content and brand identities.",
