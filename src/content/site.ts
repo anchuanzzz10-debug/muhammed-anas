@@ -68,7 +68,7 @@ export const site = {
   locale: "en_US",
 };
 
-export const navItems: NavItem[] = [
+const allNavItems: NavItem[] = [
   { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "work", label: "Work" },
@@ -322,3 +322,17 @@ export const socials: SocialLink[] = [
     handle: "Muhammed Anas",
   },
 ];
+
+/** Sections whose content is still empty are hidden (with their nav links) until filled in. */
+const emptySections = new Set<string>(
+  [
+    !projects.length && "work",
+    !processSteps.length && "process",
+    !testimonials.length && "testimonials",
+    !faqs.length && "faq",
+  ].filter((id): id is string => Boolean(id)),
+);
+
+export const isSectionVisible = (id: string) => !emptySections.has(id);
+
+export const navItems: NavItem[] = allNavItems.filter((item) => isSectionVisible(item.id));

@@ -1,4 +1,4 @@
-import { about, contact, faqs, services, site, skills, socials } from "@/content/site";
+import { about, contact, faqs, isSectionVisible, services, site, skills, socials } from "@/content/site";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
@@ -73,11 +73,11 @@ export default function Home() {
         <Hero />
         <Services />
         <Skills />
-        <Work />
+        {isSectionVisible("work") ? <Work /> : null}
         <About />
-        <Process />
-        <Testimonials />
-        <FAQ />
+        {isSectionVisible("process") ? <Process /> : null}
+        {isSectionVisible("testimonials") ? <Testimonials /> : null}
+        {isSectionVisible("faq") ? <FAQ /> : null}
         <Contact />
       </main>
       <Footer />
