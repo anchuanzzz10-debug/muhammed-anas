@@ -186,7 +186,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -16, scale: 0.98 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto mt-2 flex h-[calc(100dvh-5.5rem)] max-w-6xl origin-top flex-col overflow-hidden rounded-[1.75rem] border border-line bg-bg shadow-2xl sm:h-[calc(100dvh-6rem)] lg:hidden"
+            className="relative mx-auto mt-2 flex max-h-[calc(100dvh-5.5rem)] max-w-6xl origin-top flex-col overflow-hidden rounded-[1.75rem] border border-line bg-bg shadow-2xl sm:max-h-[calc(100dvh-6rem)] lg:hidden"
           >
             <div
               aria-hidden
@@ -197,15 +197,10 @@ export function Navbar() {
               className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full bg-pink/15 blur-3xl"
             />
 
-            <p className="relative px-6 pt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">Menu</p>
-
-            <ul
-              tabIndex={-1}
-              className="relative flex flex-1 flex-col overflow-y-auto px-4 py-2 outline-none [&>li:first-child]:mt-auto [&>li:last-child]:mb-auto"
-            >
+            <ul tabIndex={-1} className="relative flex flex-col overflow-y-auto px-6 pb-2 pt-3 outline-none">
               {navItems
                 .filter((item) => item.id !== "contact")
-                .map((item, i) => {
+                .map((item, i, arr) => {
                   const current = active === item.id;
                   return (
                     <motion.li
@@ -219,29 +214,28 @@ export function Navbar() {
                         onClick={() => setOpen(false)}
                         aria-current={current ? "true" : undefined}
                         className={cn(
-                          "group flex items-center gap-4 rounded-2xl px-3 py-2.5 transition-colors active:bg-surface-2 [@media(max-height:700px)]:py-1.5",
-                          current ? "bg-surface-2" : "hover:bg-surface-2",
+                          "group flex items-center justify-between gap-4 border-b border-line py-4 transition-colors [@media(max-height:700px)]:py-2",
+                          i === arr.length - 1 && "border-b-0",
                         )}
                       >
-                        <span className={cn("w-6 font-mono text-xs", current ? "text-accent" : "text-muted")}>
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
                         <span
                           className={cn(
-                            "flex-1 text-2xl font-semibold tracking-tight transition-transform duration-300 group-hover:translate-x-1 [@media(max-height:700px)]:text-xl",
+                            "text-[1.75rem] font-semibold leading-none tracking-[-0.03em] transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1 [@media(max-height:700px)]:text-2xl",
                             current && "text-gradient",
                           )}
                         >
                           {item.label}
                         </span>
-                        {current ? (
-                          <span className="size-2 rounded-full bg-gradient-to-br from-cerulean to-pink" />
-                        ) : (
-                          <Icon
-                            name="arrowUpRight"
-                            className="size-4 text-muted opacity-0 transition-opacity group-hover:opacity-100"
-                          />
-                        )}
+                        <span
+                          className={cn(
+                            "grid size-9 shrink-0 place-items-center rounded-full border transition-all duration-300 group-hover:rotate-45 group-active:rotate-45",
+                            current
+                              ? "border-transparent bg-gradient-to-br from-cerulean to-pink text-white"
+                              : "border-line text-muted group-hover:border-transparent group-hover:bg-fg group-hover:text-bg",
+                          )}
+                        >
+                          <Icon name="arrowUpRight" className="size-4" />
+                        </span>
                       </a>
                     </motion.li>
                   );
