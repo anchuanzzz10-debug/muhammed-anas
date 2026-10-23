@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
+import { m, useMotionValue, useReducedMotion, useSpring } from "framer-motion";
 import type { PointerEvent, ReactNode } from "react";
 
 /** Pulls its child slightly toward the cursor on mouse devices. */
@@ -31,8 +31,8 @@ export function Magnetic({
   };
 
   return (
-    <motion.div className={className} style={{ x: sx, y: sy }} onPointerMove={onMove} onPointerLeave={reset}>
+    <m.div className={className} style={{ x: sx, y: sy }} onPointerMove={onMove} onPointerLeave={reset}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }

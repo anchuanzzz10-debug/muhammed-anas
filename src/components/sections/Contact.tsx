@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useState, type FormEvent, type ReactNode } from "react";
 import { contact, services, socials, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -51,7 +51,7 @@ function Field({
       {children}
       <AnimatePresence>
         {error ? (
-          <motion.p
+          <m.p
             id={`${id}-error`}
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ function Field({
             className="text-sm text-pink"
           >
             {error}
-          </motion.p>
+          </m.p>
         ) : null}
       </AnimatePresence>
     </div>

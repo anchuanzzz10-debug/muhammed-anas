@@ -1,6 +1,7 @@
 import { about, contact, faqs, isSectionVisible, services, site, skills, socials } from "@/content/site";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { OffscreenPause } from "@/components/layout/OffscreenPause";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
@@ -83,6 +84,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <OffscreenPause />
     </>
   );
 }

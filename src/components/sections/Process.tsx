@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { processSteps, sectionIntros } from "@/content/site";
 import { Section } from "@/components/ui/Section";
 
@@ -10,7 +10,7 @@ function Steps() {
   return (
     <ol className="flex flex-col">
       {processSteps.map((step, i) => (
-        <motion.li
+        <m.li
           key={step.title}
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -19,7 +19,7 @@ function Steps() {
           className="group relative grid grid-cols-[3.25rem_1fr] gap-x-4 pb-10 pt-6 sm:grid-cols-[5.5rem_1fr] sm:gap-x-8 sm:pb-12 lg:grid-cols-12 lg:gap-x-10"
         >
           <span aria-hidden className="absolute inset-x-0 top-0 h-px bg-line" />
-          <motion.span
+          <m.span
             aria-hidden
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -44,7 +44,7 @@ function Steps() {
               </p>
             ) : null}
           </div>
-        </motion.li>
+        </m.li>
       ))}
     </ol>
   );

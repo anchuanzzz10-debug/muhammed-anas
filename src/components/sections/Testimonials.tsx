@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, type PanInfo } from "framer-motion";
+import { AnimatePresence, m, type PanInfo } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { testimonials, sectionIntros } from "@/content/site";
@@ -15,10 +15,7 @@ function Carousel() {
   const [paused, setPaused] = useState(false);
   const count = testimonials.length;
 
-  const go = useCallback(
-    (delta: number) => setState(([i]) => [(i + delta + count) % count, delta]),
-    [count],
-  );
+  const go = useCallback((delta: number) => setState(([i]) => [(i + delta + count) % count, delta]), [count]);
 
   useEffect(() => {
     if (paused || count < 2) return;
@@ -52,7 +49,7 @@ function Carousel() {
 
       <div className="relative min-h-64" aria-live={paused ? "polite" : "off"}>
         <AnimatePresence mode="wait" custom={direction} initial={false}>
-          <motion.figure
+          <m.figure
             key={index}
             custom={direction}
             initial={{ opacity: 0, x: direction * 40 }}
@@ -72,9 +69,18 @@ function Carousel() {
             </blockquote>
             <figcaption className="flex items-center gap-4">
               {t.avatar ? (
-                <Image src={t.avatar.src} alt={t.avatar.alt} width={48} height={48} className="size-12 rounded-full object-cover" />
+                <Image
+                  src={t.avatar.src}
+                  alt={t.avatar.alt}
+                  width={48}
+                  height={48}
+                  className="size-12 rounded-full object-cover"
+                />
               ) : (
-                <span aria-hidden className="grid size-12 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-semibold text-white">
+                <span
+                  aria-hidden
+                  className="grid size-12 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-semibold text-white"
+                >
                   {t.name.charAt(0)}
                 </span>
               )}
@@ -85,7 +91,7 @@ function Carousel() {
                 ) : null}
               </span>
             </figcaption>
-          </motion.figure>
+          </m.figure>
         </AnimatePresence>
       </div>
 

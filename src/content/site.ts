@@ -117,7 +117,7 @@ export const services: Service[] = [
   },
   {
     id: "seo",
-    title: "SEO Services",
+    title: "SEO",
     icon: "search",
     featured: true,
     description:

@@ -224,3 +224,140 @@
     transition: transform 1s var(--ease-out-expo);
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/*  CSS-driven motion: runs on first paint (before JS) and on the compositor. */
+/* -------------------------------------------------------------------------- */
+
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes scale-in {
+  from {
+    transform: scale(0.92);
+  }
+}
+@keyframes float-y {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes drift-a {
+  50% {
+    transform: translate3d(80px, 50px, 0);
+  }
+}
+@keyframes drift-b {
+  50% {
+    transform: translate3d(-60px, -40px, 0);
+  }
+}
+@keyframes ripple {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+@keyframes scroll-dot {
+  50% {
+    transform: translateY(14px);
+  }
+}
+
+.anim-rise {
+  animation: rise 1s var(--ease-out-expo) both;
+}
+.anim-fade-up {
+  animation: fade-up 0.7s var(--ease-out-expo) both;
+}
+.anim-fade-in {
+  animation: fade-in 0.6s ease both;
+}
+.anim-scale-in {
+  animation: scale-in 1.2s var(--ease-out-expo) both;
+}
+.anim-float {
+  animation: float-y 6s ease-in-out infinite;
+}
+.anim-drift-a {
+  animation: drift-a 20s ease-in-out infinite;
+}
+.anim-drift-b {
+  animation: drift-b 22s ease-in-out infinite;
+}
+.anim-ripple {
+  animation: ripple 3.6s ease-out infinite;
+}
+.anim-scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+@keyframes chip-float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes ticker {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes cursor-path {
+  0%,
+  100% {
+    transform: translate(70%, 80%);
+  }
+  45%,
+  70% {
+    transform: translate(14%, 52%);
+  }
+}
+.anim-chip {
+  animation: chip-float 4s ease-in-out infinite;
+}
+.anim-blink {
+  animation: blink 1s ease-in-out infinite;
+}
+.anim-ticker {
+  animation: ticker 12s linear infinite;
+}
+.anim-cursor-path {
+  animation: cursor-path 3.6s ease-in-out infinite;
+}
+
+/* Sections scrolled out of view pause their looping CSS animations (see OffscreenPause). */
+[data-offscreen],
+[data-offscreen] * {
+  animation-play-state: paused !important;
+}
+
+/* Skip rendering work for sections far below the fold until they approach the viewport.
+   `auto` remembers each section's real height once rendered, keeping scroll positions stable. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}

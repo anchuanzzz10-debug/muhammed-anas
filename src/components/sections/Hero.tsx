@@ -2,11 +2,12 @@
 
 import {
   AnimatePresence,
-  motion,
+  m,
   useMotionTemplate,
   useMotionValue,
   useScroll,
   useSpring,
+  useInView,
   useTransform,
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
@@ -22,20 +23,23 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const ROTATE_MS = 3000;
 
 function RotatingService() {
+  const ref = useRef<HTMLSpanElement>(null);
+  const visible = useInView(ref);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (!visible) return;
     const id = window.setInterval(() => setIndex((i) => (i + 1) % services.length), ROTATE_MS);
     return () => window.clearInterval(id);
-  }, []);
+  }, [visible]);
 
   const service = services[index];
 
   return (
-    <span className="flex flex-col gap-3" aria-hidden>
+    <span ref={ref} className="flex flex-col gap-3" aria-hidden>
       <span className="relative block h-[2.6em] overflow-hidden leading-[1.3] sm:h-[1.3em]">
         <AnimatePresence initial={false}>
-          <motion.span
+          <m.span
             key={service.id}
             initial={{ y: "110%" }}
             animate={{ y: "0%" }}
@@ -47,11 +51,11 @@ function RotatingService() {
               <Icon name={service.icon} className="size-[0.65em]" />
             </span>
             <span>{service.title}</span>
-          </motion.span>
+          </m.span>
         </AnimatePresence>
       </span>
       <span className="relative h-[2px] w-24 overflow-hidden rounded-full bg-line">
-        <motion.span
+        <m.span
           key={index}
           className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-cerulean to-pink"
           initial={{ width: "0%" }}
@@ -63,7 +67,6 @@ function RotatingService() {
   );
 }
 
-/** Portrait inside an orbit of service icons (desktop only). */
 /** Portrait inside an animated orbit of service icons. */
 function Orbit() {
   return (
@@ -79,20 +82,15 @@ function Orbit() {
 
       {/* Ripples */}
       {[0, 1, 2].map((i) => (
-        <motion.span
+        <span
           key={i}
-          className="absolute inset-[22%] rounded-full border border-accent/40"
-          animate={{ scale: [1, 1.55], opacity: [0.6, 0] }}
-          transition={{ duration: 3.6, repeat: Infinity, delay: i * 1.2, ease: "easeOut" }}
+          className="anim-ripple absolute inset-[22%] rounded-full border border-accent/40 will-change-transform"
+          style={{ animationDelay: `${i * 1.2}s` }}
         />
       ))}
 
       {/* Portrait with spinning gradient border */}
-      <motion.div
-        className="absolute inset-[22%]"
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      >
+      <div className="anim-float absolute inset-[22%]">
         <div className="absolute -inset-[3px] overflow-hidden rounded-full shadow-[0_40px_90px_-30px_var(--color-cerulean)]">
           <div className="orbit-fast absolute inset-[-50%] bg-[conic-gradient(from_0deg,var(--color-cerulean),var(--color-pink),#ffffff,var(--color-cerulean))]" />
         </div>
@@ -103,8 +101,9 @@ function Orbit() {
               alt=""
               width={about.image.width}
               height={about.image.height}
-              sizes="260px"
-              priority
+              sizes="(min-width: 1024px) 260px, 230px"
+              preload
+              fetchPriority="high"
               className="size-full scale-[1.25] object-cover object-[50%_24%]"
             />
           ) : (
@@ -113,7 +112,7 @@ function Orbit() {
             </span>
           )}
         </div>
-      </motion.div>
+      </div>
 
       {/* Orbiting service icons */}
       <div className="orbit absolute inset-0">
@@ -171,38 +170,22 @@ export function Hero() {
     >
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
-        <motion.div className="absolute inset-0" style={{ background: glow }} />
-        <motion.div
-          className="absolute -left-40 top-0 size-[32rem] rounded-full bg-cerulean/20 blur-[140px] dark:bg-cerulean/25"
-          animate={{ x: [0, 80, 0], y: [0, 50, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -right-32 bottom-0 size-[30rem] rounded-full bg-pink/15 blur-[140px] dark:bg-pink/20"
-          animate={{ x: [0, -60, 0], y: [0, -40, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <m.div className="absolute inset-0" style={{ background: glow }} />
+        <div className="anim-drift-a absolute -left-40 top-0 size-[32rem] rounded-full bg-cerulean/20 blur-[140px] will-change-transform dark:bg-cerulean/25" />
+        <div className="anim-drift-b absolute -right-32 bottom-0 size-[30rem] rounded-full bg-pink/15 blur-[140px] will-change-transform dark:bg-pink/20" />
       </div>
 
       <Container>
-        <motion.div
-          style={{ y, opacity, scale }}
-          className="grid items-center gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-16"
-        >
+        <m.div style={{ y, opacity, scale }} className="grid items-center gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col items-start gap-7 sm:gap-8 lg:col-span-7">
             {hero.eyebrow ? (
-              <motion.p
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease }}
-                className="border-spin inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-medium text-muted sm:text-sm"
-              >
+              <p className="anim-fade-up border-spin inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-medium text-muted sm:text-sm">
                 <span className="relative flex size-2">
                   <span className="absolute inline-flex size-full animate-ping rounded-full bg-pink opacity-60" />
                   <span className="relative inline-flex size-2 rounded-full bg-pink" />
                 </span>
                 {hero.eyebrow}
-              </motion.p>
+              </p>
             ) : null}
 
             <h1
@@ -213,52 +196,37 @@ export function Hero() {
                 {site.name} — {services.map((s) => s.title).join(", ")}
               </span>
               <span aria-hidden className="block overflow-hidden pb-[0.06em]">
-                <motion.span
-                  className="block"
-                  initial={{ y: "110%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 1, ease }}
-                >
-                  {first}
-                </motion.span>
+                <span className="anim-rise block">{first}</span>
               </span>
               <span aria-hidden className="block overflow-hidden pb-[0.12em]">
-                <motion.span
-                  className="inline-block pr-[0.1em] font-serif font-normal italic tracking-[-0.02em] text-gradient"
-                  initial={{ y: "110%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 1, delay: 0.1, ease }}
+                <span
+                  className="anim-rise inline-block pr-[0.1em] font-serif font-normal italic tracking-[-0.02em] text-gradient"
+                  style={{ animationDelay: "0.1s" }}
                 >
                   {rest.join(" ")}
-                </motion.span>
+                </span>
               </span>
             </h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35, ease }}
-              className="w-full max-w-2xl text-xl font-medium tracking-tight sm:text-2xl"
+            <div
+              className="anim-fade-up w-full max-w-2xl text-xl font-medium tracking-tight sm:text-2xl"
+              style={{ animationDelay: "0.35s" }}
             >
               <RotatingService />
-            </motion.div>
+            </div>
 
             {hero.tagline ? (
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.45, ease }}
-                className="max-w-xl text-pretty text-base leading-relaxed text-muted sm:text-lg"
+              <p
+                className="anim-fade-up max-w-xl text-pretty text-base leading-relaxed text-muted sm:text-lg"
+                style={{ animationDelay: "0.45s" }}
               >
                 {hero.tagline}
-              </motion.p>
+              </p>
             ) : null}
 
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.55, ease }}
-              className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+            <div
+              className="anim-fade-up flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+              style={{ animationDelay: "0.55s" }}
             >
               <Magnetic className="flex w-full sm:inline-flex sm:w-auto">
                 <ButtonLink href="#work" className="w-full sm:w-auto">
@@ -271,36 +239,25 @@ export function Hero() {
                   Contact
                 </ButtonLink>
               </Magnetic>
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.3, ease }}
-            className="order-first lg:order-none lg:col-span-5"
-          >
+          <div className="anim-scale-in order-first lg:order-none lg:col-span-5">
             <Orbit />
-          </motion.div>
-        </motion.div>
+          </div>
+        </m.div>
       </Container>
 
-      <motion.a
+      <a
         href="#services"
         aria-label="Scroll to Services"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted sm:flex"
+        style={{ animationDelay: "1.2s" }}
+        className="anim-fade-in absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted sm:flex"
       >
         <span className="grid h-10 w-6 place-items-start justify-center rounded-full border border-line-strong p-1.5">
-          <motion.span
-            className="block size-1 rounded-full bg-fg"
-            animate={{ y: [0, 14, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <span className="anim-scroll-dot block size-1 rounded-full bg-fg" />
         </span>
-      </motion.a>
+      </a>
     </section>
   );
 }

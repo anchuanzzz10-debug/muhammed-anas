@@ -19,11 +19,18 @@ export function Section({ id, index, title, description, children, className }: 
   // Number sections by their position among the visible ones, so hidden sections leave no gaps.
   const number = navItems.findIndex((item) => item.id === id) + 1 || index;
   return (
-    <section id={id} aria-labelledby={headingId} className={cn("relative scroll-mt-24 py-20 sm:py-28 lg:py-32", className)}>
+    <section
+      id={id}
+      aria-labelledby={headingId}
+      className={cn("cv-auto relative scroll-mt-24 py-20 sm:py-28 lg:py-32", className)}
+    >
       <Container>
         <header className="mb-12 grid gap-6 border-t border-line pt-6 sm:mb-16 lg:grid-cols-12 lg:items-end lg:gap-10">
           <div className="flex flex-col gap-5 lg:col-span-7">
-            <Reveal y={12} className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted">
+            <Reveal
+              y={12}
+              className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted"
+            >
               <span className="text-accent">({String(number).padStart(2, "0")})</span>
               <span>{title}</span>
             </Reveal>

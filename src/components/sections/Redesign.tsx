@@ -2,7 +2,7 @@
 
 import {
   animate,
-  motion,
+  m,
   useInView,
   useMotionValue,
   useMotionValueEvent,
@@ -41,13 +41,9 @@ function BeforeSite() {
         </span>
       </div>
       <div className="overflow-hidden whitespace-nowrap bg-[#ffef5a] py-1 text-[10px] font-bold text-[#c00] sm:text-xs">
-        <motion.span
-          className="inline-block"
-          animate={{ x: ["100%", "-100%"] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        >
+        <span className="anim-ticker inline-block">
           *** WELCOME TO OUR WEBSITE!!! *** BEST PRICES *** CALL NOW *** SITE UNDER CONSTRUCTION ***
-        </motion.span>
+        </span>
       </div>
       <div className="grid flex-1 grid-cols-1 gap-3 p-3 sm:grid-cols-[1fr_1.4fr] sm:gap-4 sm:p-5">
         <div className="flex flex-col gap-2">
@@ -181,9 +177,9 @@ function Comparison() {
       className="group relative aspect-[4/5] cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-[1.75rem] border border-line shadow-[0_50px_120px_-60px_var(--color-cerulean)] sm:aspect-[16/10]"
     >
       <AfterSite />
-      <motion.div className="absolute inset-0" style={{ clipPath: clip }}>
+      <m.div className="absolute inset-0" style={{ clipPath: clip }}>
         <BeforeSite />
-      </motion.div>
+      </m.div>
 
       {/* Labels */}
       <span className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-black/60 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white backdrop-blur">
@@ -194,7 +190,7 @@ function Comparison() {
       </span>
 
       {/* Handle */}
-      <motion.div className="pointer-events-none absolute inset-y-0 w-0" style={{ left }}>
+      <m.div className="pointer-events-none absolute inset-y-0 w-0" style={{ left }}>
         <span className="absolute inset-y-0 -left-px w-0.5 bg-white shadow-[0_0_20px_rgba(255,255,255,0.8)]" />
         <span className="absolute left-0 top-1/2 grid size-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-ink shadow-2xl ring-4 ring-white/30 transition-transform group-active:scale-90 group-has-[:focus-visible]:ring-accent">
           <span className="flex items-center">
@@ -202,7 +198,7 @@ function Comparison() {
             <Icon name="chevronRight" className="size-4" />
           </span>
         </span>
-      </motion.div>
+      </m.div>
 
       {/* Keyboard / screen reader control */}
       <input
@@ -230,7 +226,7 @@ export function Redesign() {
 
       <ul className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-3 sm:gap-4">
         {CHANGES.map((c, i) => (
-          <motion.li
+          <m.li
             key={c.title}
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -245,7 +241,7 @@ export function Redesign() {
               <span className="font-semibold tracking-tight">{c.title}</span>
               <span className="text-pretty text-sm leading-relaxed text-muted">{c.text}</span>
             </span>
-          </motion.li>
+          </m.li>
         ))}
       </ul>
     </Section>

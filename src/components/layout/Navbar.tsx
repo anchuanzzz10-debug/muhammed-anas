@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { AnimatePresence, m, useMotionValueEvent, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { navItems, site, socials } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -98,7 +98,7 @@ export function Navbar() {
   }, [open]);
 
   return (
-    <motion.header
+    <m.header
       initial={false}
       animate={{ y: hidden && !open ? "-130%" : "0%" }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -117,13 +117,13 @@ export function Navbar() {
         <a
           href="#top"
           className="group flex items-center gap-2.5 rounded-full"
-          aria-label={`${site.name} — back to top`}
         >
           <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-fg font-mono text-xs font-semibold text-bg">
             <span className="absolute inset-0 bg-gradient-to-br from-cerulean to-pink opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             <span className="relative">{site.initials}</span>
           </span>
           <span className="hidden text-sm font-semibold tracking-tight sm:block">{site.name}</span>
+          <span className="sr-only">{site.name} — back to top</span>
         </a>
 
         <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex">
@@ -140,7 +140,7 @@ export function Navbar() {
                   )}
                 >
                   {active === item.id ? (
-                    <motion.span
+                    <m.span
                       layoutId="nav-pill"
                       className="absolute inset-0 -z-10 rounded-full bg-surface-2 ring-1 ring-line"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
@@ -179,7 +179,7 @@ export function Navbar() {
 
       <AnimatePresence>
         {open ? (
-          <motion.div
+          <m.div
             id="mobile-menu"
             ref={menuRef}
             initial={{ opacity: 0, y: -16, scale: 0.98 }}
@@ -207,7 +207,7 @@ export function Navbar() {
                 .map((item, i, arr) => {
                   const current = active === item.id;
                   return (
-                    <motion.li
+                    <m.li
                       key={item.id}
                       initial={{ opacity: 0, y: 14 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -241,12 +241,12 @@ export function Navbar() {
                           <Icon name="arrowUpRight" className="size-4" />
                         </span>
                       </a>
-                    </motion.li>
+                    </m.li>
                   );
                 })}
             </ul>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35, duration: 0.4 }}
@@ -280,10 +280,10 @@ export function Navbar() {
                   ))}
                 </ul>
               ) : null}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         ) : null}
       </AnimatePresence>
-    </motion.header>
+    </m.header>
   );
 }

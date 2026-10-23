@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { m, type Variants } from "framer-motion";
 
 type SplitTextProps = {
   text: string;
@@ -28,7 +28,7 @@ export function SplitText({ text, className, wordClassName, delay = 0, immediate
     : { whileInView: "show", viewport: { once: true, margin: "0px 0px -60px 0px" } };
 
   return (
-    <motion.span
+    <m.span
       className={className}
       initial="hidden"
       {...trigger}
@@ -36,12 +36,12 @@ export function SplitText({ text, className, wordClassName, delay = 0, immediate
     >
       {words.map((w, i) => (
         <span key={`${w}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-          <motion.span className={`inline-block ${wordClassName ?? ""}`} variants={word}>
+          <m.span className={`inline-block ${wordClassName ?? ""}`} variants={word}>
             {w}
             {i < words.length - 1 ? " " : null}
-          </motion.span>
+          </m.span>
         </span>
       ))}
-    </motion.span>
+    </m.span>
   );
 }

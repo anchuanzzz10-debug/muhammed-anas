@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useId, useState } from "react";
 import { faqs, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -57,7 +57,7 @@ export function FAQ() {
                   </h3>
                   <AnimatePresence initial={false}>
                     {isOpen ? (
-                      <motion.div
+                      <m.div
                         id={panelId}
                         role="region"
                         aria-labelledby={buttonId}
@@ -68,7 +68,7 @@ export function FAQ() {
                         className="overflow-hidden"
                       >
                         <p className="px-5 pb-6 text-pretty leading-relaxed text-muted sm:px-6">{item.answer}</p>
-                      </motion.div>
+                      </m.div>
                     ) : null}
                   </AnimatePresence>
                 </li>

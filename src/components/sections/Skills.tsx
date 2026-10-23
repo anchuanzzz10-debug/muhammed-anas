@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { useId, useState } from "react";
 import { services, skills, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -69,7 +69,7 @@ export function Skills() {
                   )}
                 >
                   {selected ? (
-                    <motion.span
+                    <m.span
                       layoutId="skill-tab"
                       className="absolute inset-0 -z-10 rounded-2xl border border-line bg-surface shadow-sm"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
@@ -89,7 +89,7 @@ export function Skills() {
             className="ring-gradient relative overflow-hidden rounded-[1.75rem] border border-line bg-surface p-6 sm:p-10"
           >
             <AnimatePresence mode="wait">
-              <motion.div
+              <m.div
                 key={active}
                 initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -110,7 +110,7 @@ export function Skills() {
                 ) : null}
                 <ul className="flex flex-wrap gap-2">
                   {current?.tools.map((tool, i) => (
-                    <motion.li
+                    <m.li
                       key={tool}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -118,10 +118,10 @@ export function Skills() {
                       className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-medium transition-colors hover:border-accent/50 hover:text-accent"
                     >
                       {tool}
-                    </motion.li>
+                    </m.li>
                   ))}
                 </ul>
-              </motion.div>
+              </m.div>
             </AnimatePresence>
           </div>
         </div>

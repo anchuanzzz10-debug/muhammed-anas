@@ -3,7 +3,7 @@
 import {
   AnimatePresence,
   LayoutGroup,
-  motion,
+  m,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -209,7 +209,7 @@ function ProjectIndex({ items }: { items: Project[] }) {
         const category = services.find((s) => s.id === project.category);
         const dim = active !== null && active !== i;
         return (
-          <motion.li
+          <m.li
             key={project.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -251,19 +251,19 @@ function ProjectIndex({ items }: { items: Project[] }) {
               </span>
               <span className="sr-only">(opens in a new tab)</span>
             </a>
-          </motion.li>
+          </m.li>
         );
       })}
 
       {/* Floating preview */}
-      <motion.div
+      <m.div
         aria-hidden
         style={{ x: sx, y: sy }}
         className="pointer-events-none absolute left-0 top-0 z-10 hidden lg:block"
       >
         <AnimatePresence>
           {active !== null ? (
-            <motion.div
+            <m.div
               key="preview"
               initial={{ opacity: 0, scale: 0.6, rotate: -8 }}
               animate={{ opacity: 1, scale: 1, rotate: reduce ? 0 : -4 }}
@@ -273,7 +273,7 @@ function ProjectIndex({ items }: { items: Project[] }) {
             >
               <div className="relative h-[15rem] w-[20rem] xl:h-[17rem] xl:w-[23rem]">
                 <AnimatePresence initial={false}>
-                  <motion.div
+                  <m.div
                     key={items[active].id}
                     initial={{ clipPath: "inset(100% 0 0 0)" }}
                     animate={{ clipPath: "inset(0% 0 0 0)" }}
@@ -282,13 +282,13 @@ function ProjectIndex({ items }: { items: Project[] }) {
                     className="absolute inset-0"
                   >
                     <ProjectArt project={items[active]} index={projects.indexOf(items[active])} className="size-full" />
-                  </motion.div>
+                  </m.div>
                 </AnimatePresence>
               </div>
-            </motion.div>
+            </m.div>
           ) : null}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
     </ul>
   );
 }
@@ -304,7 +304,7 @@ const card: Variants = {
 
 function ProjectCards({ items }: { items: Project[] }) {
   return (
-    <motion.ul
+    <m.ul
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-40px" }}
@@ -314,7 +314,7 @@ function ProjectCards({ items }: { items: Project[] }) {
       {items.map((project) => {
         const domain = project.href ? domainOf(project.href) : undefined;
         return (
-          <motion.li key={project.id} variants={card} className="w-[82%] shrink-0 snap-center sm:w-auto">
+          <m.li key={project.id} variants={card} className="w-[82%] shrink-0 snap-center sm:w-auto">
             <a
               href={project.href}
               target="_blank"
@@ -338,10 +338,10 @@ function ProjectCards({ items }: { items: Project[] }) {
                 <span className="sr-only">(opens in a new tab)</span>
               </div>
             </a>
-          </motion.li>
+          </m.li>
         );
       })}
-    </motion.ul>
+    </m.ul>
   );
 }
 
@@ -378,7 +378,7 @@ export function Work() {
                     )}
                   >
                     {selected ? (
-                      <motion.span
+                      <m.span
                         layoutId="work-filter"
                         className="absolute inset-0 -z-10 rounded-full bg-fg"
                         transition={{ type: "spring", stiffness: 380, damping: 32 }}

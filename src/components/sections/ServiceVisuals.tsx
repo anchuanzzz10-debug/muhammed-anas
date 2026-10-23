@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
+import { m, useInView, useReducedMotion, type Variants } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 
@@ -68,21 +68,20 @@ const typeLine: Variants = {
 
 function Chip({ children, className, delay = 0 }: { children: React.ReactNode; className: string; delay?: number }) {
   return (
-    <motion.span
+    <m.span
       initial={{ opacity: 0, scale: 0.8, y: 10 }}
       whileInView={{ opacity: 1, scale: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay, ease }}
       className={`absolute z-10 ${className}`}
     >
-      <motion.span
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay }}
-        className="flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-black/60 px-3 py-1.5 text-[11px] font-medium text-white shadow-xl backdrop-blur-md"
+      <span
+        style={{ animationDelay: `${delay}s` }}
+        className="anim-chip flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-black/60 px-3 py-1.5 text-[11px] font-medium text-white shadow-xl backdrop-blur-md"
       >
         {children}
-      </motion.span>
-    </motion.span>
+      </span>
+    </m.span>
   );
 }
 
@@ -103,7 +102,7 @@ export function CodeVisual() {
           <span className="hidden px-2 py-0.5 font-mono text-[10px] text-white/40 sm:inline">dashboard.tsx</span>
         </div>
 
-        <motion.pre
+        <m.pre
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-40px" }}
@@ -115,7 +114,7 @@ export function CodeVisual() {
             return (
               <div key={i} className="flex">
                 <span className="w-6 shrink-0 select-none pr-3 text-right text-white/20">{i + 1}</span>
-                <motion.span custom={text.length} variants={typeLine} className="whitespace-pre">
+                <m.span custom={text.length} variants={typeLine} className="whitespace-pre">
                   {tokens.length
                     ? tokens.map(([t, cls], j) => (
                         <span key={j} className={cls}>
@@ -124,17 +123,13 @@ export function CodeVisual() {
                       ))
                     : " "}
                   {i === CODE.length - 1 ? (
-                    <motion.span
-                      className="ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[2px] bg-[#5cc8f0]"
-                      animate={{ opacity: [1, 0, 1] }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                    />
+                    <span className="anim-blink ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[2px] bg-[#5cc8f0]" />
                   ) : null}
-                </motion.span>
+                </m.span>
               </div>
             );
           })}
-        </motion.pre>
+        </m.pre>
       </div>
 
       <Chip className="right-5 top-11 sm:right-7" delay={2.6}>
@@ -216,7 +211,7 @@ function MiniSite({ compact = false }: { compact?: boolean }) {
 
 export function WebVisual() {
   return (
-    <motion.div
+    <m.div
       aria-hidden
       initial="hidden"
       whileInView="show"
@@ -229,7 +224,7 @@ export function WebVisual() {
       <div className="bg-grid absolute inset-0 opacity-20" />
 
       {/* Desktop browser */}
-      <motion.div
+      <m.div
         variants={pop}
         className="absolute left-3 top-3 h-[86%] w-[80%] overflow-hidden rounded-xl border border-white/10 shadow-2xl sm:left-4 sm:top-4"
       >
@@ -244,18 +239,15 @@ export function WebVisual() {
         </div>
         <div className="relative h-[calc(100%-1.5rem)]">
           <MiniSite />
-          <motion.span
-            className="absolute text-ink drop-shadow-md"
-            animate={{ left: ["70%", "14%", "14%", "70%"], top: ["80%", "52%", "52%", "80%"] }}
-            transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", times: [0, 0.45, 0.7, 1] }}
-          >
+          {/* Translating a full-size layer by % of itself == moving by % of the parent, without layout work. */}
+          <span className="anim-cursor-path pointer-events-none absolute inset-0 text-ink drop-shadow-md will-change-transform">
             <Icon name="cursor" className="size-4 fill-white" />
-          </motion.span>
+          </span>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Phone */}
-      <motion.div
+      <m.div
         variants={pop}
         className="absolute bottom-3 right-3 h-[78%] w-[30%] overflow-hidden rounded-[1.1rem] border-[3px] border-[#22252c] bg-[#22252c] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] sm:bottom-4 sm:right-4"
       >
@@ -263,13 +255,13 @@ export function WebVisual() {
         <div className="h-full overflow-hidden rounded-[0.85rem]">
           <MiniSite compact />
         </div>
-      </motion.div>
+      </m.div>
 
       <Chip className="bottom-5 left-5 sm:bottom-6 sm:left-7" delay={1.4}>
         <Icon name="spark" className="size-3.5 text-[#ff6bb5]" />
         Responsive
       </Chip>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -283,7 +275,7 @@ const QUERY = "shopify store design";
 
 function ResultRow({ domain, ours, top }: { domain: string; ours: boolean; top: boolean }) {
   return (
-    <motion.li
+    <m.li
       layout
       transition={{ type: "spring", stiffness: 260, damping: 28 }}
       className={
@@ -307,7 +299,7 @@ function ResultRow({ domain, ours, top }: { domain: string; ours: boolean; top: 
           <span className={`h-1.5 rounded-full ${ours ? "w-4/5 bg-white/80" : "w-3/5 bg-white/20"}`} />
         </span>
         {ours ? (
-          <motion.span
+          <m.span
             key={top ? "top" : "climb"}
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -316,28 +308,29 @@ function ResultRow({ domain, ours, top }: { domain: string; ours: boolean; top: 
             }`}
           >
             {top ? "#1" : <Icon name="arrowUp" className="size-3" />}
-          </motion.span>
+          </m.span>
         ) : null}
       </div>
-    </motion.li>
+    </m.li>
   );
 }
 
 export function SeoVisual() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
+  const visible = useInView(ref);
   const reduce = useReducedMotion();
   const [rank, setRank] = useState(3);
 
   useEffect(() => {
-    if (!inView || reduce) return;
+    if (!inView || !visible || reduce) return;
     let r = 3;
     const id = window.setInterval(() => {
       r = r === 0 ? 3 : r - 1;
       setRank(r);
     }, 1300);
     return () => window.clearInterval(id);
-  }, [inView, reduce]);
+  }, [inView, visible, reduce]);
 
   const current = reduce ? 0 : rank;
   const rows = [...OTHERS];
@@ -353,19 +346,15 @@ export function SeoVisual() {
         {/* Search bar */}
         <div className="flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.07] px-4 py-2.5 backdrop-blur">
           <Icon name="search" className="size-4 shrink-0 text-white/60" />
-          <motion.span
+          <m.span
             initial={{ clipPath: "inset(0 100% 0 0)" }}
             animate={inView ? { clipPath: "inset(0 0% 0 0)" } : undefined}
             transition={{ duration: 1, ease: "linear", delay: 0.2 }}
             className="whitespace-nowrap text-[13px] text-white/90"
           >
             {QUERY}
-          </motion.span>
-          <motion.span
-            className="-ml-1.5 h-4 w-[1.5px] bg-[#5cc8f0]"
-            animate={{ opacity: [1, 0, 1] }}
-            transition={{ duration: 1, repeat: Infinity }}
-          />
+          </m.span>
+          <span className="anim-blink -ml-1.5 h-4 w-[1.5px] bg-[#5cc8f0]" />
         </div>
 
         {/* Results */}
@@ -377,7 +366,7 @@ export function SeoVisual() {
       </div>
 
       {/* Traffic chart */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : undefined}
         transition={{ duration: 0.7, delay: 0.6, ease }}
@@ -398,14 +387,14 @@ export function SeoVisual() {
               <stop offset="1" stopColor="#FF2D95" stopOpacity="0" />
             </linearGradient>
           </defs>
-          <motion.path
+          <m.path
             d="M0 52 L20 48 L38 50 L56 38 L74 34 L92 20 L120 6 L120 60 L0 60 Z"
             fill="url(#seo-area)"
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : undefined}
             transition={{ delay: 1.6, duration: 0.8 }}
           />
-          <motion.path
+          <m.path
             d="M0 52 L20 48 L38 50 L56 38 L74 34 L92 20 L120 6"
             fill="none"
             stroke="url(#seo-line)"
@@ -416,7 +405,7 @@ export function SeoVisual() {
             animate={inView ? { pathLength: 1 } : undefined}
             transition={{ duration: 1.4, delay: 0.8, ease }}
           />
-          <motion.circle
+          <m.circle
             cx="120"
             cy="6"
             r="3.5"
@@ -426,7 +415,7 @@ export function SeoVisual() {
             transition={{ delay: 2.1, duration: 0.5 }}
           />
         </svg>
-      </motion.div>
+      </m.div>
 
       <Chip className="right-5 top-16 hidden sm:block" delay={1.2}>
         <span className="grid size-4 place-items-center rounded-full bg-emerald-400 text-black">

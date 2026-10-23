@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import type { MouseEvent } from "react";
 import { services, skills, sectionIntros, type Service } from "@/content/site";
 import { cn } from "@/lib/cn";
@@ -60,12 +60,12 @@ function FeaturedCard({ service, wide = false }: { service: Service; wide?: bool
           <span className="font-mono text-xs text-muted">{numberOf(service)}</span>
         </div>
         <h3 className="flex items-center gap-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-          <motion.span
+          <m.span
             className="grid size-11 shrink-0 place-items-center rounded-2xl bg-fg text-bg"
             whileHover={{ rotate: -8, scale: 1.08 }}
           >
             <Icon name={service.icon} className="size-5" />
-          </motion.span>
+          </m.span>
           {service.title}
         </h3>
         {service.description ? (
@@ -74,7 +74,7 @@ function FeaturedCard({ service, wide = false }: { service: Service; wide?: bool
         {service.highlights?.length ? (
           <ul className="grid gap-2.5 sm:grid-cols-2">
             {service.highlights.map((h, i) => (
-              <motion.li
+              <m.li
                 key={h}
                 initial={{ opacity: 0, x: -12 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -86,14 +86,14 @@ function FeaturedCard({ service, wide = false }: { service: Service; wide?: bool
                   <Icon name="check" className="size-3.5" />
                 </span>
                 {h}
-              </motion.li>
+              </m.li>
             ))}
           </ul>
         ) : null}
         {tools.length ? (
           <ul className="mt-auto flex flex-wrap gap-2 pt-2">
             {tools.map((tool, i) => (
-              <motion.li
+              <m.li
                 key={tool}
                 initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +102,7 @@ function FeaturedCard({ service, wide = false }: { service: Service; wide?: bool
                 className="rounded-full border border-line bg-surface-2 px-3 py-1.5 text-xs font-medium transition-colors hover:border-accent/50 hover:text-accent"
               >
                 {tool}
-              </motion.li>
+              </m.li>
             ))}
           </ul>
         ) : null}
@@ -158,7 +158,7 @@ export function Services() {
     <Section id="services" index={1} title="Services" description={sectionIntros.services}>
       <ul className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-6">
         {featured.map((service, i) => (
-          <motion.li
+          <m.li
             key={service.id}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -167,10 +167,10 @@ export function Services() {
             className={cn("sm:col-span-2", isWide(i) ? "lg:col-span-6" : "lg:col-span-3")}
           >
             <FeaturedCard service={service} wide={isWide(i)} />
-          </motion.li>
+          </m.li>
         ))}
         {regular.map((service, i) => (
-          <motion.li
+          <m.li
             key={service.id}
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -179,7 +179,7 @@ export function Services() {
             className={cn("group", spanFor(i, regular.length))}
           >
             <ServiceCard service={service} />
-          </motion.li>
+          </m.li>
         ))}
       </ul>
     </Section>

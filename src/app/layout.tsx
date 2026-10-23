@@ -13,7 +13,7 @@ const geistSans = Geist({
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   weight: "400",
-  style: ["normal", "italic"],
+  style: "italic",
   subsets: ["latin"],
   display: "swap",
 });
@@ -22,6 +22,8 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  // Only used for small labels, so it shouldn't compete with critical resources.
+  preload: false,
 });
 
 const description = site.description;

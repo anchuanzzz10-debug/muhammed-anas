@@ -7,7 +7,7 @@ export function Footer() {
   const [first, ...rest] = site.name.split(" ");
 
   return (
-    <footer className="relative overflow-hidden border-t border-line">
+    <footer className="cv-auto relative overflow-hidden border-t border-line">
       <div
         aria-hidden
         className="pointer-events-none absolute -bottom-40 left-1/2 -z-10 h-80 w-[60rem] max-w-full -translate-x-1/2 rounded-full bg-gradient-to-r from-cerulean/20 to-pink/20 blur-[120px]"
@@ -54,7 +54,7 @@ export function Footer() {
           aria-hidden
           className="select-none whitespace-nowrap text-center text-[clamp(2.5rem,11.5vw,9.75rem)] font-semibold leading-[0.8] tracking-[-0.06em]"
         >
-          <span className="text-fg/[0.08]">{first} </span>
+          <span data-text={`${first} `} className="whitespace-pre text-fg/[0.08] before:content-[attr(data-text)]" />
           <span className="font-serif font-normal italic tracking-[-0.03em] text-gradient">{rest.join(" ")}</span>
         </p>
 
