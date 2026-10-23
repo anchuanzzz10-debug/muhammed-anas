@@ -76,6 +76,7 @@ const allNavItems: NavItem[] = [
   { id: "process", label: "Process" },
   { id: "testimonials", label: "Testimonials" },
   { id: "faq", label: "FAQ" },
+  { id: "plan", label: "Plan" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -149,6 +150,7 @@ export const sectionIntros: Record<string, string> = {
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
   faq: "Answers to common questions about Shopify development, marketing and working together.",
+  plan: "Pick what you need and watch your project brief build itself — then send it straight to my WhatsApp in one tap.",
   contact: "Have a project in mind? Tell me about your goals and I'll get back to you with the next steps.",
 };
 

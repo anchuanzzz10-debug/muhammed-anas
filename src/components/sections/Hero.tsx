@@ -51,7 +51,10 @@ function RotatingService() {
 /** Portrait inside an orbit of service icons (desktop only). */
 function Orbit() {
   return (
-    <div aria-hidden className="relative mx-auto aspect-square w-full max-w-[28rem]">
+    <div
+      aria-hidden
+      className="relative mx-auto aspect-square w-[min(80vw,20rem)] sm:w-[22rem] lg:w-full lg:max-w-[28rem]"
+    >
       <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-cerulean/40 to-pink/40 blur-3xl" />
       <div className="absolute inset-0 rounded-full border border-dashed border-line-strong" />
       <div className="absolute inset-[16%] rounded-full border border-line" />
@@ -91,15 +94,15 @@ function Orbit() {
               className="absolute -translate-x-1/2 -translate-y-1/2"
               style={{ left: `${x.toFixed(3)}%`, top: `${y.toFixed(3)}%` }}
             >
-              <span className="orbit-reverse grid size-12 place-items-center rounded-2xl border border-line bg-surface/80 text-accent shadow-lg backdrop-blur xl:size-14">
-                <Icon name={s.icon} className="size-5 xl:size-6" />
+              <span className="orbit-reverse grid size-10 place-items-center rounded-xl border border-line bg-surface/80 text-accent shadow-lg backdrop-blur sm:size-12 sm:rounded-2xl xl:size-14">
+                <Icon name={s.icon} className="size-[18px] sm:size-5 xl:size-6" />
               </span>
             </span>
           );
         })}
       </div>
 
-      <span className="absolute bottom-[8%] left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-line bg-surface/90 px-4 py-2 text-sm font-medium shadow-xl backdrop-blur">
+      <span className="absolute bottom-[8%] left-1/2 z-10 hidden -translate-x-1/2 lg:flex items-center gap-2 whitespace-nowrap rounded-full border border-line bg-surface/90 px-4 py-2 text-sm font-medium shadow-xl backdrop-blur">
         <span className="size-2 rounded-full bg-emerald-500 shadow-[0_0_10px] shadow-emerald-500" />
         {site.name.split(" ")[0]}{" "}
         <span className="font-serif text-base italic text-gradient">{site.name.split(" ").slice(1).join(" ")}</span>
@@ -155,27 +158,11 @@ export function Hero() {
       </div>
 
       <Container>
-        <motion.div style={{ y, opacity, scale }} className="grid items-center gap-16 lg:grid-cols-12">
+        <motion.div
+          style={{ y, opacity, scale }}
+          className="grid items-center gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-16"
+        >
           <div className="flex flex-col items-start gap-7 sm:gap-8 lg:col-span-7">
-            {about.image ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, ease }}
-                className="relative size-20 rounded-full bg-gradient-to-br from-cerulean to-pink p-[2px] shadow-[0_20px_50px_-20px_var(--color-pink)] sm:size-24 lg:hidden"
-              >
-                <Image
-                  src={about.image.src}
-                  alt={about.image.alt}
-                  width={about.image.width}
-                  height={about.image.height}
-                  sizes="96px"
-                  priority
-                  className="size-full rounded-full bg-ink object-cover object-[50%_20%]"
-                />
-              </motion.div>
-            ) : null}
-
             {hero.eyebrow ? (
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
@@ -264,7 +251,7 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.3, ease }}
-            className="hidden lg:col-span-5 lg:block"
+            className="order-first lg:order-none lg:col-span-5"
           >
             <Orbit />
           </motion.div>
