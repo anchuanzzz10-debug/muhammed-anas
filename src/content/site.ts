@@ -74,11 +74,11 @@ const allNavItems: NavItem[] = [
   { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "work", label: "Work" },
+  { id: "redesign", label: "Redesign" },
   { id: "about", label: "About" },
   { id: "process", label: "Process" },
   { id: "testimonials", label: "Testimonials" },
   { id: "faq", label: "FAQ" },
-  { id: "plan", label: "Plan" },
   { id: "contact", label: "Contact" },
 ];
 
@@ -161,7 +161,8 @@ export const sectionIntros: Record<string, string> = {
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
   faq: "Answers to common questions about Shopify development, marketing and working together.",
-  plan: "Pick what you need and watch your project brief build itself — then send it straight to my WhatsApp in one tap.",
+  redesign:
+    "Drag the slider to see what a redesign can do — from an outdated, slow website to a fast, modern experience built to convert.",
   contact: "Have a project in mind? Tell me about your goals and I'll get back to you with the next steps.",
 };
 

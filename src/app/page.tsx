@@ -6,7 +6,7 @@ import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { FAQ } from "@/components/sections/FAQ";
 import { Hero } from "@/components/sections/Hero";
-import { Planner } from "@/components/sections/Planner";
+import { Redesign } from "@/components/sections/Redesign";
 import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services";
 import { Skills } from "@/components/sections/Skills";
@@ -75,11 +75,11 @@ export default function Home() {
         <Services />
         <Skills />
         {isSectionVisible("work") ? <Work /> : null}
+        <Redesign />
         <About />
         {isSectionVisible("process") ? <Process /> : null}
         {isSectionVisible("testimonials") ? <Testimonials /> : null}
         {isSectionVisible("faq") ? <FAQ /> : null}
-        <Planner />
         <Contact />
       </main>
       <Footer />
