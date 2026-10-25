@@ -172,10 +172,7 @@ function Portrait() {
           />
           <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
           <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3 pl-4 text-white backdrop-blur-md">
-            <span className="flex min-w-0 flex-col">
-              <span className="truncate font-semibold tracking-tight">{site.name}</span>
-              <span className="truncate text-xs text-white/70">{site.jobTitle}</span>
-            </span>
+            <span className="truncate font-semibold tracking-tight">{site.name}</span>
             <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
               {site.initials}
             </span>
