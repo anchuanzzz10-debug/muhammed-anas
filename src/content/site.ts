@@ -62,15 +62,15 @@ export type SocialLink = {
 export const site = {
   name: "Muhammed Anas",
   initials: "MA",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://mohdanaskc.in",
   /** Primary SEO title (browser tab, search results, social shares). */
-  title: "Muhammed Anas — Shopify Developer & Performance Marketer",
-  jobTitle: "Shopify Developer & Performance Marketer",
+  title: "Muhammed Anas — Digital Marketer",
+  jobTitle: "Digital Marketer",
   /** Short line shown under the name in the footer. */
   footerTagline: "Building fast websites, smart software and growth-driven marketing for brands that want to stand out online.",
   /** Meta description — keep it under ~160 characters. */
   description:
-    "Shopify developer and performance marketer building high-converting online stores, profitable ad campaigns, custom software, video content and brand identities.",
+    "Hi! I'm Muhammed Anas, a Digital Marketer specializing in performance marketing and SEO, with skills in web development, custom software development, branding, and video editing.",
   locale: "en_US",
 };
 
