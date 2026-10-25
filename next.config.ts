@@ -24,6 +24,13 @@ const nextConfig: NextConfig = {
         destination: `${CANONICAL_ORIGIN}/:path*`,
         statusCode: 301,
       },
+      // Common alternative sitemap addresses (e.g. typed into Search Console) would otherwise hit the
+      // HTML 404 page, which Google reports as "sitemap is HTML". Send them to the real XML sitemap.
+      ...["/sitemap", "/sitemap_index.xml", "/sitemap-index.xml", "/sitemaps.xml"].map((source) => ({
+        source,
+        destination: "/sitemap.xml",
+        statusCode: 301 as const,
+      })),
     ];
   },
   async headers() {

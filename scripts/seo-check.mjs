@@ -175,6 +175,12 @@ console.log("\nrobots.txt");
 const robots = await get(`${base}/robots.txt`);
 const robotsTxt = robots.status === 200 ? await robots.text() : "";
 check(robots.status === 200, "robots.txt responds 200", `robots.txt responds ${robots.status}`);
+const robotsType = robots.headers.get("content-type") ?? "";
+check(
+  /^text\/plain/i.test(robotsType),
+  `Content-Type: ${robotsType}`,
+  `robots.txt Content-Type is "${robotsType}" (expected text/plain)`,
+);
 check(!/^\s*Disallow:\s*\/\s*$/im.test(robotsTxt), "does not block the whole site", "robots.txt contains Disallow: /");
 const sitemapLine = robotsTxt.match(/^\s*Sitemap:\s*(\S+)/im)?.[1];
 check(
@@ -185,15 +191,62 @@ check(
 
 // ---------------------------------------------------------------- sitemap.xml
 console.log("\nsitemap.xml");
-const sm = await get(`${base}/sitemap.xml`);
+const sm = await get(`${base}/sitemap.xml`, { redirect: "manual" });
 const smXml = sm.status === 200 ? await sm.text() : "";
-check(sm.status === 200, "sitemap.xml responds 200", `sitemap.xml responds ${sm.status}`);
-const locs = [...smXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].replace(/\/$/, ""));
+check(
+  sm.status === 200,
+  "sitemap.xml responds 200 (no redirect)",
+  `sitemap.xml responds ${sm.status}${sm.headers.get("location") ? ` → ${sm.headers.get("location")}` : ""}`,
+);
+const smType = sm.headers.get("content-type") ?? "";
+check(
+  /xml/i.test(smType),
+  `Content-Type: ${smType}`,
+  `Content-Type is "${smType}" — Google reads this as HTML, not a sitemap`,
+);
+const looksHtml = /<!doctype html|<html[\s>]/i.test(smXml);
+check(!looksHtml, "body is not HTML", "body is an HTML page, not XML");
+check(
+  /^\uFEFF?<\?xml[^>]*\?>\s*<urlset[\s>]/.test(smXml) && /<\/urlset>\s*$/.test(smXml),
+  "starts with <?xml …?><urlset> and closes </urlset>",
+  "not a well-formed <urlset> document",
+);
+const entries = [...smXml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((m) => m[1]);
+const order = ["<loc>", "<lastmod>", "<changefreq>", "<priority>"];
+const badOrder = entries.filter((e) => {
+  const idx = order.map((t) => e.indexOf(t)).filter((i) => i >= 0);
+  const firstImage = e.indexOf("<image:image>");
+  return idx.some((v, i) => i > 0 && v < idx[i - 1]) || (firstImage >= 0 && idx.some((v) => v > firstImage));
+});
+check(
+  entries.length > 0 && badOrder.length === 0,
+  `${entries.length} <url> entr${entries.length === 1 ? "y" : "ies"} in schema order`,
+  `${badOrder.length} <url> entries break sitemaps.org element order (loc, lastmod, changefreq, priority, then images)`,
+);
+const locs = [...smXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>/g)].map((m) => decode(m[1]).replace(/\/$/, ""));
 check(locs.includes(origin), `lists ${origin}`, `does not list ${origin} (found: ${locs.join(", ")})`);
+const offOrigin = locs.filter((l) => !l.startsWith(origin));
+check(
+  offOrigin.length === 0,
+  "every <loc> is on the canonical origin",
+  `URLs on another host: ${offOrigin.join(", ")}`,
+);
+for (const loc of locs) {
+  const page = await get(loc.replace(origin, base) || `${base}/`, { redirect: "manual" });
+  check(page.status === 200, `${loc} → 200`, `${loc} → ${page.status} (sitemap URLs must load directly)`);
+}
 check(/<lastmod>/.test(smXml), `lastmod: ${smXml.match(/<lastmod>([^<]+)/)?.[1]}`, "no <lastmod>");
 const imgs = [...smXml.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].length;
 if (imgs) ok(`${imgs} image entr${imgs === 1 ? "y" : "ies"}`);
 else warn("no image entries");
+// Next.js/CDN edge case: requests carrying React's navigation header must still get the XML.
+const smRsc = await get(`${base}/sitemap.xml`, { headers: { "user-agent": "seo-check", RSC: "1" } });
+const smRscType = smRsc.headers.get("content-type") ?? "";
+check(
+  smRsc.status === 200 && /xml/i.test(smRscType),
+  "still XML when requested with the RSC header",
+  `with the RSC header it returns ${smRsc.status} ${smRscType}`,
+);
 
 // ---------------------------------------------------------------- Host / redirects (production only)
 if (/^https:\/\//.test(base) && !/localhost|127\.0\.0\.1/.test(base)) {
