@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import Image from "next/image";
-import { about, hero, services, site } from "@/content/site";
+import { about, hero, location, services, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
@@ -178,22 +178,28 @@ export function Hero() {
       <Container>
         <m.div style={{ y, opacity, scale }} className="grid items-center gap-10 sm:gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col items-start gap-7 sm:gap-8 lg:col-span-7">
-            {hero.eyebrow ? (
-              <p className="anim-fade-up border-spin inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-medium text-muted sm:text-sm">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-pink opacity-60" />
-                  <span className="relative inline-flex size-2 rounded-full bg-pink" />
-                </span>
-                {hero.eyebrow}
+            <div className="anim-fade-up flex flex-wrap items-center gap-2">
+              {hero.eyebrow ? (
+                <p className="border-spin inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 text-xs font-medium text-muted sm:text-sm">
+                  <span className="relative flex size-2">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-pink opacity-60" />
+                    <span className="relative inline-flex size-2 rounded-full bg-pink" />
+                  </span>
+                  {hero.eyebrow}
+                </p>
+              ) : null}
+              <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/60 px-3 py-1.5 text-xs font-medium text-muted backdrop-blur sm:text-sm">
+                <Icon name="mapPin" className="size-3.5 text-accent sm:size-4" />
+                {location.label}
               </p>
-            ) : null}
+            </div>
 
             <h1
               id="hero-heading"
               className="w-full text-[clamp(3.25rem,14vw,6.5rem)] font-semibold lg:text-[clamp(5rem,8vw,7.25rem)] leading-[0.9] tracking-[-0.05em]"
             >
               <span className="sr-only">
-                {site.name} — {services.map((s) => s.title).join(", ")}
+                {site.name} — {site.jobTitle} in {location.label}, {location.region}
               </span>
               <span aria-hidden className="block overflow-hidden pb-[0.06em]">
                 <span className="anim-rise block">{first}</span>

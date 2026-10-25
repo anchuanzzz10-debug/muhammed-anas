@@ -1,4 +1,4 @@
-import { navItems, services, site, socials } from "@/content/site";
+import { contact, location, navItems, services, site, socials } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { CurrentYear } from "@/components/ui/CurrentYear";
 import { Icon } from "@/components/ui/Icon";
@@ -23,6 +23,21 @@ export function Footer() {
               <span className="text-lg font-semibold tracking-tight">{site.name}</span>
             </a>
             <p className="max-w-sm text-pretty text-sm leading-relaxed text-muted">{site.footerTagline}</p>
+            <address className="flex flex-col gap-1.5 text-sm not-italic text-muted">
+              <span className="inline-flex items-center gap-2">
+                <Icon name="mapPin" className="size-4 shrink-0 text-accent" />
+                {location.label}, {location.region}, {location.country}
+              </span>
+              {contact.whatsapp ? (
+                <a
+                  href={`tel:${contact.whatsapp}`}
+                  className="inline-flex w-fit items-center gap-2 transition-colors hover:text-fg"
+                >
+                  <Icon name="whatsapp" className="size-4 shrink-0 text-accent" />
+                  {contact.whatsappDisplay}
+                </a>
+              ) : null}
+            </address>
           </div>
 
           <nav aria-label="Footer" className="lg:col-span-3">

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import { services, site } from "@/content/site";
+import { location, services, site } from "@/content/site";
 import { MotionProvider } from "@/components/layout/MotionProvider";
 import "./globals.css";
 
@@ -26,45 +26,57 @@ const geistMono = Geist_Mono({
   preload: false,
 });
 
-const description = site.description;
+const localKeywords = [
+  "digital marketer in Kanhangad",
+  "digital marketing Kanhangad",
+  "digital marketing Kasaragod",
+  "digital marketing services Kerala",
+  "performance marketing Kasaragod",
+  "social media marketing Kanhangad",
+  "Meta ads Kasaragod",
+  "Google ads Kanhangad",
+  "SEO Kanhangad",
+  "SEO services Kasaragod",
+  "web development Kanhangad",
+  "website design Kasaragod",
+  "custom software development Kasaragod",
+  "branding Kanhangad",
+  "video editing Kasaragod",
+];
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: site.title, template: `%s · ${site.name}` },
-  description,
+  description: site.description,
   applicationName: site.name,
-  authors: [{ name: site.name }],
+  authors: [{ name: site.name, url: site.url }],
   creator: site.name,
-  keywords: [
-    site.name,
-    "Shopify developer",
-    "Shopify expert",
-    "Shopify store design",
-    "performance marketer",
-    "Meta ads",
-    "Google ads",
-    "digital marketing",
-    "custom software development",
-    "video editing",
-    "brand identity",
-    ...services.map((s) => s.title),
-  ],
+  publisher: site.name,
+  keywords: [site.name, site.jobTitle, ...localKeywords, ...services.map((s) => s.title)],
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
     siteName: site.name,
-    title: site.title,
-    description,
+    title: site.shareTitle,
+    description: site.shareDescription,
     locale: site.locale,
   },
-  twitter: { card: "summary_large_image", title: site.title, description },
+  twitter: { card: "summary_large_image", title: site.shareTitle, description: site.shareDescription },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
-  category: "business",
+  verification: {
+    ...(site.googleSiteVerification ? { google: site.googleSiteVerification } : {}),
+    ...(site.bingSiteVerification ? { other: { "msvalidate.01": site.bingSiteVerification } } : {}),
+  },
+  other: {
+    "geo.region": location.regionCode,
+    "geo.placename": `${location.label}, ${location.region}`,
+  },
+  category: "marketing",
   formatDetection: { telephone: false },
 };
 
@@ -82,7 +94,11 @@ const themeScript = `(function(){try{var s=localStorage.getItem('theme');var d=s
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}>
+    <html
+      lang={site.language}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

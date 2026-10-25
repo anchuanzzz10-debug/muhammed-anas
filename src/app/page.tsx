@@ -1,4 +1,4 @@
-import { about, contact, faqs, isSectionVisible, services, site, skills, socials } from "@/content/site";
+import { about, contact, faqs, isSectionVisible, location, services, site, skills, socials } from "@/content/site";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { OffscreenPause } from "@/components/layout/OffscreenPause";
@@ -15,19 +15,92 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Work } from "@/components/sections/Work";
 
 const personId = `${site.url}/#person`;
+const businessId = `${site.url}/#business`;
+const websiteId = `${site.url}/#website`;
 const profiles = socials.filter((s) => s.icon !== "whatsapp").map((s) => s.href);
+const portrait = about.image ? `${site.url}${about.image.src}` : undefined;
+
+const address = {
+  "@type": "PostalAddress",
+  addressLocality: location.locality,
+  addressRegion: location.region,
+  addressCountry: location.countryCode,
+};
+
+const areaServed = [
+  { "@type": "City", name: location.locality },
+  { "@type": "City", name: location.district },
+  { "@type": "AdministrativeArea", name: `${location.district} district` },
+  { "@type": "State", name: location.region },
+  { "@type": "Country", name: location.country },
+  { "@type": "Country", name: "United Arab Emirates" },
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": `${site.url}/#website`,
+      "@id": websiteId,
+      url: site.url,
+      name: site.name,
+      alternateName: site.title,
+      description: site.description,
+      inLanguage: site.language,
+      publisher: { "@id": businessId },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${site.url}/#webpage`,
       url: site.url,
       name: site.title,
       description: site.description,
-      inLanguage: "en",
-      publisher: { "@id": personId },
+      inLanguage: site.language,
+      isPartOf: { "@id": websiteId },
+      about: { "@id": businessId },
+      mainEntity: { "@id": businessId },
+      dateModified: site.lastUpdated,
+      ...(portrait ? { primaryImageOfPage: { "@type": "ImageObject", url: portrait } } : {}),
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": businessId,
+      name: site.name,
+      description: site.description,
+      url: site.url,
+      ...(portrait ? { image: portrait } : {}),
+      logo: `${site.url}/icon.svg`,
+      ...(contact.whatsapp ? { telephone: contact.whatsapp } : {}),
+      ...(contact.email ? { email: contact.email } : {}),
+      address,
+      areaServed,
+      founder: { "@id": personId },
+      knowsAbout: services.map((s) => s.title),
+      ...(profiles.length ? { sameAs: profiles } : {}),
+      ...(contact.whatsapp
+        ? {
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: contact.whatsapp,
+              contactType: "customer service",
+              areaServed: [location.countryCode, "AE"],
+            },
+          }
+        : {}),
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Digital marketing, SEO, web and creative services",
+        itemListElement: services.map((s, i) => ({
+          "@type": "Offer",
+          position: i + 1,
+          itemOffered: {
+            "@type": "Service",
+            name: s.title,
+            description: s.description,
+            provider: { "@id": businessId },
+          },
+        })),
+      },
     },
     {
       "@type": "Person",
@@ -35,16 +108,13 @@ const jsonLd = {
       name: site.name,
       url: site.url,
       jobTitle: site.jobTitle,
-      description: site.description,
+      description: site.shareDescription,
+      worksFor: { "@id": businessId },
+      address,
       knowsAbout: skills.flatMap((s) => s.tools),
-      ...(contact.email ? { email: `mailto:${contact.email}` } : {}),
-      ...(about.image ? { image: `${site.url}${about.image.src}` } : {}),
+      ...(portrait ? { image: portrait } : {}),
       ...(contact.whatsapp ? { telephone: contact.whatsapp } : {}),
       ...(profiles.length ? { sameAs: profiles } : {}),
-      makesOffer: services.map((s) => ({
-        "@type": "Offer",
-        itemOffered: { "@type": "Service", name: s.title, description: s.description, provider: { "@id": personId } },
-      })),
     },
     ...(faqs.length
       ? [

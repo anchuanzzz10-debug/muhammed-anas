@@ -63,16 +63,45 @@ export const site = {
   name: "Muhammed Anas",
   initials: "MA",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://mohdanaskc.in",
-  /** Primary SEO title (browser tab, search results, social shares). */
-  title: "Muhammed Anas — Digital Marketer",
+  /** SEO title — browser tab and Google results (keep under ~60 characters). */
+  title: "Digital Marketer in Kanhangad & Kasaragod | Muhammed Anas",
+  /** Meta description for Google — keep under ~160 characters. */
+  description:
+    "Digital marketer in Kanhangad, Kasaragod helping businesses grow with performance marketing, SEO, web development, custom software, branding and video.",
+  /** Link previews (WhatsApp, LinkedIn, Facebook, X). */
+  shareTitle: "Muhammed Anas — Digital Marketer",
+  shareDescription:
+    "Hi! I'm Muhammed Anas, a Digital Marketer specializing in performance marketing and SEO, with skills in web development, custom software development, branding, and video editing.",
   jobTitle: "Digital Marketer",
   /** Short line shown under the name in the footer. */
   footerTagline: "Building fast websites, smart software and growth-driven marketing for brands that want to stand out online.",
-  /** Meta description — keep it under ~160 characters. */
-  description:
-    "Hi! I'm Muhammed Anas, a Digital Marketer specializing in performance marketing and SEO, with skills in web development, custom software development, branding, and video editing.",
-  locale: "en_US",
+  locale: "en_IN",
+  language: "en-IN",
+  /** Bump when content changes meaningfully — used for the sitemap's lastmod. */
+  lastUpdated: "2026-10-25",
+  /**
+   * Google Search Console → "HTML tag" verification: paste only the content="…" value here
+   * (or set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION on your host). Leave empty if you verify via DNS.
+   */
+  googleSiteVerification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "",
+  /** Optional: Bing Webmaster Tools "meta tag" value. */
+  bingSiteVerification: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ?? "",
 };
+
+/** Where you're based and who you serve — used for local SEO (visible text + schema). */
+export const location = {
+  locality: "Kanhangad",
+  district: "Kasaragod",
+  region: "Kerala",
+  regionCode: "IN-KL",
+  country: "India",
+  countryCode: "IN",
+  label: "Kanhangad, Kasaragod",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Kanhangad%2C%20Kasaragod%2C%20Kerala",
+  /** Shown in the footer and contact section. */
+  serving: "Serving businesses across Kasaragod, Kerala, India and the UAE",
+};
+
 
 const allNavItems: NavItem[] = [
   { id: "services", label: "Services" },
@@ -160,13 +189,13 @@ export const hero = {
 /** Short SEO-friendly intro shown under each section heading. Leave empty to hide. */
 export const sectionIntros: Record<string, string> = {
   services:
-    "End-to-end digital services to build, market and grow your brand online — from e-commerce development to paid advertising and creative.",
+    "Digital marketing, SEO, web development and creative services for businesses in Kanhangad, Kasaragod and beyond — built to bring you more customers online.",
   skills: "The platforms and tools I use to design, build, launch and scale.",
   work: "A selection of live websites and online stores from my portfolio.",
   about: "",
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
-  faq: "Answers to common questions about Shopify development, marketing and working together.",
+  faq: "Answers to common questions about digital marketing, SEO, websites and working together.",
   redesign:
     "Drag the slider to see what a redesign can do — from an outdated, slow website to a fast, modern experience built to convert.",
   contact: "Have a project in mind? Tell me about your goals and I'll get back to you with the next steps.",
@@ -256,7 +285,7 @@ export const about = {
   ] as string[],
   image: {
     src: "/images/muhammed-anas.jpg",
-    alt: "Portrait of Muhammed Anas",
+    alt: "Muhammed Anas, digital marketer in Kanhangad, Kasaragod",
     width: 1086,
     height: 1448,
   } as Project["image"],
@@ -297,7 +326,12 @@ export const faqs: FaqItem[] = [
   {
     question: "What services do you offer?",
     answer:
-      "I offer Shopify store development and customization, performance marketing, custom software development, web development, SEO, digital marketing strategy, video editing and creative design, and branding and brand identity. You can hire me for a single service or combine them into one complete project.",
+      "My main focus is digital marketing — performance marketing, Meta and Google Ads, social media and SEO. I also offer web development, custom software development, Shopify store development, branding and video editing. You can hire me for a single service or combine them into one complete project.",
+  },
+  {
+    question: "Do you offer digital marketing services in Kanhangad and Kasaragod?",
+    answer:
+      "Yes. I'm based in Kanhangad, Kasaragod and work with local businesses across Kasaragod and Kerala on digital marketing, SEO, websites, branding and video. I also work remotely with clients across India and the UAE.",
   },
   {
     question: "Can you redesign or improve my existing Shopify store?",

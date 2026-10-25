@@ -2,7 +2,7 @@
 
 import { AnimatePresence, m } from "framer-motion";
 import { useState, type FormEvent, type ReactNode } from "react";
-import { contact, services, socials, sectionIntros } from "@/content/site";
+import { contact, location, services, socials, sectionIntros } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -191,6 +191,28 @@ export function Contact() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a
+                  href={location.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ring-gradient group relative flex items-center gap-4 rounded-2xl border border-line bg-surface p-3 pr-4 transition-transform duration-300 hover:-translate-y-0.5 sm:p-4"
+                >
+                  <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-2 text-accent transition-all duration-500 group-hover:bg-gradient-to-br group-hover:from-cerulean group-hover:to-pink group-hover:text-white">
+                    <Icon name="mapPin" className="size-[22px]" />
+                  </span>
+                  <span className="flex min-w-0 flex-1 flex-col">
+                    <span className="font-semibold tracking-tight">
+                      {location.label}, {location.region}
+                    </span>
+                    <span className="text-sm text-muted">{location.serving}</span>
+                  </span>
+                  <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line transition-all duration-500 group-hover:rotate-45 group-hover:border-transparent group-hover:bg-fg group-hover:text-bg">
+                    <Icon name="arrowUpRight" className="size-4" />
+                  </span>
+                  <span className="sr-only">(opens Google Maps in a new tab)</span>
+                </a>
+              </li>
             </ul>
           ) : null}
         </div>
