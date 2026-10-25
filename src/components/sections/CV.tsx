@@ -1,13 +1,14 @@
-import { cv, location, sectionIntros, site } from "@/content/site";
+import { cv, projects, sectionIntros, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 
+// What the CV covers.
 const facts: Array<{ icon: IconName; label: string }> = [
-  { icon: "target", label: site.jobTitle },
-  { icon: "mapPin", label: location.label },
-  { icon: "globe", label: "Clients in India & UAE" },
+  { icon: "spark", label: "Professional experience" },
+  { icon: "code", label: "Skills & tools" },
+  { icon: "link", label: `${projects.length} live projects` },
 ];
 
 /** Decorative PDF document tile. */
