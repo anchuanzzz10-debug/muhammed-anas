@@ -239,13 +239,23 @@ check(/<lastmod>/.test(smXml), `lastmod: ${smXml.match(/<lastmod>([^<]+)/)?.[1]}
 const imgs = [...smXml.matchAll(/<image:loc>([^<]+)<\/image:loc>/g)].length;
 if (imgs) ok(`${imgs} image entr${imgs === 1 ? "y" : "ies"}`);
 else warn("no image entries");
-// Next.js/CDN edge case: requests carrying React's navigation header must still get the XML.
-const smRsc = await get(`${base}/sitemap.xml`, { headers: { "user-agent": "seo-check", RSC: "1" } });
-const smRscType = smRsc.headers.get("content-type") ?? "";
+// Fetch it the way Googlebot does (its user agent, Accept and compression headers). This is the
+// request that matters for indexing. (Don't test with Next.js's internal RSC header: that asks for
+// a React payload, which only pages have — on Vercel a route like /sitemap.xml correctly 404s for it.)
+const smBot = await get(`${base}/sitemap.xml`, {
+  redirect: "manual",
+  headers: {
+    "user-agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+    accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "accept-encoding": "gzip, deflate, br",
+  },
+});
+const smBotType = smBot.headers.get("content-type") ?? "";
+const smBotBody = smBot.status === 200 ? await smBot.text() : "";
 check(
-  smRsc.status === 200 && /xml/i.test(smRscType),
-  "still XML when requested with the RSC header",
-  `with the RSC header it returns ${smRsc.status} ${smRscType}`,
+  smBot.status === 200 && /xml/i.test(smBotType) && smBotBody.includes("<urlset"),
+  "Googlebot-style request gets the XML sitemap",
+  `Googlebot-style request returns ${smBot.status} ${smBotType}`,
 );
 
 // ---------------------------------------------------------------- Host / redirects (production only)
