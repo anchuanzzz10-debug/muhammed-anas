@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { navItems, site, socials } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
-import { LogoBadge } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 function useActiveSection(ids: string[]) {
@@ -119,7 +118,10 @@ export function Navbar() {
           href="#top"
           className="group flex items-center gap-2.5 rounded-full"
         >
-          <LogoBadge className="size-10" />
+          <span className="relative grid size-10 place-items-center overflow-hidden rounded-full bg-fg font-mono text-xs font-semibold text-bg">
+            <span className="absolute inset-0 bg-gradient-to-br from-cerulean to-pink opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span className="relative">{site.initials}</span>
+          </span>
           <span className="hidden text-sm font-semibold tracking-tight sm:block">{site.name}</span>
           <span className="sr-only">{site.name} — back to top</span>
         </a>

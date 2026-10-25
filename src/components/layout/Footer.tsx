@@ -2,7 +2,6 @@ import { contact, location, navItems, services, site, socials } from "@/content/
 import { Container } from "@/components/ui/Container";
 import { CurrentYear } from "@/components/ui/CurrentYear";
 import { Icon } from "@/components/ui/Icon";
-import { LogoBadge } from "@/components/ui/Logo";
 
 export function Footer() {
   const [first, ...rest] = site.name.split(" ");
@@ -17,7 +16,10 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
           <div className="flex flex-col gap-5 lg:col-span-5">
             <a href="#top" className="group flex items-center gap-3 self-start rounded-full">
-              <LogoBadge className="size-11" />
+              <span className="relative grid size-11 place-items-center overflow-hidden rounded-full bg-fg font-mono text-xs font-semibold text-bg">
+                <span className="absolute inset-0 bg-gradient-to-br from-cerulean to-pink opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <span className="relative">{site.initials}</span>
+              </span>
               <span className="text-lg font-semibold tracking-tight">{site.name}</span>
             </a>
             <p className="max-w-sm text-pretty text-sm leading-relaxed text-muted">{site.footerTagline}</p>
