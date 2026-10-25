@@ -104,7 +104,6 @@ export const location = {
 
 
 const allNavItems: NavItem[] = [
-  { id: "cv", label: "CV" },
   { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "work", label: "Work" },
@@ -197,7 +196,6 @@ export const sectionIntros: Record<string, string> = {
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
   faq: "Answers to common questions about digital marketing, SEO, websites and working together.",
-  cv: "An overview of my experience, skills and projects across digital marketing, SEO, web development and custom software.",
   redesign:
     "Drag the slider to see what a redesign can do — from an outdated, slow website to a fast, modern experience built to convert.",
   contact: "Have a project in mind? Tell me about your goals and I'll get back to you with the next steps.",
@@ -381,13 +379,6 @@ export const contact = {
   formEndpoint: "",
 };
 
-/** CV hosted on Google Drive. Share it as "Anyone with the link → Viewer" so visitors can open it. */
-const CV_DRIVE_ID = "1HR88pspHfhJg20Xt6QWs4GfyPQvxaZNq";
-export const cv = {
-  viewUrl: `https://drive.google.com/file/d/${CV_DRIVE_ID}/view?usp=sharing`,
-  downloadUrl: `https://drive.google.com/uc?export=download&id=${CV_DRIVE_ID}`,
-};
-
 export const socials: SocialLink[] = [
   {
     label: "WhatsApp",
@@ -422,8 +413,3 @@ const emptySections = new Set<string>(
 export const isSectionVisible = (id: string) => !emptySections.has(id);
 
 export const navItems: NavItem[] = allNavItems.filter((item) => isSectionVisible(item.id));
-
-/** Order of the sections on the home page. The menu keeps its own order (navItems). */
-const pageOrder = ["cv", "skills", "services", "work", "redesign", "about", "process", "testimonials", "faq", "contact"];
-
-export const pageSections: NavItem[] = pageOrder.flatMap((id) => navItems.filter((item) => item.id === id));
