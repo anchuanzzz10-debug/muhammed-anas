@@ -12,7 +12,7 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import Image from "next/image";
-import { about, hero, location, navItems, services, site } from "@/content/site";
+import { about, hero, location, pageSections, services, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Icon } from "@/components/ui/Icon";
@@ -255,8 +255,8 @@ export function Hero() {
       </Container>
 
       <a
-        href={`#${navItems[0].id}`}
-        aria-label={`Scroll to ${navItems[0].label}`}
+        href={`#${pageSections[0].id}`}
+        aria-label={`Scroll to ${pageSections[0].label}`}
         style={{ animationDelay: "1.2s" }}
         className="anim-fade-in absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted sm:flex"
       >

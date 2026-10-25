@@ -1,4 +1,5 @@
-import { about, contact, faqs, isSectionVisible, location, services, site, skills, socials } from "@/content/site";
+import type { ComponentType } from "react";
+import { about, contact, faqs, location, pageSections, services, site, skills, socials } from "@/content/site";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { OffscreenPause } from "@/components/layout/OffscreenPause";
@@ -14,6 +15,19 @@ import { Services } from "@/components/sections/Services";
 import { Skills } from "@/components/sections/Skills";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Work } from "@/components/sections/Work";
+
+const sections: Record<string, ComponentType> = {
+  cv: CV,
+  skills: Skills,
+  services: Services,
+  work: Work,
+  redesign: Redesign,
+  about: About,
+  process: Process,
+  testimonials: Testimonials,
+  faq: FAQ,
+  contact: Contact,
+};
 
 const personId = `${site.url}/#person`;
 const businessId = `${site.url}/#business`;
@@ -144,16 +158,10 @@ export default function Home() {
       <Navbar />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
-        <CV />
-        <Services />
-        <Skills />
-        {isSectionVisible("work") ? <Work /> : null}
-        <Redesign />
-        <About />
-        {isSectionVisible("process") ? <Process /> : null}
-        {isSectionVisible("testimonials") ? <Testimonials /> : null}
-        {isSectionVisible("faq") ? <FAQ /> : null}
-        <Contact />
+        {pageSections.map(({ id }) => {
+          const PageSection = sections[id];
+          return <PageSection key={id} />;
+        })}
       </main>
       <Footer />
       <OffscreenPause />

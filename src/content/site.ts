@@ -422,3 +422,8 @@ const emptySections = new Set<string>(
 export const isSectionVisible = (id: string) => !emptySections.has(id);
 
 export const navItems: NavItem[] = allNavItems.filter((item) => isSectionVisible(item.id));
+
+/** Order of the sections on the home page. The menu keeps its own order (navItems). */
+const pageOrder = ["cv", "skills", "services", "work", "redesign", "about", "process", "testimonials", "faq", "contact"];
+
+export const pageSections: NavItem[] = pageOrder.flatMap((id) => navItems.filter((item) => item.id === id));

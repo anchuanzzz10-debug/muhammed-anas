@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { navItems } from "@/content/site";
+import { pageSections } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Container } from "./Container";
 import { Reveal } from "./Reveal";
@@ -17,7 +17,7 @@ type SectionProps = {
 export function Section({ id, index, title, description, children, className }: SectionProps) {
   const headingId = `${id}-heading`;
   // Number sections by their position among the visible ones, so hidden sections leave no gaps.
-  const number = navItems.findIndex((item) => item.id === id) + 1 || index;
+  const number = pageSections.findIndex((item) => item.id === id) + 1 || index;
   return (
     <section
       id={id}
