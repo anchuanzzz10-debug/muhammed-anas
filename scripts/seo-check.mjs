@@ -54,7 +54,13 @@ console.log(`\nSEO check for ${base}${origin !== base ? ` (canonical origin ${or
 // ---------------------------------------------------------------- Homepage
 console.log("Homepage");
 const res = await get(`${base}/`);
-check(res.status === 200, "responds 200", `responds ${res.status}${res.error ? ` (${res.error.message})` : ""}`);
+const reason = res.error ? [res.error.message, res.error.cause?.message].filter(Boolean).join(": ") : "";
+check(res.status === 200, "responds 200", `responds ${res.status}${reason ? ` (${reason})` : ""}`);
+if (/redirect count exceeded/i.test(reason))
+  console.log(
+    "    → Redirect loop: your host probably redirects this domain to www while the app redirects www back.\n" +
+      "      In your hosting dashboard, make the non-www domain primary (see README → www redirect).",
+  );
 const html = await res.text();
 if (!html) {
   console.log("\nCould not load the page — stopping.\n");
@@ -200,6 +206,8 @@ if (/^https:\/\//.test(base) && !/localhost|127\.0\.0\.1/.test(base)) {
   else if ([301, 308].includes(r.status) && loc.replace(/\/$/, "").startsWith(origin))
     ok(`https://${alt} → ${loc} (${r.status})`);
   else if (r.status === 200) fail(`https://${alt} serves a duplicate copy — redirect it to ${origin}`);
+  else if ([302, 303, 307].includes(r.status))
+    fail(`https://${alt} uses a temporary ${r.status} redirect — it should be a permanent 301`);
   else warn(`https://${alt} responds ${r.status} ${loc}`);
   const http = await get(`http://${host}/`, { redirect: "manual" });
   if ([301, 308].includes(http.status)) ok(`http:// redirects to ${http.headers.get("location")}`);

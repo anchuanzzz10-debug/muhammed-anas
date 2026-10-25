@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
 
+// The one canonical address for the site. Every other host (e.g. www.) is 301-redirected here
+// so search engines index a single copy. Keep in sync with `site.url` in src/content/site.ts.
+const CANONICAL_ORIGIN = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://mohdanaskc.in").replace(/\/$/, "");
+const CANONICAL_HOST = new URL(CANONICAL_ORIGIN).host;
+const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
@@ -8,6 +14,17 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
+  async redirects() {
+    return [
+      {
+        // www.mohdanaskc.in/anything?query → https://mohdanaskc.in/anything?query (query strings are kept)
+        source: "/:path*",
+        has: [{ type: "host", value: `www\\.${escapeRegex(CANONICAL_HOST)}(?::\\d+)?` }],
+        destination: `${CANONICAL_ORIGIN}/:path*`,
+        statusCode: 301,
+      },
+    ];
   },
   async headers() {
     return [

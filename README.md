@@ -52,6 +52,27 @@ Local SEO targets **Kanhangad** and **Kasaragod** (Kerala). Location details liv
 2. **URL Inspection** → `https://mohdanaskc.in/` → **Request indexing**.
 3. Check back in a few days under **Pages** (indexing) and **Performance** (searches).
 
+### www → non-www redirect
+
+`https://mohdanaskc.in` is the only canonical address. `next.config.ts` sends every request for
+`www.mohdanaskc.in/<path>?<query>` to `https://mohdanaskc.in/<path>?<query>` with a **301**.
+
+For it to work, `www` must reach this deployment, and your host must not redirect the other way:
+
+- **Vercel:** Settings → Domains → add both `mohdanaskc.in` and `www.mohdanaskc.in`. Make
+  `mohdanaskc.in` the main domain (no redirect), and set `www.mohdanaskc.in` → *Redirect to*
+  `mohdanaskc.in` (choose 301 if offered). Never set `mohdanaskc.in` to redirect to `www`.
+- **Netlify:** Domain management → set `mohdanaskc.in` as the primary domain (www then redirects).
+- **Cloudflare / VPS / other:** point `www` (CNAME or A record) at the same site with HTTPS enabled
+  for `www` too; the app handles the redirect.
+
+Verify after deploying (Windows: use `curl.exe`):
+
+```bash
+curl -I https://www.mohdanaskc.in/       # expect 301 and  location: https://mohdanaskc.in/
+curl -I https://mohdanaskc.in/           # expect 200
+```
+
 ### Check the live site
 
 ```bash
