@@ -109,6 +109,7 @@ const allNavItems: NavItem[] = [
   { id: "work", label: "Work" },
   { id: "redesign", label: "Redesign" },
   { id: "about", label: "About" },
+  { id: "cv", label: "CV" },
   { id: "process", label: "Process" },
   { id: "testimonials", label: "Testimonials" },
   { id: "faq", label: "FAQ" },
@@ -196,6 +197,7 @@ export const sectionIntros: Record<string, string> = {
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
   faq: "Answers to common questions about digital marketing, SEO, websites and working together.",
+  cv: "An overview of my experience, skills and projects across digital marketing, SEO, web development and custom software.",
   redesign:
     "Drag the slider to see what a redesign can do — from an outdated, slow website to a fast, modern experience built to convert.",
   contact: "Have a project in mind? Tell me about your goals and I'll get back to you with the next steps.",
@@ -377,6 +379,15 @@ export const contact = {
   whatsappDisplay: "+91 70252 19962",
   /** Optional POST endpoint (e.g. Formspree). When empty, the form opens the visitor's mail client. */
   formEndpoint: "",
+};
+
+/** CV hosted on Google Drive. Share it as "Anyone with the link → Viewer" so visitors can open it. */
+const CV_DRIVE_ID = "1HR88pspHfhJg20Xt6QWs4GfyPQvxaZNq";
+export const cv = {
+  viewUrl: `https://drive.google.com/file/d/${CV_DRIVE_ID}/view?usp=sharing`,
+  downloadUrl: `https://drive.google.com/uc?export=download&id=${CV_DRIVE_ID}`,
+  /** Focus areas shown in the CV section. */
+  highlights: ["Digital Marketing", "Performance Marketing", "SEO", "Web Development", "Custom Software Development"],
 };
 
 export const socials: SocialLink[] = [

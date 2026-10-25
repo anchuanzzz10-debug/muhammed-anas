@@ -5,6 +5,7 @@ import { OffscreenPause } from "@/components/layout/OffscreenPause";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
+import { CV } from "@/components/sections/CV";
 import { FAQ } from "@/components/sections/FAQ";
 import { Hero } from "@/components/sections/Hero";
 import { Redesign } from "@/components/sections/Redesign";
@@ -148,6 +149,7 @@ export default function Home() {
         {isSectionVisible("work") ? <Work /> : null}
         <Redesign />
         <About />
+        <CV />
         {isSectionVisible("process") ? <Process /> : null}
         {isSectionVisible("testimonials") ? <Testimonials /> : null}
         {isSectionVisible("faq") ? <FAQ /> : null}
