@@ -149,11 +149,11 @@ export default function Home() {
         {isSectionVisible("work") ? <Work /> : null}
         <Redesign />
         <About />
-        <CV />
         {isSectionVisible("process") ? <Process /> : null}
         {isSectionVisible("testimonials") ? <Testimonials /> : null}
         {isSectionVisible("faq") ? <FAQ /> : null}
         <Contact />
+        <CV />
       </main>
       <Footer />
       <OffscreenPause />

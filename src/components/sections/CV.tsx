@@ -1,4 +1,4 @@
-import { cv, projects, sectionIntros, site } from "@/content/site";
+import { cv, sectionIntros, site } from "@/content/site";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,7 +8,6 @@ import { Section } from "@/components/ui/Section";
 const facts: Array<{ icon: IconName; label: string }> = [
   { icon: "spark", label: "Professional experience" },
   { icon: "code", label: "Skills & tools" },
-  { icon: "link", label: `${projects.length} live projects` },
 ];
 
 /** Decorative PDF document tile. */
@@ -36,7 +35,7 @@ function FileTile() {
 
 export function CV() {
   return (
-    <Section id="cv" index={5} title="CV" description={sectionIntros.cv}>
+    <Section id="cv" index={9} title="CV" description={sectionIntros.cv}>
       <Reveal>
         <div className="ring-gradient group relative overflow-hidden rounded-[2rem] border border-line bg-surface">
           <div
