@@ -104,6 +104,7 @@ export const location = {
 
 
 const allNavItems: NavItem[] = [
+  { id: "cv", label: "CV" },
   { id: "services", label: "Services" },
   { id: "skills", label: "Skills" },
   { id: "work", label: "Work" },
@@ -113,7 +114,6 @@ const allNavItems: NavItem[] = [
   { id: "testimonials", label: "Testimonials" },
   { id: "faq", label: "FAQ" },
   { id: "contact", label: "Contact" },
-  { id: "cv", label: "CV" },
 ];
 
 export const services: Service[] = [

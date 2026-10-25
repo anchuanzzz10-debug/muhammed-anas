@@ -35,7 +35,7 @@ function FileTile() {
 
 export function CV() {
   return (
-    <Section id="cv" index={9} title="CV" description={sectionIntros.cv}>
+    <Section id="cv" index={1} title="CV" description={sectionIntros.cv}>
       <Reveal>
         <div className="ring-gradient group relative overflow-hidden rounded-[2rem] border border-line bg-surface">
           <div

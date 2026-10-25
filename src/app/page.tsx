@@ -144,6 +144,7 @@ export default function Home() {
       <Navbar />
       <main id="main" tabIndex={-1} className="outline-none">
         <Hero />
+        <CV />
         <Services />
         <Skills />
         {isSectionVisible("work") ? <Work /> : null}
@@ -153,7 +154,6 @@ export default function Home() {
         {isSectionVisible("testimonials") ? <Testimonials /> : null}
         {isSectionVisible("faq") ? <FAQ /> : null}
         <Contact />
-        <CV />
       </main>
       <Footer />
       <OffscreenPause />
