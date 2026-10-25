@@ -2,6 +2,7 @@ import Image from "next/image";
 import { about, services, sectionIntros, site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
+import { LogoBadge } from "@/components/ui/Logo";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
 
@@ -44,9 +45,7 @@ export function About() {
                     />
                     <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3 pl-4 text-white backdrop-blur-md sm:inset-x-4 sm:bottom-4">
                       <span className="font-semibold tracking-tight">{site.name}</span>
-                      <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
-                        {site.initials}
-                      </span>
+                      <LogoBadge className="size-10" />
                     </figcaption>
                   </div>
                 </div>
