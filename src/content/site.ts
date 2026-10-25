@@ -386,8 +386,6 @@ const CV_DRIVE_ID = "1HR88pspHfhJg20Xt6QWs4GfyPQvxaZNq";
 export const cv = {
   viewUrl: `https://drive.google.com/file/d/${CV_DRIVE_ID}/view?usp=sharing`,
   downloadUrl: `https://drive.google.com/uc?export=download&id=${CV_DRIVE_ID}`,
-  /** Focus areas shown in the CV section. */
-  highlights: ["Digital Marketing", "Performance Marketing", "SEO", "Web Development", "Custom Software Development"],
 };
 
 export const socials: SocialLink[] = [
