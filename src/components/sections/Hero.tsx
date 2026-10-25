@@ -136,21 +136,21 @@ function Orbit() {
 /** Where the floating service tiles sit around the phone portrait. */
 const TILE_SPOTS = ["-left-4 top-[12%] -rotate-6", "-right-4 top-[40%] rotate-6", "-left-3 bottom-[26%] rotate-3"];
 
-/** Phones and tablets: the full, uncropped photo in a turning neon gradient frame, with floating service tiles. */
+/** Phones and tablets: the full, uncropped photo in a frosted glass frame over a turning colour glow, with floating service tiles. */
 function Portrait() {
   if (!about.image) return null;
   const tiles = services.filter((s) => s.featured).slice(0, TILE_SPOTS.length);
 
   return (
     <figure className="relative mx-auto w-[min(78vw,20rem)] sm:w-[22rem] lg:hidden">
-      {/* Neon glow: the frame's colours, blurred, turning with it */}
+      {/* Brand colours, blurred and slowly turning, so they shine through the glass frame */}
       <div
         aria-hidden
         className="orbit-fast absolute inset-x-[-8%] top-[8%] -z-10 aspect-square rounded-full bg-[conic-gradient(from_0deg,var(--color-cerulean),#2AA6D6,#7d5bb5,var(--color-pink),var(--color-cerulean))] opacity-70 blur-2xl"
       />
-      <div className="relative overflow-hidden rounded-[2rem] p-1 shadow-[0_30px_60px_-25px_rgb(255_45_149/0.5)]">
-        <div aria-hidden className="orbit-fast absolute inset-[-50%] bg-[conic-gradient(from_0deg,var(--color-cerulean),#2AA6D6,#7d5bb5,var(--color-pink),var(--color-cerulean))]" />
-        <div className="relative overflow-hidden rounded-[1.75rem] bg-ink">
+      {/* Frosted glass frame */}
+      <div className="relative rounded-[2rem] border border-white/60 bg-gradient-to-br from-white/50 to-white/15 p-3 shadow-[inset_0_1px_0_rgb(255_255_255/0.6),0_30px_60px_-25px_rgb(0_0_0/0.45)] backdrop-blur-xl dark:border-white/20 dark:from-white/15 dark:to-white/[0.03] dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_30px_60px_-25px_rgb(0_0_0/0.7)]">
+        <div className="relative overflow-hidden rounded-[1.25rem] bg-ink">
           <Image
             src={about.image.src}
             alt={about.image.alt}
