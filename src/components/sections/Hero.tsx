@@ -136,7 +136,7 @@ function Orbit() {
 /** Where the floating service tiles sit around the phone portrait. */
 const TILE_SPOTS = ["-left-4 top-[12%] -rotate-6", "-right-4 top-[40%] rotate-6", "-left-3 bottom-[26%] rotate-3"];
 
-/** Phones and tablets: the About section's framed photo, with a spinning gradient border and floating service tiles. */
+/** Phones and tablets: the About section's framed photo, with a gradient border, a tilted backing card and floating service tiles. */
 function Portrait() {
   if (!about.image) return null;
   const tiles = services.filter((s) => s.featured).slice(0, TILE_SPOTS.length);
@@ -147,39 +147,39 @@ function Portrait() {
         aria-hidden
         className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-cerulean/40 via-transparent to-pink/40 blur-3xl"
       />
-      <div className="relative overflow-hidden rounded-[2rem] p-[2px] shadow-[0_40px_80px_-30px_var(--color-cerulean)]">
-        <div
-          aria-hidden
-          className="orbit-fast absolute inset-[-50%] bg-[conic-gradient(from_0deg,var(--color-cerulean),var(--color-pink),#ffffff,var(--color-cerulean))]"
-        />
-        <div className="relative rounded-[calc(2rem-2px)] bg-ink p-1.5">
-          <div className="relative overflow-hidden rounded-[1.6rem]">
-            <Image
-              src={about.image.src}
-              alt={about.image.alt}
-              width={about.image.width}
-              height={about.image.height}
-              // Hidden from lg up, where the orbit shows instead: "1px" keeps desktops on the tiniest file.
-              sizes="(min-width: 1024px) 1px, (min-width: 640px) 352px, 78vw"
-              preload
-              fetchPriority="high"
-              className="aspect-[4/5] h-auto w-full origin-bottom scale-[1.12] object-cover object-[50%_18%]"
-            />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-gradient-to-tr from-cerulean/15 via-transparent to-pink/15 mix-blend-overlay"
-            />
-            <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3 pl-4 text-white backdrop-blur-md">
-              <span className="flex min-w-0 flex-col">
-                <span className="truncate font-semibold tracking-tight">{site.name}</span>
-                <span className="truncate text-xs text-white/70">{site.jobTitle}</span>
-              </span>
-              <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
-                {site.initials}
-              </span>
-            </figcaption>
-          </div>
+      {/* Tilted gradient card behind the frame, for depth */}
+      <div
+        aria-hidden
+        className="absolute inset-0 translate-x-2 translate-y-1 rotate-6 rounded-[2rem] bg-gradient-to-br from-cerulean to-pink opacity-30"
+      />
+      <div className="relative rounded-[2rem] bg-gradient-to-br from-cerulean to-pink p-1 shadow-[0_30px_60px_-25px_rgb(255_45_149/0.5)]">
+        <div className="relative overflow-hidden rounded-[1.75rem] bg-ink">
+          <Image
+            src={about.image.src}
+            alt={about.image.alt}
+            width={about.image.width}
+            height={about.image.height}
+            // Hidden from lg up, where the orbit shows instead: "1px" keeps desktops on the tiniest file.
+            sizes="(min-width: 1024px) 1px, (min-width: 640px) 352px, 78vw"
+            preload
+            fetchPriority="high"
+            className="aspect-[4/5] h-auto w-full origin-bottom scale-[1.12] object-cover object-[50%_18%]"
+          />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-gradient-to-tr from-cerulean/15 via-transparent to-pink/15 mix-blend-overlay"
+          />
+          <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
+          <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3 pl-4 text-white backdrop-blur-md">
+            <span className="flex min-w-0 flex-col">
+              <span className="truncate font-semibold tracking-tight">{site.name}</span>
+              <span className="truncate text-xs text-white/70">{site.jobTitle}</span>
+            </span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
+              {site.initials}
+            </span>
+          </figcaption>
         </div>
       </div>
 
