@@ -37,6 +37,15 @@ export type Project = {
   location?: string;
 };
 
+/** Client software that can't be linked or shown: only the name and what kind of system it is. */
+export type PrivateProject = {
+  id: string;
+  title: string;
+  icon: IconName;
+  /** Replaces the "Private" badge, e.g. "In development". */
+  status?: string;
+};
+
 export type Stat = { label: string; value: string };
 
 export type ProcessStep = { title: string; description?: string };
@@ -191,7 +200,9 @@ export const sectionIntros: Record<string, string> = {
   services:
     "Digital marketing, SEO, web development and creative services for businesses in Kanhangad, Kasaragod and beyond — built to bring you more customers online.",
   skills: "The platforms and tools I use to design, build, launch and scale.",
-  work: "A selection of live websites and online stores from my portfolio.",
+  work: "A selection of live websites, online stores and private custom software from my portfolio.",
+  privateWork:
+    "Custom software built for clients under NDA. Client names, screens and data stay confidential — details are shared on request.",
   about: "",
   process: "A simple, transparent process that keeps every project focused on results.",
   testimonials: "",
@@ -275,6 +286,13 @@ export const projects: Project[] = [
     location: "UAE",
   },
   { id: "amairah-jewels", title: "Amairah Jewels", href: "https://amairahjewels.com" },
+];
+
+/** Private client software (under NDA): no client names, links or screenshots. */
+export const privateProjects: PrivateProject[] = [
+  { id: "wholesale-billing", title: "Wholesale Store Billing & Management System", icon: "receipt" },
+  { id: "whatsapp-reminders", title: "WhatsApp Reminder Automation System", icon: "bell" },
+  { id: "hotel-management", title: "Hotel Management System", icon: "bed", status: "In development" },
 ];
 
 export const about = {

@@ -11,7 +11,16 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import { useId, useMemo, useRef, useState, type PointerEvent } from "react";
-import { projects, services, type Project, sectionIntros } from "@/content/site";
+import {
+  contact,
+  privateProjects,
+  projects,
+  services,
+  site,
+  type PrivateProject,
+  type Project,
+  sectionIntros,
+} from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -345,6 +354,148 @@ function ProjectCards({ items }: { items: Project[] }) {
   );
 }
 
+/* -------------------------------------------------------------------------- */
+/*  Private client software: NDA-safe cards with a redacted app preview.      */
+/* -------------------------------------------------------------------------- */
+
+function askAbout(title: string) {
+  const text = `Hi ${site.name.split(" ")[0]}, I'd like to know more about your ${title} project.`;
+  return `https://wa.me/${contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
+}
+
+/** A blurred, generic app window over the cover pattern: hints at software without showing any of it. */
+function RedactedArt({ project, index }: { project: PrivateProject; index: number }) {
+  const id = useId().replace(/:/g, "");
+  const [from, to] = PALETTES[(index + 1) % PALETTES.length];
+
+  return (
+    <div aria-hidden className="relative aspect-[16/10] overflow-hidden rounded-[1.35rem] bg-ink text-white md:aspect-[4/3] xl:aspect-[16/10]">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 size-full">
+        <defs>
+          <linearGradient id={`${id}-bg`} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor={from} />
+            <stop offset="1" stopColor={to} />
+          </linearGradient>
+          <radialGradient id={`${id}-orb`}>
+            <stop offset="0" stopColor="rgba(255,255,255,0.55)" />
+            <stop offset="1" stopColor="rgba(255,255,255,0)" />
+          </radialGradient>
+        </defs>
+        <rect width="400" height="300" fill={`url(#${id}-bg)`} />
+        <Pattern variant={(index + 2) % 5} id={id} />
+      </svg>
+
+      <div className="absolute inset-x-6 bottom-0 top-12 rounded-t-2xl border border-white/20 bg-white/10 p-3 blur-[2px]">
+        <div className="flex gap-1.5">
+          {[0, 1, 2].map((i) => (
+            <span key={i} className="size-2 rounded-full bg-white/40" />
+          ))}
+        </div>
+        <div className="mt-3 grid grid-cols-[1fr_2.4fr] gap-3">
+          <div className="flex flex-col gap-2">
+            {[85, 60, 75, 50].map((w) => (
+              <span key={w} className="h-2 rounded-full bg-white/30" style={{ width: `${w}%` }} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="grid grid-cols-3 gap-2">
+              {[0, 1, 2].map((i) => (
+                <span key={i} className="h-7 rounded-lg bg-white/20" />
+              ))}
+            </div>
+            <span className="h-12 rounded-lg bg-white/15" />
+            <span className="h-2 w-3/4 rounded-full bg-white/25" />
+          </div>
+        </div>
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+
+      <div className="absolute inset-0 grid place-items-center">
+        <span className="grid size-16 place-items-center rounded-2xl border border-white/30 bg-white/15 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] backdrop-blur-md transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110">
+          <Icon name={project.icon} className="size-7" />
+        </span>
+      </div>
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 font-mono text-[10px] uppercase tracking-[0.2em] text-white/80">
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 backdrop-blur">
+          {project.status ? (
+            <span className="size-1.5 animate-pulse rounded-full bg-pink" />
+          ) : (
+            <Icon name="lock" className="size-3" />
+          )}
+          {project.status ?? "Private"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function PrivateProjects() {
+  const software = services.find((s) => s.id === "software");
+
+  return (
+    <div className="mt-20 sm:mt-24 lg:mt-20">
+      {/* On desktop the project index above already ends with a rule, so the header needs no top border. */}
+      <div className="mb-8 flex flex-col gap-4 border-t border-line pt-6 sm:mb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-10 lg:border-t-0 lg:pt-0">
+        <div className="flex flex-col gap-3">
+          <span className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-muted">
+            <Icon name="lock" className="size-3.5 text-accent" />
+            Under NDA
+          </span>
+          <h3 className="text-[clamp(2rem,4.5vw,3.25rem)] font-semibold leading-none tracking-[-0.045em]">
+            Private{" "}
+            <span className="pr-[0.1em] font-serif font-normal italic tracking-[-0.02em] text-gradient">projects</span>
+          </h3>
+        </div>
+        {sectionIntros.privateWork ? (
+          <p className="max-w-md text-pretty leading-relaxed text-muted">{sectionIntros.privateWork}</p>
+        ) : null}
+      </div>
+
+      <m.ul
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-40px" }}
+        variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+        className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto [contain:paint] px-4 pb-4 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 md:[contain:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {privateProjects.map((project, i) => (
+          <m.li key={project.id} variants={card} className="w-[82%] shrink-0 snap-center md:w-auto">
+            <article className="group flex h-full flex-col rounded-[1.75rem] border border-line bg-surface p-2 transition-transform duration-500 hover:-translate-y-1">
+              <RedactedArt project={project} index={i} />
+              <div className="flex flex-1 flex-col gap-2 px-3 pb-3 pt-4">
+                {software ? <span className="text-xs font-medium text-accent">{software.title}</span> : null}
+                <h4 className="text-balance text-xl font-semibold leading-snug tracking-tight">{project.title}</h4>
+                {contact.whatsapp ? (
+                  <div className="mt-auto pt-3">
+                    <a
+                      href={askAbout(project.title)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm font-medium transition-colors hover:border-transparent hover:bg-fg hover:text-bg"
+                    >
+                      <Icon name="whatsapp" className="size-4" />
+                      Ask about this project
+                      <span className="sr-only">(opens WhatsApp)</span>
+                    </a>
+                  </div>
+                ) : null}
+              </div>
+            </article>
+          </m.li>
+        ))}
+      </m.ul>
+      <p
+        aria-hidden
+        className="mt-3 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted md:hidden"
+      >
+        <Icon name="arrowRight" className="size-3.5" />
+        Swipe
+      </p>
+    </div>
+  );
+}
+
 export function Work() {
   const [filter, setFilter] = useState<string>(ALL);
 
@@ -408,6 +559,8 @@ export function Work() {
           </div>
         </LayoutGroup>
       ) : null}
+
+      {privateProjects.length ? <PrivateProjects /> : null}
     </Section>
   );
 }

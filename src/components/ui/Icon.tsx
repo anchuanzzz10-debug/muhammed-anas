@@ -117,6 +117,30 @@ const paths = {
       <path d="m20 20-3.5-3.5" />
     </>
   ),
+  receipt: (
+    <>
+      <path d="M5 3h14v18l-2.5-1.5L14 21l-2-1.5-2 1.5-2.5-1.5L5 21V3Z" />
+      <path d="M9 8h6M9 12h6M9 16h3" />
+    </>
+  ),
+  bell: (
+    <>
+      <path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15L6 16Z" />
+      <path d="M10 21h4" />
+    </>
+  ),
+  bed: (
+    <>
+      <path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6" />
+      <circle cx="7" cy="11" r="2" />
+    </>
+  ),
+  lock: (
+    <>
+      <rect x="5" y="11" width="14" height="10" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </>
+  ),
   whatsapp: (
     <>
       <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
