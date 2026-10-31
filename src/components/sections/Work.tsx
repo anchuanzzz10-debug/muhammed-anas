@@ -172,7 +172,7 @@ function LocationBadge({ location, className = "" }: { location: string; classNa
       className={`inline-flex w-fit items-center gap-1.5 rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-[11px] font-medium ${className}`}
     >
       <span className="size-1.5 rounded-full bg-gradient-to-br from-cerulean to-pink" />
-      {location} client
+      {location}
     </span>
   );
 }
