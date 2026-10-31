@@ -136,50 +136,37 @@ function Orbit() {
 /** Where the floating service tiles sit around the phone portrait. */
 const TILE_SPOTS = ["-left-4 top-[12%] -rotate-6", "-right-4 top-[40%] rotate-6", "-left-3 bottom-[26%] rotate-3"];
 
-/** Phones and tablets: the full, uncropped photo in a frosted glass frame over a turning colour glow, with floating service tiles. */
+/** Phones and tablets: the background-removed portrait rising out of a gradient halo, with floating service tiles. */
 function Portrait() {
-  if (!about.image) return null;
+  const photo = hero.cutout;
+  if (!photo) return null;
   const tiles = services.filter((s) => s.featured).slice(0, TILE_SPOTS.length);
 
   return (
-    <figure className="relative mx-auto w-[min(78vw,20rem)] sm:w-[22rem] lg:hidden">
-      {/* Brand colours, blurred and slowly turning, so they shine through the glass frame */}
-      <div
-        aria-hidden
-        className="orbit-fast absolute inset-x-[-8%] top-[8%] -z-10 aspect-square rounded-full bg-[conic-gradient(from_0deg,var(--color-cerulean),#2AA6D6,#7d5bb5,var(--color-pink),var(--color-cerulean))] opacity-70 blur-2xl"
-      />
-      {/* Frosted glass frame */}
-      <div className="relative rounded-[2rem] border border-white/60 bg-gradient-to-br from-white/50 to-white/15 p-3 shadow-[inset_0_1px_0_rgb(255_255_255/0.6),0_30px_60px_-25px_rgb(0_0_0/0.45)] backdrop-blur-xl dark:border-white/20 dark:from-white/15 dark:to-white/[0.03] dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_30px_60px_-25px_rgb(0_0_0/0.7)]">
-        <div className="relative overflow-hidden rounded-[1.25rem] bg-ink">
-          <Image
-            src={about.image.src}
-            alt={about.image.alt}
-            width={about.image.width}
-            height={about.image.height}
-            // Hidden from lg up, where the orbit shows instead: "1px" keeps desktops on the tiniest file.
-            sizes="(min-width: 1024px) 1px, (min-width: 640px) 352px, 78vw"
-            preload
-            fetchPriority="high"
-            className="h-auto w-full"
-          />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink via-ink/10 to-transparent" />
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-gradient-to-tr from-cerulean/15 via-transparent to-pink/15 mix-blend-overlay"
-          />
-          <div
-            aria-hidden
-            className="anim-sweep absolute inset-0 bg-[linear-gradient(115deg,transparent_35%,rgb(255_255_255/0.16)_50%,transparent_65%)]"
-          />
-          <div aria-hidden className="pointer-events-none absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/10" />
-          <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 p-3 pl-4 text-white backdrop-blur-md">
-            <span className="truncate font-semibold tracking-tight">{site.name}</span>
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
-              {site.initials}
-            </span>
-          </figcaption>
-        </div>
+    <figure className="relative mx-auto w-[min(84vw,21rem)] sm:w-[23rem] lg:hidden">
+      {/* Halo: a gradient disc behind the head and shoulders, a turning glow and a dashed orbit ring */}
+      <div aria-hidden className="absolute inset-x-[6%] top-[12%] -z-10 aspect-square">
+        <div className="orbit-fast absolute -inset-[10%] rounded-full bg-[conic-gradient(from_0deg,var(--color-cerulean),#2AA6D6,#7d5bb5,var(--color-pink),var(--color-cerulean))] opacity-60 blur-3xl" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cerulean via-[#7d5bb5] to-pink opacity-80" />
+        <div className="orbit absolute -inset-[7%] rounded-full border border-dashed border-line-strong" />
       </div>
+      <Image
+        src={photo.src}
+        alt={photo.alt}
+        width={photo.width}
+        height={photo.height}
+        // Hidden from lg up, where the orbit shows instead: "1px" keeps desktops on the tiniest file.
+        sizes="(min-width: 1024px) 1px, (min-width: 640px) 368px, 84vw"
+        preload
+        fetchPriority="high"
+        className="relative h-auto w-full [mask-image:radial-gradient(ellipse_60%_70%_at_50%_30%,black_62%,transparent_100%)]"
+      />
+      <figcaption className="absolute inset-x-4 bottom-3 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/45 p-3 pl-4 text-white backdrop-blur-md">
+        <span className="truncate font-semibold tracking-tight">{site.name}</span>
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cerulean to-pink font-serif text-lg italic">
+          {site.initials}
+        </span>
+      </figcaption>
 
       {tiles.map((s, i) => (
         <span key={s.id} aria-hidden className={cn("absolute", TILE_SPOTS[i])}>

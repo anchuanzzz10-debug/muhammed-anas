@@ -193,6 +193,13 @@ export const hero = {
   eyebrow: "Your Digital Growth Partner",
   tagline:
     "As a Digital Marketer, I help businesses reach more customers and grow through performance marketing and SEO, along with modern web development, custom software solutions, video editing, and creative branding to build a stronger online presence.",
+  /** Background-removed portrait shown in the phone and tablet hero. */
+  cutout: {
+    src: "/images/muhammed-anas-cutout.webp",
+    alt: "Muhammed Anas, digital marketer in Kanhangad, Kasaragod",
+    width: 1086,
+    height: 1264,
+  } as Project["image"],
 };
 
 /** Short SEO-friendly intro shown under each section heading. Leave empty to hide. */
