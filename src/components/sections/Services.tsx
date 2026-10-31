@@ -43,7 +43,7 @@ function FeaturedCard({ service, wide = false }: { service: Service; wide?: bool
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-gradient-to-br from-cerulean/25 to-pink/25 blur-3xl transition-opacity duration-700 group-hover:opacity-80"
+        className="pointer-events-none absolute -right-40 -top-40 size-[26rem] bg-[radial-gradient(circle_at_40%_60%,rgb(0_123_167/0.25),transparent_50%),radial-gradient(circle_at_60%_40%,rgb(255_45_149/0.25),transparent_50%)] transition-opacity duration-700 group-hover:opacity-80"
       />
       {Visual ? (
         <div

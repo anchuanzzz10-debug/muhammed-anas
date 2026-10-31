@@ -83,8 +83,8 @@ function BeforeSite() {
 function AfterSite() {
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden bg-ink text-white">
-      <div className="absolute -left-20 -top-24 size-80 rounded-full bg-cerulean/45 blur-3xl" />
-      <div className="absolute -bottom-24 -right-16 size-80 rounded-full bg-pink/40 blur-3xl" />
+      <div className="absolute -left-36 -top-40 size-[28rem] bg-[radial-gradient(closest-side,rgb(0_123_167/0.45),transparent)]" />
+      <div className="absolute -bottom-40 -right-32 size-[28rem] bg-[radial-gradient(closest-side,rgb(255_45_149/0.4),transparent)]" />
       <div className="bg-grid absolute inset-0 opacity-25" />
 
       <div className="relative flex items-center justify-between px-4 py-3 sm:px-6">

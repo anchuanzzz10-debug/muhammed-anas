@@ -185,7 +185,12 @@
   background:
     linear-gradient(var(--surface), var(--surface)) padding-box,
     conic-gradient(from var(--angle), var(--line-strong), var(--color-cerulean), var(--line-strong) 30%, var(--line-strong) 60%, var(--color-pink), var(--line-strong) 90%) border-box;
-  animation: spin-angle 6s linear infinite;
+}
+/* Turning the angle repaints the whole element every frame, too slow on phones: touch screens keep the border still. */
+@media (hover: hover) and (pointer: fine) {
+  .border-spin {
+    animation: spin-angle 6s linear infinite;
+  }
 }
 @keyframes spin-angle {
   to {

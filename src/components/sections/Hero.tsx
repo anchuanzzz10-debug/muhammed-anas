@@ -146,7 +146,7 @@ function Portrait() {
     <figure className="relative mx-auto w-[min(84vw,21rem)] sm:w-[23rem] lg:hidden">
       {/* Halo: a gradient disc behind the head and shoulders, a turning glow and a dashed orbit ring */}
       <div aria-hidden className="absolute inset-x-[6%] top-[12%] -z-10 aspect-square">
-        <div className="orbit-fast absolute -inset-[10%] rounded-full bg-[conic-gradient(from_0deg,var(--color-cerulean),#2AA6D6,#7d5bb5,var(--color-pink),var(--color-cerulean))] opacity-60 blur-3xl" />
+        <div className="orbit-fast absolute -inset-[22%] rounded-full bg-[conic-gradient(from_0deg,var(--color-cerulean),#2AA6D6,#7d5bb5,var(--color-pink),var(--color-cerulean))] opacity-60 [mask-image:radial-gradient(closest-side,black_35%,transparent)]" />
         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cerulean via-[#7d5bb5] to-pink opacity-80" />
         <div className="orbit absolute -inset-[7%] rounded-full border border-dashed border-line-strong" />
       </div>
@@ -216,8 +216,9 @@ export function Hero() {
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
         <m.div className="absolute inset-0" style={{ background: glow }} />
-        <div className="anim-drift-a absolute -left-40 top-0 size-[32rem] rounded-full bg-cerulean/20 blur-[140px] will-change-transform dark:bg-cerulean/25" />
-        <div className="anim-drift-b absolute -right-32 bottom-0 size-[30rem] rounded-full bg-pink/15 blur-[140px] will-change-transform dark:bg-pink/20" />
+        {/* Soft glows drawn as radial gradients: a blur filter on these moving layers is very slow on phones. */}
+        <div className="anim-drift-a absolute -left-[18rem] -top-32 size-[48rem] bg-[radial-gradient(closest-side,rgb(0_123_167/0.2),transparent)] will-change-transform dark:bg-[radial-gradient(closest-side,rgb(0_123_167/0.25),transparent)]" />
+        <div className="anim-drift-b absolute -bottom-32 -right-64 size-[46rem] bg-[radial-gradient(closest-side,rgb(255_45_149/0.15),transparent)] will-change-transform dark:bg-[radial-gradient(closest-side,rgb(255_45_149/0.2),transparent)]" />
       </div>
 
       <Container>
