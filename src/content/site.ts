@@ -293,6 +293,8 @@ export const projects: Project[] = [
     location: "UAE",
   },
   { id: "amairah-jewels", title: "Amairah Jewels", href: "https://amairahjewels.com" },
+  { id: "ms-perfume", title: "MS Perfume", href: "https://msperfume.shop", location: "Oman" },
+  { id: "roden-gray-uae", title: "Roden Gray UAE", href: "https://rodengrayuae.shop", location: "UAE" },
 ];
 
 /** Private client software (under NDA): no client names, links or screenshots. */
