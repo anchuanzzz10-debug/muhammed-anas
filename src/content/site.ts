@@ -285,7 +285,7 @@ export const skills: Skill[] = [
 export const projects: Project[] = [
   { id: "greendrops-uae", title: "Green Drops UAE", href: "https://greendropsuae.com", location: "UAE" },
   { id: "connect-docs-media", title: "Connect Docs Media", href: "https://connectdocsmedia.com" },
-  { id: "south-ruwi", title: "South Ruwi", href: "https://southruwi.com", location: "UAE" },
+  { id: "south-ruwi", title: "South Ruwi", href: "https://southruwi.com", location: "Oman" },
   {
     id: "docs-world-attestation",
     title: "Docs World Attestation",
